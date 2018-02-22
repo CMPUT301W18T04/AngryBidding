@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AngryBidding.iml" filepath="$PROJECT_DIR$/.idea/AngryBidding.iml" />
+      <module fileurl="file://C:\Helen\CMPUT301\Angry_Bidding\AngryBidding\.idea\AngryBidding.iml" filepath="C:\Helen\CMPUT301\Angry_Bidding\AngryBidding\.idea\AngryBidding.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Helen\CMPUT301\Angry_Bidding\AngryBidding\app\app.iml" filepath="C:\Helen\CMPUT301\Angry_Bidding\AngryBidding\app\app.iml" />
     </modules>
   </component>
 </project>
