@@ -6,6 +6,7 @@ public class Task {
     private User user;
     private String title;
     private String description;
+    private LocationPoint locationPoint;
     private ArrayList<Bid> bids;
 
     public Task(User user, String title){
@@ -18,8 +19,13 @@ public class Task {
         this.description = description;
     }
 
-    public Task(User user, String title, String description, ArrayList<Bid> bids){
+    public Task(User user, String title, String description, LocationPoint locationPoint){
         this(user, title, description);
+        this.locationPoint = locationPoint;
+    }
+
+    public Task(User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids){
+        this(user, title, description, locationPoint);
         this.bids = bids;
     }
 
@@ -37,5 +43,9 @@ public class Task {
 
     public ArrayList<Bid> getBids(){
         return this.bids;
+    }
+
+    public LocationPoint getLocationPoint(){
+        return this.locationPoint;
     }
 }
