@@ -7,7 +7,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.math.BigDecimal;
+
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -16,12 +20,22 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 public class BidInstrumentedTest {
+    private User newUser = new User("Carl", "Carl@ualberta.ca");
+    public static final BigDecimal newPrice = new BigDecimal(10.0);
+    public static final double newDoublePrice = 10.0;
+    private Bid newBid;
+
     @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+    public void bidConstructorBigDeciaml(){
+        newBid = new Bid(newUser, newPrice);
+        assertThat(newBid.getUser(), is(newUser));
+        assertThat(newBid.getPrice(), is(newPrice));
+    }
 
-        assertEquals("ca.ualberta.angrybidding", appContext.getPackageName());
-
+    @Test
+    public void bidConstructorDouble(){
+        newBid = new Bid(newUser, newDoublePrice);
+        assertThat(newBid.getUser(), is(newUser));
+        assertThat(newBid.getPrice(), is(newPrice));
     }
 }
