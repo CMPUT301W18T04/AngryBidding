@@ -21,7 +21,7 @@ android {
         targetSdkVersion 27
         versionCode code
         versionName name + "-" + code
-        setProperty("archivesBaseName", "PostPhere-$versionName")
+        setProperty("archivesBaseName", "AngryBidding-$versionName")
     }
 
     //Increment version code by 1
@@ -43,7 +43,6 @@ dependencies {
     compile 'com.takisoft.fix:preference-v7:27.0.2.0'
     compile 'com.slouple:SLouple Library-release:release@aar'
 
-    //compile(name:'SLoupleLibraryRelease', ext:'aar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
