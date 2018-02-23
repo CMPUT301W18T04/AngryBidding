@@ -22,5 +22,6 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("ca.ualberta.angrybidding", appContext.getPackageName());
+
     }
 }

@@ -22,6 +22,8 @@ android {
         versionCode code
         versionName name + "-" + code
         setProperty("archivesBaseName", "AngryBidding-$versionName")
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     //Increment version code by 1
@@ -44,8 +46,12 @@ dependencies {
     compile 'com.slouple:SLouple Library-release:release@aar'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    androidTestCompile 'com.android.support:support-annotations:27.0.2'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
