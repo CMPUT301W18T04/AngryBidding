@@ -6,20 +6,20 @@ public class Bid {
     private User user;
     private BigDecimal price;
 
-    public Bid(User user, BigDecimal price){
+    public Bid(User user, BigDecimal price) {
         this.user = user;
         this.price = price;
     }
 
-    public Bid(User user, double price){
+    public Bid(User user, double price) {
         this(user, new BigDecimal(price));
     }
 
-    public User getUser(){
+    public User getUser() {
         return this.user;
     }
 
-    public BigDecimal getPrice(){
+    public BigDecimal getPrice() {
         return this.price;
     }
 }

@@ -9,43 +9,43 @@ public class Task {
     private LocationPoint locationPoint;
     private ArrayList<Bid> bids;
 
-    public Task(User user, String title){
+    public Task(User user, String title) {
         this.user = user;
         this.title = title;
     }
 
-    public Task(User user, String title, String description){
+    public Task(User user, String title, String description) {
         this(user, title);
         this.description = description;
     }
 
-    public Task(User user, String title, String description, LocationPoint locationPoint){
+    public Task(User user, String title, String description, LocationPoint locationPoint) {
         this(user, title, description);
         this.locationPoint = locationPoint;
     }
 
-    public Task(User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids){
+    public Task(User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         this(user, title, description, locationPoint);
         this.bids = bids;
     }
 
-    public User getUser(){
+    public User getUser() {
         return this.user;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public ArrayList<Bid> getBids(){
+    public ArrayList<Bid> getBids() {
         return this.bids;
     }
 
-    public LocationPoint getLocationPoint(){
+    public LocationPoint getLocationPoint() {
         return this.locationPoint;
     }
 }

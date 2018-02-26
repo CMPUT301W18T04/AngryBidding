@@ -9,13 +9,13 @@ public class LocationPoint {
     private double y;
     private int z;
 
-    public LocationPoint(Location location){
+    public LocationPoint(Location location) {
         this(location.getLatitude(), location.getLongitude());
     }
 
     public LocationPoint(double latitude, double longitude) {
         this.z = 1;
-        setLongitude(longitude);    
+        setLongitude(longitude);
         setLatitude(latitude);
     }
 
@@ -46,7 +46,7 @@ public class LocationPoint {
     }
 
     public void setZ(int z) {
-        if(z < 1){
+        if (z < 1) {
             z = 1;
         }
         double factor = Math.pow(2, (z - this.z));
@@ -75,7 +75,7 @@ public class LocationPoint {
         return z;
     }
 
-    public LocationPoint copy(){
+    public LocationPoint copy() {
         return new LocationPoint(getX(), getY(), getZ());
     }
 
@@ -95,7 +95,7 @@ public class LocationPoint {
         }
     }
 
-    public static LocationPoint newInstance(LocationPoint locationPoint){
+    public static LocationPoint newInstance(LocationPoint locationPoint) {
         return new LocationPoint(locationPoint.getX(), locationPoint.getY(), locationPoint.getZ());
     }
 
@@ -109,11 +109,11 @@ public class LocationPoint {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getX() + "," + getY() + "," + getZ();
     }
 
-    public static LocationPoint fromString(String string){
+    public static LocationPoint fromString(String string) {
         String[] parts = string.split(",");
         return new LocationPoint(Double.valueOf(parts[0]), Double.valueOf(parts[1]), Integer.valueOf(parts[2]));
     }

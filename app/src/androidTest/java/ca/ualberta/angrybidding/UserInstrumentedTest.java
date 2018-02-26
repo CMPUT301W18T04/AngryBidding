@@ -1,15 +1,13 @@
 package ca.ualberta.angrybidding;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -23,26 +21,26 @@ public class UserInstrumentedTest {
     public static final String password = "123456asdfgh";
 
     @Test
-    public void userConstructor(){
+    public void userConstructor() {
         User newUser = new User(username);
         assertThat(newUser.getUsername(), is(username));
         assertEquals(newUser.getEmailAddress(), null);
     }
 
     @Test
-    public void userConstructorEmail(){
+    public void userConstructorEmail() {
         User newUser = new User(username, emailAddress);
         assertThat(newUser.getUsername(), is(username));
         assertThat(newUser.getEmailAddress(), is(emailAddress));
     }
 
     @Test
-    public void userLogin(){
-        assertEquals(User.login(username,emailAddress), null);
+    public void userLogin() {
+        assertEquals(User.login(username, emailAddress), null);
     }
 
     @Test
-    public void userSignUp(){
+    public void userSignUp() {
         assertEquals(User.signUp(username, password, emailAddress), null);
     }
 }
