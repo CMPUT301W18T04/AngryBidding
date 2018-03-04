@@ -1,4 +1,4 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.slouple.android.AdvancedActivity;
 import com.slouple.android.VolleySingleton;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
@@ -28,7 +29,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
+import ca.ualberta.angrybidding.R;
+
+public class MainActivity extends AdvancedActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
