@@ -5,12 +5,12 @@ public class User {
     private String emailAddress;
 
     public User(String username) {
-        this.username = username;
+        this.username = username.toLowerCase().trim();
     }
 
     public User(String username, String emailAddress) {
         this(username);
-        this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress.toLowerCase().trim();
     }
 
     public String getUsername() {

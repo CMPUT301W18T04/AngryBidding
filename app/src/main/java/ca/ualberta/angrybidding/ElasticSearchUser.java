@@ -41,8 +41,11 @@ public class ElasticSearchUser extends User{
     }
 
     public static void getUserByUsername(final Context context, String username, final GetUserListener listener) {
+        final String lowerUsername = username.toLowerCase().trim();
+
         TermOrQuery query = new TermOrQuery();
-        query.addTerm("username", username);
+        query.addTerm("username", lowerUsername);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -75,8 +78,10 @@ public class ElasticSearchUser extends User{
     }
 
     public static void login(Context context, String username, String password, final UserLoginListener listener) {
-        final String passwordHash = Hash.getHash(password.getBytes(), HASH_ALGORITHM);
-        getUserByUsername(context, username, new GetUserListener() {
+        final String lowerUsername = username.toLowerCase().trim();
+        final String lowerPassword = password.toLowerCase().trim();
+        final String passwordHash = Hash.getHash(lowerPassword.getBytes(), HASH_ALGORITHM);
+        getUserByUsername(context, lowerUsername, new GetUserListener() {
             @Override
             public void onSuccess(ElasticSearchUser user) {
                 //Compare Password Hashes
@@ -100,15 +105,20 @@ public class ElasticSearchUser extends User{
         void onError(VolleyError error);
     }
 
-    public static void signUp(final Context context, final String username, final String password, final String emailAddress, final UserSignUpListener listener) {
+    public static void signUp(final Context context, String username, String password, String emailAddress, final UserSignUpListener listener) {
         try {
-            final String passwordHash = Hash.getHash(password.getBytes(), HASH_ALGORITHM);
-            final ElasticSearchUser user = new ElasticSearchUser(null, username, passwordHash, emailAddress);
+            final String lowerUsername = username.toLowerCase().trim();
+            final String lowerPassword = password.toLowerCase().trim();
+            final String lowerEmailAddress = emailAddress.toLowerCase().trim();
+
+            final String passwordHash = Hash.getHash(lowerPassword.getBytes(), HASH_ALGORITHM);
+
+            final ElasticSearchUser user = new ElasticSearchUser(null, lowerUsername, lowerPassword, lowerEmailAddress);
             final JSONObject userJson = new JSONObject(new Gson().toJson(user));
 
             TermOrQuery query = new TermOrQuery();
-            query.addTerm("username", username);
-            query.addTerm("emailAddress", emailAddress);
+            query.addTerm("username", lowerUsername);
+            query.addTerm("emailAddress", lowerEmailAddress);
 
             // Check Duplicate Username or EmailAddress
             SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
@@ -121,7 +131,7 @@ public class ElasticSearchUser extends User{
                         AddRequest addRequest = new AddRequest(ELASTIC_SEARCH_INDEX, userJson, new AddResponseListener() {
                             @Override
                             public void onCreated(String id) {
-                                ElasticSearchUser user = new ElasticSearchUser(id, username, passwordHash, emailAddress);
+                                ElasticSearchUser user = new ElasticSearchUser(id, lowerUsername, passwordHash, lowerEmailAddress);
                                 listener.onSuccess(user);
                             }
 

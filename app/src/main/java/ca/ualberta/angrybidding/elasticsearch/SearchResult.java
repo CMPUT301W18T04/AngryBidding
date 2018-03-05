@@ -19,7 +19,11 @@ public class SearchResult {
         this.timedOut = jsonObject.getBoolean("timed_out");
         jsonObject = jsonObject.getJSONObject("hits");
         this.hitCount = jsonObject.getInt("total");
-        this.maxScore = jsonObject.getDouble("max_score");
+        if(this.hitCount > 0){
+            this.maxScore = jsonObject.getDouble("max_score");
+        }else{
+            this.maxScore = -1;
+        }
         JSONArray hits = jsonObject.getJSONArray("hits");
         for(int i = 0; i < hits.length(); i++){
             JSONObject hit = hits.getJSONObject(i);
