@@ -16,15 +16,15 @@ public class ElasticSearchRequest extends JsonObjectRequest {
     protected String type;
     protected String id;
 
-    public ElasticSearchRequest(int method, String index, String type, String id, JSONObject body, ElasticSearchResponseListener listener) {
-        this(method, null, index, type, id, body, listener);
+    public ElasticSearchRequest(int method, String index, String id, JSONObject body, ElasticSearchResponseListener listener) {
+        this(method, null, index, id, body, listener);
     }
 
-    public ElasticSearchRequest(int method, String url, String index, String type, String id, JSONObject body, ElasticSearchResponseListener listener) {
+    public ElasticSearchRequest(int method, String url, String index, String id, JSONObject body, ElasticSearchResponseListener listener) {
         super(method, null, body, listener, listener);
         this.url = url == null ? DEFAULT_URL : url;
         this.index = index;
-        this.type = type;
+        this.type = "_doc";
         this.id = id;
     }
 
@@ -44,15 +44,21 @@ public class ElasticSearchRequest extends JsonObjectRequest {
     public String getUrl(){
         StringBuilder builder = new StringBuilder();
         builder.append(url);
+        if(url.endsWith("/")){
+            builder.deleteCharAt(url.length() - 1);
+        }
         if(index != null){
+            builder.append("/");
             builder.append(index);
         }
 
         if(type != null){
+            builder.append("/");
             builder.append(type);
         }
 
         if(id != null){
+            builder.append("/");
             builder.append(id);
         }
 

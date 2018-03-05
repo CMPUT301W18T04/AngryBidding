@@ -11,18 +11,11 @@ public abstract class AddResponseListener extends ElasticSearchResponseListener 
     @Override
     public void onResponse(JSONObject response) {
         try {
-            boolean created = response.getBoolean("created");
-            if(created){
-                onCreated(response.getString("_id"));
-            }else{
-                onNotCreated();
-            }
+            onCreated(response.getString("_id"));
         } catch (JSONException e) {
             onErrorResponse(new VolleyError(e));
         }
     }
 
     public abstract void onCreated(String id);
-
-    public abstract void onNotCreated();
 }

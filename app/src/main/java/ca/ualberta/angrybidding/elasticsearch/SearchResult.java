@@ -47,7 +47,7 @@ public class SearchResult {
         return searchResultObjects;
     }
 
-    class SearchResultObject{
+    public class SearchResultObject{
         private String index;
         private String type;
         private String id;

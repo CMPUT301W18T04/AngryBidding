@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 public class AddRequest extends ElasticSearchRequest {
 
-    public AddRequest(String index, String type, JSONObject body, AddResponseListener listener) {
-        this(null, index, type, body, listener);
+    public AddRequest(String index, JSONObject body, AddResponseListener listener) {
+        this(null, index, body, listener);
     }
 
-    public AddRequest(String url, String index, String type, JSONObject body, AddResponseListener listener) {
-        super(Method.POST, url, index, type, null, body, listener);
+    public AddRequest(String url, String index, JSONObject body, AddResponseListener listener) {
+        super(Method.POST, url, index, null, body, listener);
     }
 }
