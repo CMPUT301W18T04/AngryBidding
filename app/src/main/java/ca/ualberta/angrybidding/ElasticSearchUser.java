@@ -128,6 +128,20 @@ public class ElasticSearchUser extends User {
             query.addTerm("username", lowerUsername);
             query.addTerm("emailAddress", lowerEmailAddress);
 
+            // Add New User
+            final AddRequest addRequest = new AddRequest(ELASTIC_SEARCH_INDEX, userJson, new AddResponseListener() {
+                @Override
+                public void onCreated(String id) {
+                    ElasticSearchUser user = new ElasticSearchUser(id, lowerUsername, passwordHash, lowerEmailAddress);
+                    listener.onSuccess(user);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    listener.onError(error);
+                }
+            });
+
             // Check Duplicate Username or EmailAddress
             SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
                 @Override
@@ -135,21 +149,7 @@ public class ElasticSearchUser extends User {
                     if (searchResult.getHitCount() != 0) {
                         listener.onDuplicate();
                     } else {
-                        // Add New User
-                        AddRequest addRequest = new AddRequest(ELASTIC_SEARCH_INDEX, userJson, new AddResponseListener() {
-                            @Override
-                            public void onCreated(String id) {
-                                ElasticSearchUser user = new ElasticSearchUser(id, lowerUsername, passwordHash, lowerEmailAddress);
-                                listener.onSuccess(user);
-                            }
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                listener.onError(error);
-                            }
-                        });
                         addRequest.submit(context);
-
                     }
                 }
 
