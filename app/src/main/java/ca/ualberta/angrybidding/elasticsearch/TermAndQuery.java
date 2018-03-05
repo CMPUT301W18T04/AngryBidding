@@ -6,11 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TermAndQuery extends SearchQuery{
+public class TermAndQuery extends SearchQuery {
     private JSONObject bool;
     private JSONArray must;
 
-    public TermAndQuery(){
+    public TermAndQuery() {
         super();
         try {
             bool = new JSONObject();
@@ -22,7 +22,7 @@ public class TermAndQuery extends SearchQuery{
         }
     }
 
-    public void addTerm(String field, String value){
+    public void addTerm(String field, String value) {
         try {
             JSONObject term = new JSONObject();
             JSONObject fieldPair = new JSONObject();
@@ -52,6 +52,7 @@ public class TermAndQuery extends SearchQuery{
     public JSONObject getBool() {
         return this.bool;
     }
+
     public JSONArray getMust() {
         return this.must;
     }

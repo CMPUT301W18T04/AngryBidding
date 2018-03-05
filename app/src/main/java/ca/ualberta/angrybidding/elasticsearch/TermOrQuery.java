@@ -6,11 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TermOrQuery extends SearchQuery{
+public class TermOrQuery extends SearchQuery {
     private JSONObject disMax;
     private JSONArray queries;
 
-    public TermOrQuery(){
+    public TermOrQuery() {
         super();
         try {
             disMax = new JSONObject();
@@ -22,7 +22,7 @@ public class TermOrQuery extends SearchQuery{
         }
     }
 
-    public void addTerm(String field, String value){
+    public void addTerm(String field, String value) {
         try {
             JSONObject term = new JSONObject();
             JSONObject fieldPair = new JSONObject();
@@ -52,6 +52,7 @@ public class TermOrQuery extends SearchQuery{
     public JSONObject getDisMax() {
         return this.disMax;
     }
+
     public JSONArray getQueries() {
         return this.queries;
     }

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.slouple.util.Hash;
 
 import org.json.JSONException;
@@ -13,13 +12,12 @@ import org.json.JSONObject;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
-import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.TermOrQuery;
 
-public class ElasticSearchUser extends User{
+public class ElasticSearchUser extends User {
     public static final String ELASTIC_SEARCH_INDEX = "user";
     public static final String HASH_ALGORITHM = Hash.SHA_512;
 
@@ -32,11 +30,11 @@ public class ElasticSearchUser extends User{
         this.passwordHash = passwordHash;
     }
 
-    public String getID(){
+    public String getID() {
         return this.id;
     }
 
-    public String getPasswordHash(){
+    public String getPasswordHash() {
         return this.passwordHash;
     }
 
@@ -49,7 +47,7 @@ public class ElasticSearchUser extends User{
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
-                if(searchResult.getHitCount() > 0){
+                if (searchResult.getHitCount() > 0) {
                     SearchResult.SearchResultObject resultObject = searchResult.getSearchResultObjects().get(0);
                     JSONObject source = resultObject.getSource();
                     try {
@@ -59,7 +57,7 @@ public class ElasticSearchUser extends User{
                     } catch (JSONException e) {
                         Log.e("ElasticSearchUser", e.getMessage(), e);
                     }
-                }else{
+                } else {
                     listener.onNotFound();
                 }
             }
@@ -72,9 +70,11 @@ public class ElasticSearchUser extends User{
         searchRequest.submit(context);
     }
 
-    public interface GetUserListener{
+    public interface GetUserListener {
         void onFound(ElasticSearchUser user);
+
         void onNotFound();
+
         void onError(VolleyError error);
     }
 
@@ -86,9 +86,9 @@ public class ElasticSearchUser extends User{
             @Override
             public void onFound(ElasticSearchUser user) {
                 //Compare Password Hashes
-                if(user.getPasswordHash().equals(passwordHash)){
+                if (user.getPasswordHash().equals(passwordHash)) {
                     listener.onSuccess(user);
-                }else{
+                } else {
                     listener.onFailure();
                 }
             }
@@ -105,9 +105,11 @@ public class ElasticSearchUser extends User{
         });
     }
 
-    public interface UserLoginListener{
+    public interface UserLoginListener {
         void onSuccess(ElasticSearchUser user);
+
         void onFailure();
+
         void onError(VolleyError error);
     }
 
@@ -130,9 +132,9 @@ public class ElasticSearchUser extends User{
             SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
                 @Override
                 public void onResult(SearchResult searchResult) {
-                    if(searchResult.getHitCount() != 0){
+                    if (searchResult.getHitCount() != 0) {
                         listener.onDuplicate();
-                    }else{
+                    } else {
                         // Add New User
                         AddRequest addRequest = new AddRequest(ELASTIC_SEARCH_INDEX, userJson, new AddResponseListener() {
                             @Override
@@ -162,9 +164,11 @@ public class ElasticSearchUser extends User{
         }
     }
 
-    public interface UserSignUpListener{
+    public interface UserSignUpListener {
         void onSuccess(ElasticSearchUser user);
+
         void onDuplicate();
+
         void onError(VolleyError error);
     }
 }

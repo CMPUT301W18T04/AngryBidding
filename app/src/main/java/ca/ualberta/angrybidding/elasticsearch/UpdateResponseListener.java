@@ -11,11 +11,11 @@ public abstract class UpdateResponseListener extends ElasticSearchResponseListen
     public void onResponse(JSONObject response) {
         try {
             String result = response.getString("result");
-            if(result.equals("created")){
+            if (result.equals("created")) {
                 onCreated(response.getString("_id"));
-            }else if(result.equals("updated")){
+            } else if (result.equals("updated")) {
                 onUpdated(response.getInt("_version"));
-            }else{
+            } else {
                 onErrorResponse(new VolleyError("Unknown ElasticSearch Update Result"));
             }
         } catch (JSONException e) {

@@ -21,7 +21,7 @@ public class SearchRequest extends ElasticSearchRequest {
     }
 
     @Override
-    public String getUrl(){
+    public String getUrl() {
         return super.getUrl() + "/_search";
     }
 }

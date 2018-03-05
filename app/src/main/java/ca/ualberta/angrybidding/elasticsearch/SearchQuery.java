@@ -51,7 +51,7 @@ public class SearchQuery {
         }
     }
 
-    public void addRange(String field, String value, double from, double to){
+    public void addRange(String field, String value, double from, double to) {
         addRange(field, value, String.valueOf(from), String.valueOf(to));
     }
 
@@ -73,11 +73,11 @@ public class SearchQuery {
         }
     }
 
-    public JSONObject getRoot(){
+    public JSONObject getRoot() {
         return this.root;
     }
 
-    public JSONObject getQuery(){
+    public JSONObject getQuery() {
         return this.query;
     }
 

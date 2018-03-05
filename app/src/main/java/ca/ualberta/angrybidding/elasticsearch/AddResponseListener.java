@@ -1,6 +1,5 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;

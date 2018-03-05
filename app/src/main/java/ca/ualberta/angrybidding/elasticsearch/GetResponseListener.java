@@ -11,9 +11,9 @@ public abstract class GetResponseListener extends ElasticSearchResponseListener 
     public void onResponse(JSONObject response) {
         try {
             boolean created = response.getBoolean("found");
-            if(created){
+            if (created) {
                 onFound(response.getJSONObject("_source"));
-            }else{
+            } else {
                 onNotFound();
             }
         } catch (JSONException e) {

@@ -1,7 +1,5 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import org.json.JSONObject;
-
 public class GetRequest extends ElasticSearchRequest {
 
     public GetRequest(String index, String id, GetResponseListener listener) {

@@ -19,13 +19,13 @@ public class SearchResult {
         this.timedOut = jsonObject.getBoolean("timed_out");
         jsonObject = jsonObject.getJSONObject("hits");
         this.hitCount = jsonObject.getInt("total");
-        if(this.hitCount > 0){
+        if (this.hitCount > 0) {
             this.maxScore = jsonObject.getDouble("max_score");
-        }else{
+        } else {
             this.maxScore = -1;
         }
         JSONArray hits = jsonObject.getJSONArray("hits");
-        for(int i = 0; i < hits.length(); i++){
+        for (int i = 0; i < hits.length(); i++) {
             JSONObject hit = hits.getJSONObject(i);
             searchResultObjects.add(new SearchResultObject(hit));
         }
@@ -51,7 +51,7 @@ public class SearchResult {
         return searchResultObjects;
     }
 
-    public class SearchResultObject{
+    public class SearchResultObject {
         private String index;
         private String type;
         private String id;
@@ -66,7 +66,7 @@ public class SearchResult {
             this.source = jsonObject.getJSONObject("_source");
         }
 
-        public String getIndex(){
+        public String getIndex() {
             return this.index;
         }
 

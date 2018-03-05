@@ -40,7 +40,7 @@ public class Task {
         return this.user;
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -48,7 +48,7 @@ public class Task {
         return this.title;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -56,11 +56,11 @@ public class Task {
         return this.description;
     }
 
-    public void setChosenBid(Bid chosenBid){
+    public void setChosenBid(Bid chosenBid) {
         this.chosenBid = chosenBid;
     }
 
-    public Bid getChosenBid(){
+    public Bid getChosenBid() {
         return this.chosenBid;
     }
 
@@ -68,7 +68,7 @@ public class Task {
         return this.bids;
     }
 
-    public void setLocationPoint(LocationPoint locationPoint){
+    public void setLocationPoint(LocationPoint locationPoint) {
         this.locationPoint = locationPoint;
     }
 
@@ -76,11 +76,11 @@ public class Task {
         return this.locationPoint;
     }
 
-    public void setCompleted(boolean completed){
+    public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 
-    public boolean isCompleted(){
+    public boolean isCompleted() {
         return this.completed;
     }
 }

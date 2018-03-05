@@ -1,8 +1,5 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONObject;
 
 public class UpdateRequest extends ElasticSearchRequest {

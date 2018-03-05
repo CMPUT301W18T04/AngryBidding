@@ -28,36 +28,36 @@ public class ElasticSearchRequest extends JsonObjectRequest {
         this.id = id;
     }
 
-    public String getIndex(){
+    public String getIndex() {
         return this.index;
     }
 
-    public String getType(){
+    public String getType() {
         return this.type;
     }
 
-    public String getID(){
+    public String getID() {
         return this.getID();
     }
 
     @Override
-    public String getUrl(){
+    public String getUrl() {
         StringBuilder builder = new StringBuilder();
         builder.append(url);
-        if(url.endsWith("/")){
+        if (url.endsWith("/")) {
             builder.deleteCharAt(url.length() - 1);
         }
-        if(index != null){
+        if (index != null) {
             builder.append("/");
             builder.append(index);
         }
 
-        if(type != null){
+        if (type != null) {
             builder.append("/");
             builder.append(type);
         }
 
-        if(id != null){
+        if (id != null) {
             builder.append("/");
             builder.append(id);
         }
@@ -65,7 +65,7 @@ public class ElasticSearchRequest extends JsonObjectRequest {
         return builder.toString();
     }
 
-    public void submit(Context context){
+    public void submit(Context context) {
         VolleySingleton.getInstance(context).addToRequestQueue(this);
     }
 }
