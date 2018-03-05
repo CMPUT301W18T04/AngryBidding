@@ -162,6 +162,8 @@ public class MainActivity extends AdvancedActivity
                         Log.e("MainActivity", error.getMessage(), error);
                     }
                 });
+
+                startActivity(LoginActivity.class);
             }
 
             @Override

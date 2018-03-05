@@ -38,6 +38,10 @@ public class ElasticSearchUser extends User {
         return this.passwordHash;
     }
 
+    public static void setMainUser(Context context, ElasticSearchUser user){
+        //TODO implement using shared preference
+    }
+
     public static void getUserByUsername(final Context context, String username, final GetUserListener listener) {
         final String lowerUsername = username.toLowerCase().trim();
 
