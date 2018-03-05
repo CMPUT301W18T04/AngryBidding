@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
 import com.slouple.android.VolleySingleton;
 import com.slouple.android.widget.button.SubmitButton;
@@ -26,10 +27,18 @@ import com.slouple.android.widget.button.SubmitButtonListener;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
+import ca.ualberta.angrybidding.LocationPoint;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
+import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 
 public class MainActivity extends AdvancedActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,36 +77,91 @@ public class MainActivity extends AdvancedActivity
 
             @Override
             public void onDisabledClick() {
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "http://cosh.em.slouple.com:19200", null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        Log.d("MainActivity", "Request Success");
-                        Log.d("MainActivity", jsonObject.toString());
-                        final Snackbar snackbar = Snackbar.make(testButton, jsonObject.toString(), Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Close", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.d("MainActivity", "Request Failed");
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/json");
-                        return params;
-                    }
-                };
-                VolleySingleton.getInstance(MainActivity.this).addToRequestQueue(request);
 
+                ElasticSearchUser.getUserByUsername(MainActivity.this, "Cosh_", new ElasticSearchUser.GetUserListener() {
+                    @Override
+                    public void onFound(ElasticSearchUser user) {
+                        Log.d("MainActivity", "getUserByUsername: " + user.getID() + " " + user.getUsername() + " " + user.getPasswordHash() + " " + user.getEmailAddress());
+                    }
 
+                    @Override
+                    public void onNotFound() {
+                        Log.d("MainActivity", "No User Found");
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("MainActivity", error.getMessage(), error);
+                    }
+                });
+
+                ElasticSearchUser.login(MainActivity.this, "Cosh_", "testpassword", new ElasticSearchUser.UserLoginListener() {
+                    @Override
+                    public void onSuccess(ElasticSearchUser user) {
+                        Log.d("MainActivity", "login: " + user.getID() + " " + user.getUsername() + " " + user.getPasswordHash() + " " + user.getEmailAddress());
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Log.d("MainActivity", "Login Failed");
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("MainActivity", error.getMessage(), error);
+                    }
+                });
+
+                ElasticSearchUser.signUp(MainActivity.this, "Cosh_", "testpassword", "cosh@slouple.com", new ElasticSearchUser.UserSignUpListener() {
+                    @Override
+                    public void onSuccess(ElasticSearchUser user) {
+                        Log.d("MainActivity", "signUp: " + user.getID() + " " + user.getUsername() + " " + user.getPasswordHash() + " " + user.getEmailAddress());
+                    }
+
+                    @Override
+                    public void onDuplicate() {
+                        Log.d("MainActivity", "Sign Up Duplicate");
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("MainActivity", error.getMessage(), error);
+                    }
+                });
+
+                ArrayList<Bid> bids = new ArrayList<>();
+                bids.add(new Bid(new User("Cosh_"), 100.5d));
+                bids.add(new Bid(new User("QWER"), 2334d));
+                Task task = new Task(new User("Cosh_"), "Test Task", "test description",
+                        new LocationPoint(25d, 50d),  bids);
+                Log.d("MainActivity", new Gson().toJson(task));
+
+//                ElasticSearchTask.addTask(MainActivity.this, task, new AddResponseListener() {
+//                    @Override
+//                    public void onCreated(String id) {
+//                        Log.d("MainActivity", "addTask: " + id);
+//                    }
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.e("MainActivity", error.getMessage(), error);
+//                    }
+//                });
+
+                ElasticSearchTask.listTaskByUser(MainActivity.this, "Cosh_", new ElasticSearchTask.ListTaskListener() {
+                    @Override
+                    public void onResult(ArrayList<ElasticSearchTask> tasks) {
+                        Log.d("MainActivity", "listTask: onResult");
+                        for(ElasticSearchTask task : tasks){
+                            Log.d("MainActivity", "listTask: " + task.getID());
+                        }
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("MainActivity", error.getMessage(), error);
+                    }
+                });
             }
 
             @Override

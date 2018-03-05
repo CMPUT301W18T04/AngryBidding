@@ -5,9 +5,9 @@ import android.location.Location;
 public class LocationPoint {
     private double longitude;
     private double latitude;
-    private double x;
-    private double y;
-    private int z;
+    private transient double x;
+    private transient double y;
+    private transient int z;
 
     public LocationPoint(Location location) {
         this(location.getLatitude(), location.getLongitude());

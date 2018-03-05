@@ -1,0 +1,32 @@
+#PUT http://cosh.em.slouple.com:19200/user
+{
+	"mappings": {
+    "_doc": {
+      "properties": {
+        "username":    { "type": "keyword"  },
+        "emailAddress":     { "type": "keyword"  },
+        "passwordHash":      { "type": "keyword" }
+      }
+    }
+  }
+}
+
+#PUT http://cosh.em.slouple.com:19200/task
+{
+	"mappings": {
+    "_doc": {
+      "properties": {
+        "user":      { "type": "object" },
+        "username":    { "type": "keyword"  },
+        "title":      { "type": "text" },
+        "description":      { "type": "text" },
+        "locationPoint":      { "type": "object" },
+        "latitude":      { "type": "double" },
+        "longitude":      { "type": "double" },
+        "completed":     { "type": "boolean"  },
+        "bids":     { "type": "nested"  },
+        "price":      { "type": "double" }
+      }
+    }
+  }
+}
