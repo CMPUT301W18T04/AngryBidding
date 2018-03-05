@@ -20,18 +20,4 @@ public class User {
     public String getEmailAddress() {
         return this.emailAddress;
     }
-
-    public static User login(String username, String password) {
-        //TODO Implement user login
-
-        return null;
-        //return new User(username);
-    }
-
-    public static User signUp(String username, String password, String emailAddress) {
-        //TODO Implement user sign up
-
-        return null;
-        //return new User(username, emailAddress);
-    }
 }
