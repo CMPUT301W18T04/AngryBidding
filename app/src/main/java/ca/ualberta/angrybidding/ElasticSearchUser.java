@@ -55,12 +55,12 @@ public class ElasticSearchUser extends User{
                     try {
                         ElasticSearchUser user = new ElasticSearchUser(resultObject.getId(), source.getString("username"),
                                 source.getString("passwordHash"), source.getString("emailAddress"));
-                        listener.onSuccess(user);
+                        listener.onFound(user);
                     } catch (JSONException e) {
                         Log.e("ElasticSearchUser", e.getMessage(), e);
                     }
                 }else{
-                    listener.onError(new VolleyError("No User Found"));
+                    listener.onNotFound();
                 }
             }
 
@@ -73,7 +73,8 @@ public class ElasticSearchUser extends User{
     }
 
     public interface GetUserListener{
-        void onSuccess(ElasticSearchUser user);
+        void onFound(ElasticSearchUser user);
+        void onNotFound();
         void onError(VolleyError error);
     }
 
@@ -83,13 +84,18 @@ public class ElasticSearchUser extends User{
         final String passwordHash = Hash.getHash(lowerPassword.getBytes(), HASH_ALGORITHM);
         getUserByUsername(context, lowerUsername, new GetUserListener() {
             @Override
-            public void onSuccess(ElasticSearchUser user) {
+            public void onFound(ElasticSearchUser user) {
                 //Compare Password Hashes
                 if(user.getPasswordHash().equals(passwordHash)){
                     listener.onSuccess(user);
                 }else{
                     listener.onFailure();
                 }
+            }
+
+            @Override
+            public void onNotFound() {
+                listener.onFailure();
             }
 
             @Override
@@ -113,7 +119,7 @@ public class ElasticSearchUser extends User{
 
             final String passwordHash = Hash.getHash(lowerPassword.getBytes(), HASH_ALGORITHM);
 
-            final ElasticSearchUser user = new ElasticSearchUser(null, lowerUsername, lowerPassword, lowerEmailAddress);
+            final ElasticSearchUser user = new ElasticSearchUser(null, lowerUsername, passwordHash, lowerEmailAddress);
             final JSONObject userJson = new JSONObject(new Gson().toJson(user));
 
             TermOrQuery query = new TermOrQuery();

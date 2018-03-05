@@ -1,0 +1,13 @@
+#PUT http://cosh.em.slouple.com:19200/user
+{
+	"mappings": {
+    "_doc": {
+      "properties": {
+        "username":    { "type": "keyword"  },
+        "emailAddress":     { "type": "keyword"  },
+        "passwordHash":      { "type": "keyword" }
+      }
+    }
+  }
+}
+
