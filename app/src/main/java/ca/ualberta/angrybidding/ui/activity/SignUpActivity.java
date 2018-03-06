@@ -24,7 +24,7 @@ import java.util.HashMap;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 
-public class SignUpActivity<T extends AdvancedActivity> extends AdvancedActivity {
+public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActivity {
     private TextView usernameTextView;
     private TextView passwordTextView;
     private TextView emailAddressTextView;

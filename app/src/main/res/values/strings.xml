@@ -13,4 +13,7 @@
     <string name="search">Search</string>
     <string name="history">History</string>
     <string name="general">General</string>
+    <string name="addTask">Add Task</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

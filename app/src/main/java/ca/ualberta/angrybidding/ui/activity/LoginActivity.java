@@ -21,7 +21,7 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
-public class LoginActivity extends AdvancedActivity {
+public class LoginActivity extends AngryBiddingActivity {
 
     private SubmitButton loginButton;
     private TextView usernameTextView;

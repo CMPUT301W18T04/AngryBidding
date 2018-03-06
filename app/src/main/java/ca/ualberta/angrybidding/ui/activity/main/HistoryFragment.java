@@ -8,15 +8,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.slouple.android.AdvancedFragment;
 
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
 
 public class HistoryFragment extends AdvancedFragment implements IMainFragment{
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
+
+    private FloatingActionButton addTaskActionButton;
 
     @Override
     public AppBarLayout getAppBarLayout(ViewGroup rootView, LayoutInflater inflater) {
@@ -30,7 +35,7 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment{
     @Override
     public Toolbar getToolbar(ViewGroup rootView, LayoutInflater inflater){
         if(toolbar == null){
-            toolbar = (Toolbar) getAppBarLayout(rootView, inflater).findViewById(R.id.history_fragment_toolbar);
+            toolbar = getAppBarLayout(rootView, inflater).findViewById(R.id.history_fragment_toolbar);
         }
         return toolbar;
     }
@@ -62,7 +67,16 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_history, container, false);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_history, container, false);
+
+        this.addTaskActionButton = layout.findViewById(R.id.addTaskActionButton);
+        this.addTaskActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HistoryFragment.this.getContext().startActivity(AddTaskActivity.class);
+            }
+        });
+
         return layout;
     }
 

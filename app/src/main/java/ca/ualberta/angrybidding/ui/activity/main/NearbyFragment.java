@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.slouple.android.AdvancedFragment;
@@ -62,7 +63,7 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_nearby, container, false);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_nearby, container, false);
         return layout;
     }
 
