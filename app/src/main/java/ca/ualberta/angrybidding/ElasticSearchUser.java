@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -21,6 +22,9 @@ public class ElasticSearchUser extends User {
     public static final String ELASTIC_SEARCH_INDEX = "user";
     public static final String HASH_ALGORITHM = Hash.SHA_512;
 
+    public static final String PREFERENCE_NAME = "User";
+    public static final String PREFERENCE_KEY = "Object";
+
     private transient String id;
     private String passwordHash;
 
@@ -38,8 +42,34 @@ public class ElasticSearchUser extends User {
         return this.passwordHash;
     }
 
+    public static void removeMainUser(Context context){
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove(PREFERENCE_KEY);
+        editor.apply();
+    }
+
     public static void setMainUser(Context context, ElasticSearchUser user){
-        //TODO implement using shared preference
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREFERENCE_KEY, new Gson().toJson(user));
+        editor.apply();
+    }
+
+    public static ElasticSearchUser getMainUser(Context context){
+        try {
+            SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
+            String userJson = settings.getString(PREFERENCE_KEY, null);
+            if (userJson != null) {
+                return new Gson().fromJson(userJson, ElasticSearchUser.class);
+            } else {
+                return null;
+            }
+        }catch(Throwable throwable){
+            Log.e("ElasticSearchUser", throwable.getMessage(), throwable);
+            removeMainUser(context);
+            return null;
+        }
     }
 
     public static void getUserByUsername(final Context context, String username, final GetUserListener listener) {
