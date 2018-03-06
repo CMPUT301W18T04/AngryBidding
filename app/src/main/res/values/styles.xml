@@ -1,4 +1,44 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">
+            @style/PreferenceThemeOverlay.v14.Material.Fix
+        </item>
+    </style>
+
+
+    <style name="AppTheme.PrimaryControlActionBar" parent="AppTheme">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="actionMenuTextColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.GreyControlActionBar" parent="AppTheme">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorText</item>
+        <item name="actionMenuTextColor">@color/colorText</item>
+    </style>
+
+    <style name="AppTheme.WhiteControlActionBar" parent="AppTheme">
+        <item name="android:textColor">@color/colorContentBackground</item>
+        <item name="android:textColorPrimary">@color/colorContentBackground</item>
+        <item name="android:textColorSecondary">@color/colorContentBackground</item>
+        <item name="actionMenuTextColor">@color/colorContentBackground</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.SplashScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@mipmap/ic_launcher_round</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/softBlue</item>
+    </style>
 
 </resources>

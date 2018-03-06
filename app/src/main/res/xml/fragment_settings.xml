@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/general">
+        <SwitchPreferenceCompat
+            android:key="testSwitch"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="Just click it"
+            android:title="SWITCH ME!" />
+    </PreferenceCategory>
+</PreferenceScreen>

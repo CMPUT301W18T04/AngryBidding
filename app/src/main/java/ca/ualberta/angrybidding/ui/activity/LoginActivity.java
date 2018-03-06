@@ -2,11 +2,7 @@ package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,11 +16,10 @@ import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.filter.UsernameTextWatcher;
-import com.slouple.util.Listener;
 
-import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 public class LoginActivity extends AdvancedActivity {
 
@@ -107,6 +102,7 @@ public class LoginActivity extends AdvancedActivity {
             @Override
             public void onResult(Intent data) {
                 setResult(RESULT_OK);
+                startActivity(MainActivity.class);
                 finish();
             }
 
@@ -133,6 +129,7 @@ public class LoginActivity extends AdvancedActivity {
             public void onSuccess(ElasticSearchUser user) {
                 ElasticSearchUser.setMainUser(LoginActivity.this, user);
                 loginButton.onSuccess();
+                startActivity(MainActivity.class);
                 LoginActivity.this.finish();
             }
 

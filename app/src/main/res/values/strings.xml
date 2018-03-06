@@ -7,4 +7,10 @@
     <string name="action_settings">Settings</string>
     <string name="emailAddress">Email Address</string>
     <string name="usernameOrEmailAddressTaken">Username or Email Address is Already Taken</string>
+    <string name="confirmSignOut">Do you really want to sign out?</string>
+    <string name="settings">Settings</string>
+    <string name="nearby">Nearby</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
+    <string name="general">General</string>
 </resources>
