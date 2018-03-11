@@ -3,21 +3,48 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="History Fragment"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/historyTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taskPosted" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taskProvided" />
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/historyViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
 
     <com.github.clans.fab.FloatingActionButton
-        android:layout_gravity="bottom|end"
-        android:gravity="bottom|end"
         android:id="@+id/addTaskActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="13dp"
+        android:gravity="bottom|end"
+        android:src="@drawable/ic_add_white_24dp"
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentDark"
         fab:fab_colorRipple="@color/colorAccentLight"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_label="@string/addTask"
-        android:layout_margin="13dp"/>
+        fab:fab_label="@string/addTask" />
 </FrameLayout>

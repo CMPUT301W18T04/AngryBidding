@@ -16,4 +16,6 @@
     <string name="addTask">Add Task</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="taskPosted">Task Posted</string>
+    <string name="taskProvided">Task Provided</string>
 </resources>
