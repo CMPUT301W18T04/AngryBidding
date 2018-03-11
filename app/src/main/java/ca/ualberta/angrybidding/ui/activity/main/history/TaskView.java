@@ -18,6 +18,7 @@ public class TaskView extends LinearLayout {
     protected LinearLayout container;
     protected TextView titleTextView;
     protected TextView ownerTextView;
+    protected TextView descriptionTextView;
 
     public TaskView(Context context) {
         this(context, null);
@@ -37,6 +38,7 @@ public class TaskView extends LinearLayout {
 
         titleTextView = findViewById(R.id.taskTitle);
         ownerTextView = findViewById(R.id.taskOwner);
+        descriptionTextView = findViewById(R.id.taskDescription);
     }
 
     protected void init() {
@@ -58,6 +60,10 @@ public class TaskView extends LinearLayout {
             ownerTextView.setVisibility(View.VISIBLE);
             ownerTextView.setText(task.getUser().getUsername());
         }
+
+        descriptionTextView.setText(task.getDescription());
+
+
     }
 
     public LinearLayout getContainer() {
