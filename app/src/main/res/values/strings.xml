@@ -18,4 +18,8 @@
     <string name="description">Description</string>
     <string name="taskPosted">Task Posted</string>
     <string name="taskProvided">Task Provided</string>
+    <string name="viewDetails">View Details</string>
+    <string name="editTask">Edit</string>
+    <string name="deleteTask">Delete</string>
+    <string name="bidTask">Bid</string>
 </resources>

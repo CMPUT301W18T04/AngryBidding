@@ -1,16 +1,21 @@
 package ca.ualberta.angrybidding.ui.activity.main.history;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.slouple.android.widget.button.PopupMenuButton;
 import com.slouple.android.widget.image.ImageSlider;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.User;
 
 public class TaskView extends LinearLayout {
     protected ElasticSearchTask elasticSearchTask;
@@ -19,6 +24,7 @@ public class TaskView extends LinearLayout {
     protected TextView titleTextView;
     protected TextView ownerTextView;
     protected TextView descriptionTextView;
+    protected PopupMenuButton popupMenuButton;
 
     public TaskView(Context context) {
         this(context, null);
@@ -39,6 +45,8 @@ public class TaskView extends LinearLayout {
         titleTextView = findViewById(R.id.taskTitle);
         ownerTextView = findViewById(R.id.taskOwner);
         descriptionTextView = findViewById(R.id.taskDescription);
+        popupMenuButton = findViewById(R.id.taskPopupMenuButton);
+
     }
 
     protected void init() {
@@ -81,4 +89,49 @@ public class TaskView extends LinearLayout {
     public TextView getOwnerTextView() {
         return ownerTextView;
     }
+
+    public PopupMenuButton getPopupMenuButton() {
+        return popupMenuButton;
+    }
+
+    public void usePopupMenu (final ElasticSearchUser user, final OnTaskChangeListener listener) {
+        getPopupMenuButton().getPopupMenu().getMenu().clear();
+        if (elasticSearchTask.getUser().equals(user)) {
+            getPopupMenuButton().setMenuRes(R.menu.task_popup_self);
+        }
+
+        else {
+            getPopupMenuButton().setMenuRes(R.menu.task_popup_other);
+        }
+
+        getPopupMenuButton().getPopupMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.taskPopupViewDetail:
+                        //TODO open ViewTaskDetailActivity
+                        break;
+                    case R.id.taskPopupEditTask:
+                        //TODO open EditTaskActivity
+                        break;
+                    case R.id.taskPopupDeleteTask:
+                        //TODO Elastic search remove task
+                        listener.onDelete();
+                        break;
+                    case R.id.taskPopupBidTask:
+                        //TODO Bid Task Activity
+                        break;
+                }
+
+                return true;
+            }
+        });
+    }
+
+    public interface OnTaskChangeListener {
+        void onDelete();
+        void onEdit();
+    }
+
+
 }
