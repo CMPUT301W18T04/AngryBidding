@@ -12,6 +12,9 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
+import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.ElasticSearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -49,6 +52,11 @@ public class ElasticSearchTask extends Task {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void deleteTask(Context context, String id, DeleteResponseListener listener){
+        DeleteRequest deleteRequest = new DeleteRequest(ELASTIC_SEARCH_INDEX, id, listener);
+        deleteRequest.submit(context);
     }
 
     public static void updateTask(Context context, ElasticSearchTask task, UpdateResponseListener listener) {
