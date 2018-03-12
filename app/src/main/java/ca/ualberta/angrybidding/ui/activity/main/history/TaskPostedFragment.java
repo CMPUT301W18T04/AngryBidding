@@ -39,7 +39,7 @@ public class TaskPostedFragment extends TaskListFragment {
     }
 
     @Override
-    protected TaskView createTaskView(){
+    protected TaskView createTaskView() {
         TaskView taskView = super.createTaskView();
         LinearLayout.LayoutParams bottomMargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         bottomMargin.setMargins(0, 0, 0, Units.dpToPX(20, getContext()));

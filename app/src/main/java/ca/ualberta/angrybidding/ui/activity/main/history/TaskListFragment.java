@@ -105,13 +105,13 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
-    protected void onBindView(TaskView taskView, ElasticSearchTask task) {
+    protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
         taskView.setTask(task);
-        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener(){
+        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
 
             @Override
             public void onDelete() {
-                refresh();
+                removeTask(task);
             }
 
             @Override

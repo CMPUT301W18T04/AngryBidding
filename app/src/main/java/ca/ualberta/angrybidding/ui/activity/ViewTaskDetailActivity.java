@@ -39,6 +39,4 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
     }
 
 
-
-
 }

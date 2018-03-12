@@ -11,9 +11,9 @@ public abstract class DeleteResponseListener extends ElasticSearchResponseListen
     public void onResponse(JSONObject response) {
         try {
             String result = response.getString("result");
-            if(result.equals("not_found")){
+            if (result.equals("not_found")) {
                 onNotFound();
-            }else if(result.equals("deleted")){
+            } else if (result.equals("deleted")) {
                 onDeleted(response.getString("_id"));
             }
         } catch (JSONException e) {
@@ -22,5 +22,6 @@ public abstract class DeleteResponseListener extends ElasticSearchResponseListen
     }
 
     public abstract void onDeleted(String id);
-    public abstract  void onNotFound();
+
+    public abstract void onNotFound();
 }
