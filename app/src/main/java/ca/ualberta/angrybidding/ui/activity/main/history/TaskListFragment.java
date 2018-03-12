@@ -17,6 +17,7 @@ import com.slouple.android.widget.adapter.DummyAdapter;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 
 public class TaskListFragment extends AdvancedFragment {
@@ -106,12 +107,25 @@ public class TaskListFragment extends AdvancedFragment {
 
     protected void onBindView(TaskView taskView, ElasticSearchTask task) {
         taskView.setTask(task);
+        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener(){
+
+            @Override
+            public void onDelete() {
+                refresh();
+            }
+
+            @Override
+            public void onEdit() {
+
+            }
+        });
     }
 
     protected TaskView createTaskView() {
         TaskView taskView = new TaskView(getContext());
         return taskView;
     }
+
 }
 
 

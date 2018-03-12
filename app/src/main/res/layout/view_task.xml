@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/taskContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorContentBackground"
     android:orientation="vertical">
+
+    <com.slouple.android.widget.button.PopupMenuButton
+        android:id="@+id/taskPopupMenuButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_more_horiz" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,6 +49,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#22111111" />
+        android:background="#22111111"
+        android:layout_gravity="bottom"/>
 
-</LinearLayout>
+</FrameLayout>
