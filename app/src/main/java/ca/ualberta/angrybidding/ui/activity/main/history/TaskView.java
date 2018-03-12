@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.activity.main.history;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.slouple.android.widget.button.PopupMenuButton;
 import com.slouple.android.widget.image.ImageSlider;
 
@@ -16,6 +18,7 @@ import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 public class TaskView extends LinearLayout {
     protected ElasticSearchTask elasticSearchTask;
@@ -110,6 +113,9 @@ public class TaskView extends LinearLayout {
                 switch(item.getItemId()) {
                     case R.id.taskPopupViewDetail:
                         //TODO open ViewTaskDetailActivity
+                        Intent intent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
+                        intent.putExtra("task", new Gson().toJson(elasticSearchTask));
+                        getContext().startActivity(intent);
                         break;
                     case R.id.taskPopupEditTask:
                         //TODO open EditTaskActivity

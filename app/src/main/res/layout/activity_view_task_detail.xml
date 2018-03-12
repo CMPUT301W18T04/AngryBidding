@@ -17,10 +17,16 @@
             tools:text="Job Request" />
 
         <TextView
-            android:id="@+id/taskOwnerTitle"
+            android:id="@+id/taskDetailOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Bob B." />
+
+        <TextView
+            android:id="@+id/taskDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 
 </FrameLayout>
