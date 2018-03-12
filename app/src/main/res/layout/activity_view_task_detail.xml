@@ -13,20 +13,22 @@
             android:id="@+id/taskDetailTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:textSize="30sp"
             tools:text="Job Request" />
 
         <TextView
             android:id="@+id/taskDetailOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="24sp"
             tools:text="Bob B." />
 
         <TextView
             android:id="@+id/taskDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:textSize="20sp"
+            tools:text="Something something something something" />
     </LinearLayout>
 
 </FrameLayout>
