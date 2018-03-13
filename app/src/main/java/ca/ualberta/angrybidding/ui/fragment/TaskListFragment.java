@@ -1,8 +1,7 @@
-package ca.ualberta.angrybidding.ui.activity.main.history;
+package ca.ualberta.angrybidding.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.view.TaskView;
 
 public class TaskListFragment extends AdvancedFragment {
     protected SwipeRefreshLayout swipeRefreshLayout;

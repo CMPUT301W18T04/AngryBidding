@@ -9,7 +9,8 @@ import com.slouple.android.Units;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
-import ca.ualberta.angrybidding.elasticsearch.ElasticSearchResponseListener;
+import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
+import ca.ualberta.angrybidding.ui.view.TaskView;
 
 import java.util.ArrayList;
 

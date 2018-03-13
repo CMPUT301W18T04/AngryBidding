@@ -1,7 +1,6 @@
 package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,9 +13,9 @@ import ca.ualberta.angrybidding.R;
 public class ViewTaskDetailActivity extends AdvancedActivity {
 
     private ElasticSearchTask elasticSearchTask;
-    private TextView taskDetailTitle;
-    private TextView taskDetailOwner;
-    private TextView taskDetailDescription;
+    private TextView titleTextView;
+    private TextView ownerTextView;
+    private TextView descriptionTextView;
 
 
     @Override
@@ -28,13 +27,13 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         String taskJson = intent.getStringExtra("task");
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
 
-        taskDetailTitle = findViewById(R.id.taskDetailTitle);
-        taskDetailOwner = findViewById(R.id.taskDetailOwner);
-        taskDetailDescription = findViewById(R.id.taskDetailDescription);
+        titleTextView = findViewById(R.id.taskDetailTitle);
+        ownerTextView = findViewById(R.id.taskDetailOwner);
+        descriptionTextView = findViewById(R.id.taskDetailDescription);
 
-        taskDetailTitle.setText(elasticSearchTask.getTitle());
-        taskDetailOwner.setText(elasticSearchTask.getUser().getUsername());
-        taskDetailDescription.setText(elasticSearchTask.getDescription());
+        titleTextView.setText(elasticSearchTask.getTitle());
+        ownerTextView.setText(elasticSearchTask.getUser().getUsername());
+        descriptionTextView.setText(elasticSearchTask.getDescription());
 
     }
 

@@ -1,4 +1,4 @@
-package ca.ualberta.angrybidding.ui.activity.main.history;
+package ca.ualberta.angrybidding.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +14,10 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.widget.button.PopupMenuButton;
-import com.slouple.android.widget.image.ImageSlider;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
