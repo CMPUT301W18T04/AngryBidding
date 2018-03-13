@@ -73,6 +73,25 @@ public class ElasticSearchTask extends Task {
         }
     }
 
+    public static void searchTaskByKeywords(Context context, String[] keywords, final ListTaskListener listener){
+        TermAndQuery query = new TermAndQuery();
+        for(String keyword : keywords){
+            query.addTerm("description", keyword);
+        }
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
     public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
