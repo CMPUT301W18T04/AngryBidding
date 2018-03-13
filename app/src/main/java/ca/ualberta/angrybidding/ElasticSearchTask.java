@@ -54,7 +54,7 @@ public class ElasticSearchTask extends Task {
         }
     }
 
-    public static void deleteTask(Context context, String id, DeleteResponseListener listener){
+    public static void deleteTask(Context context, String id, DeleteResponseListener listener) {
         DeleteRequest deleteRequest = new DeleteRequest(ELASTIC_SEARCH_INDEX, id, listener);
         deleteRequest.submit(context);
     }

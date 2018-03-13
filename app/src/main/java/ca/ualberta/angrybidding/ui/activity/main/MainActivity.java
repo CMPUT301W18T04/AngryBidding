@@ -111,14 +111,14 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         Log.d("MainActivity", "Finished onStart");
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState){
-        if(savedInstanceState != null){
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
             Log.d("MainActivity", "Restoring Saved Instance State");
             savedFragmentID = savedInstanceState.getInt("currentFragmentID");
         }
@@ -126,23 +126,23 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
 
     //Calls between onRestore onStart, overrides savedFragmentID
     @Override
-    public void onPostCreate(Bundle bundle){
+    public void onPostCreate(Bundle bundle) {
         super.onPostCreate(bundle);
         handleIntent(getIntent());
     }
 
     @Override
-    public void onNewIntent(Intent intent){
+    public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent);
     }
 
-    public void handleIntent(Intent intent){
-        if(intent == null || intent.getExtras() == null) {
+    public void handleIntent(Intent intent) {
+        if (intent == null || intent.getExtras() == null) {
             return;
         }
         int fragmentID = intent.getIntExtra("fragmentID", -1);
-        if(fragmentID > 0){
+        if (fragmentID > 0) {
             savedFragmentID = fragmentID;
         }
         setIntent(null);
@@ -153,7 +153,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         super.onResume();
 
         //All fragments should be added before the code below
-        if(savedFragmentID > 0){
+        if (savedFragmentID > 0) {
             setCurrentFragment(savedFragmentID);
             savedFragmentID = -1;
         }
@@ -170,12 +170,12 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
     }
 
     @Override
-    public void onRestart(){
+    public void onRestart() {
         super.onRestart();
         Log.d("MainActivity", "Finished onStart");
     }
@@ -190,11 +190,11 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         if (savedFragment == null) {
             this.fragmentList.put(drawerID, new MainFragmentEntry(fragment, preserve));
             FragmentTransaction ft = fm.beginTransaction();
-            if(preserve){
+            if (preserve) {
                 ft.add(R.id.content_main, fragment, String.valueOf(drawerID)).hide(fragment).commit();
             }
             updateDrawerMenu();
-        }else{
+        } else {
             this.fragmentList.put(drawerID, new MainFragmentEntry(savedFragment, preserve));
         }
     }
@@ -246,8 +246,8 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
-    private void setFragmentAppBarLayout(final IMainFragment fragment){
-        if(currentAppBarLayout != null){
+    private void setFragmentAppBarLayout(final IMainFragment fragment) {
+        if (currentAppBarLayout != null) {
             appBarMain.removeView(currentAppBarLayout);
         }
         if (toggle != null) {
@@ -302,11 +302,11 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         onNavigationItemSelected(id);
     }
 
-    public Fragment getCurrentFragment(){
+    public Fragment getCurrentFragment() {
         return getFragment(getCurrentFragmentID());
     }
 
-    public int getCurrentFragmentID(){
+    public int getCurrentFragmentID() {
         return currentFragmentID;
     }
 
@@ -314,8 +314,8 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if (!(getCurrentFragment() instanceof IMainFragment) ||
-                !((IMainFragment) getCurrentFragment()).onBackPressed()){
+        } else if (!(getCurrentFragment() instanceof IMainFragment) ||
+                !((IMainFragment) getCurrentFragment()).onBackPressed()) {
 
             if (currentFragmentID != R.id.nav_history) {
                 setCurrentFragment(R.id.nav_history);
@@ -337,20 +337,20 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         return true;
     }
 
-    private class MainFragmentEntry{
+    private class MainFragmentEntry {
         private Fragment fragment;
         private boolean preserve;
 
-        public MainFragmentEntry(Fragment fragment, boolean preserve){
+        public MainFragmentEntry(Fragment fragment, boolean preserve) {
             this.fragment = fragment;
             this.preserve = preserve;
         }
 
-        public Fragment getFragment(){
+        public Fragment getFragment() {
             return fragment;
         }
 
-        public boolean shouldPreserve(){
+        public boolean shouldPreserve() {
             return preserve;
         }
     }

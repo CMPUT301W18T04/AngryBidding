@@ -33,7 +33,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
     private TextView descriptionTextView;
 
     @Override
-    protected int getColorID(){
+    protected int getColorID() {
         return R.color.colorAccentDark;
     }
 
@@ -102,7 +102,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
     private boolean canSubmit() {
         String title = titleTextView.getText().toString();
-        return title.length() >= 1 ;
+        return title.length() >= 1;
     }
 
     private void onSubmitButtonPressed() {

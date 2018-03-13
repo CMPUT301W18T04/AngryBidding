@@ -31,6 +31,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
     private SubmitButton signUpButton;
 
     public static final int SUCCESS_REQUEST = 11;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +59,9 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(canSubmit()){
+                if (canSubmit()) {
                     signUpButton.enable();
-                }else{
+                } else {
                     signUpButton.disable();
                 }
             }
@@ -72,7 +73,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
         passwordTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     signUpButton.triggerClick();
                     return true;
                 }
@@ -98,7 +99,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
         });
     }
 
-    private void onSignUpButtonPressed(){
+    private void onSignUpButtonPressed() {
         enableInputs(false);
         final String username = usernameTextView.getText().toString();
         final String password = passwordTextView.getText().toString();
@@ -130,7 +131,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle(com.slouple.R.string.cancel)
                 .setMessage(com.slouple.R.string.confirmCancel)
@@ -145,7 +146,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
                 .show();
     }
 
-    private boolean canSubmit(){
+    private boolean canSubmit() {
         return usernameTextView.length() >= 4 && passwordTextView.length() >= 8 &&
                 emailAddressTextView.length() >= 5 && emailAddressTextView.getText().toString().contains("@");
     }
