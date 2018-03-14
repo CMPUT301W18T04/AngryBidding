@@ -111,7 +111,8 @@ public class TaskListFragment extends AdvancedFragment {
 
             @Override
             public void onDelete() {
-                removeTask(task);
+                refresh();
+                //removeTask(task);
             }
 
             @Override

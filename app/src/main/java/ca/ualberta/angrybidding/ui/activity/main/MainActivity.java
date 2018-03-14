@@ -23,8 +23,12 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
@@ -95,7 +99,6 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         displayNameView.setOnClickListener(accountClickListener);
 
 
-        //TODO Add Fragments
         if (getElasticSearchUser() == null) {
             startActivity(LoginActivity.class);
             finish();

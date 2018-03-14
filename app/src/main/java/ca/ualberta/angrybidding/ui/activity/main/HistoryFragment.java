@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.activity.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -11,11 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.slouple.android.AdvancedFragment;
+import com.slouple.android.ResultRequest;
 
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
@@ -86,7 +86,19 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment {
         this.addTaskActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HistoryFragment.this.getContext().startActivity(AddTaskActivity.class);
+                Intent intent = new Intent(getContext(), AddTaskActivity.class);
+                getContext().startActivityForResult(intent, AddTaskActivity.REQUEST_CODE);
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                pageAdapter.getTaskPostedFragment().refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
             }
         });
 
