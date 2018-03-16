@@ -17,7 +17,13 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
     private TextView ownerTextView;
     private TextView descriptionTextView;
 
-
+    /**
+     * Creates ViewTaskDetailActivity
+     * Gets task object from Intent using Gson
+     * Assigns members to according view objects
+     *
+     * @param savedInstanceState State of saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
