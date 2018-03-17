@@ -21,6 +21,10 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
+/**
+ * Represents a view of the task object
+ * Part of a list
+ */
 public class TaskView extends LinearLayout {
     protected ElasticSearchTask elasticSearchTask;
 
@@ -43,6 +47,9 @@ public class TaskView extends LinearLayout {
         init();
     }
 
+    /**
+     * Assigns members to corresponding views
+     */
     protected void loadViews() {
         container = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_task, this, true);
 
@@ -53,10 +60,18 @@ public class TaskView extends LinearLayout {
 
     }
 
+    /**
+     * Initializes the view
+     */
     protected void init() {
         loadViews();
     }
 
+    /**
+     * Extracts the task object into the view
+     *
+     * @param task The task object
+     */
     public void setTask(ElasticSearchTask task) {
         this.elasticSearchTask = task;
         if (task.getTitle() == null) {
@@ -98,6 +113,14 @@ public class TaskView extends LinearLayout {
         return popupMenuButton;
     }
 
+    /**
+     * Uses the pop up menu
+     * Checks if the user is the owner of the task and displays menu accordingly
+     * Evokes different actions for different cases
+     *
+     * @param user The user using the pop up menu
+     * @param listener The listener to be called when task changes
+     */
     public void usePopupMenu(final ElasticSearchUser user, final OnTaskChangeListener listener) {
         getPopupMenuButton().getPopupMenu().getMenu().clear();
         if (elasticSearchTask.getUser().equals(user)) {
@@ -148,6 +171,9 @@ public class TaskView extends LinearLayout {
         });
     }
 
+    /**
+     * The listener called on delete or edit
+     */
     public interface OnTaskChangeListener {
         void onDelete();
 
