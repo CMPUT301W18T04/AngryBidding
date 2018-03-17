@@ -17,6 +17,7 @@ public class SearchQuery {
         } catch (JSONException e) {
             Log.e("SearchQuery", e.getMessage(), e);
         }
+        setSize(1000);
     }
 
     public void addMatch(String field, String value) {
@@ -79,6 +80,22 @@ public class SearchQuery {
 
     public JSONObject getQuery() {
         return this.query;
+    }
+
+    public void setFrom(int from){
+        try {
+            root.put("from", from);
+        } catch (JSONException e) {
+            Log.e("SearchQuery", e.getMessage(), e);
+        }
+    }
+
+    public void setSize(int size){
+        try {
+            root.put("size", size);
+        } catch (JSONException e) {
+            Log.e("SearchQuery", e.getMessage(), e);
+        }
     }
 
 

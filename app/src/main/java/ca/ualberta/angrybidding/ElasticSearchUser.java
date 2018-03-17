@@ -42,21 +42,21 @@ public class ElasticSearchUser extends User {
         return this.passwordHash;
     }
 
-    public static void removeMainUser(Context context){
+    public static void removeMainUser(Context context) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(PREFERENCE_KEY);
         editor.apply();
     }
 
-    public static void setMainUser(Context context, ElasticSearchUser user){
+    public static void setMainUser(Context context, ElasticSearchUser user) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(PREFERENCE_KEY, new Gson().toJson(user));
         editor.apply();
     }
 
-    public static ElasticSearchUser getMainUser(Context context){
+    public static ElasticSearchUser getMainUser(Context context) {
         try {
             SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
             String userJson = settings.getString(PREFERENCE_KEY, null);
@@ -65,7 +65,7 @@ public class ElasticSearchUser extends User {
             } else {
                 return null;
             }
-        }catch(Throwable throwable){
+        } catch (Throwable throwable) {
             Log.e("ElasticSearchUser", throwable.getMessage(), throwable);
             removeMainUser(context);
             return null;

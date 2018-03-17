@@ -20,4 +20,9 @@ public class User {
     public String getEmailAddress() {
         return this.emailAddress;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof User && ((User) other).getUsername().equals(getUsername());
+    }
 }

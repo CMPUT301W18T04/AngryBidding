@@ -15,13 +15,13 @@ import com.slouple.android.AdvancedFragment;
 
 import ca.ualberta.angrybidding.R;
 
-public class SearchFragment extends AdvancedFragment implements IMainFragment{
+public class SearchFragment extends AdvancedFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
 
     @Override
     public AppBarLayout getAppBarLayout(ViewGroup rootView, LayoutInflater inflater) {
-        if(appBarLayout == null){
+        if (appBarLayout == null) {
             appBarLayout = (AppBarLayout) inflater.inflate(R.layout.search_fragment_toolbar, rootView, false);
         }
         return appBarLayout;
@@ -29,15 +29,15 @@ public class SearchFragment extends AdvancedFragment implements IMainFragment{
     }
 
     @Override
-    public Toolbar getToolbar(ViewGroup rootView, LayoutInflater inflater){
-        if(toolbar == null){
+    public Toolbar getToolbar(ViewGroup rootView, LayoutInflater inflater) {
+        if (toolbar == null) {
             toolbar = (Toolbar) getAppBarLayout(rootView, inflater).findViewById(R.id.search_fragment_toolbar);
         }
         return toolbar;
     }
 
     @Override
-    public void onActionBarAdded(ActionBar actionBar){
+    public void onActionBarAdded(ActionBar actionBar) {
 
     }
 

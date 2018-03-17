@@ -14,6 +14,10 @@
             android:id="@+id/nav_nearby"
             android:icon="@mipmap/ic_launcher_round"
             android:title="@string/nearby"/>
+        <item
+            android:id="@+id/nav_all_task"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="All Task"/>
 
     </group>
     <group android:checkableBehavior="single"

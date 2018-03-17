@@ -1,8 +1,7 @@
-package ca.ualberta.angrybidding.ui.activity.main.history;
+package ca.ualberta.angrybidding.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,9 @@ import com.slouple.android.widget.adapter.DummyAdapter;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.view.TaskView;
 
 /*
 This class is the task list fragment which is the fragment of the bid list
@@ -123,12 +124,26 @@ public class TaskListFragment extends AdvancedFragment {
             recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
-
     /*
     onBindView will bind a task to a taskView
      */
+    protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
+
     protected void onBindView(TaskView taskView, ElasticSearchTask task) {
         taskView.setTask(task);
+        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
+
+            @Override
+            public void onDelete() {
+                refresh();
+                //removeTask(task);
+            }
+
+            @Override
+            public void onEdit() {
+
+            }
+        });
     }
 
     /*
@@ -138,6 +153,7 @@ public class TaskListFragment extends AdvancedFragment {
         TaskView taskView = new TaskView(getContext());
         return taskView;
     }
+
 }
 
 

@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
 import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
@@ -28,12 +29,15 @@ import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 public class AddTaskActivity extends AngryBiddingActivity {
 
+    public static final int REQUEST_CODE = 1001;
+
     private SubmitButton submitButton;
     private TextView titleTextView;
     private TextView descriptionTextView;
 
+
     @Override
-    protected int getColorID(){
+    protected int getColorID() {
         return R.color.colorAccentDark;
     }
 
@@ -102,18 +106,22 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
     private boolean canSubmit() {
         String title = titleTextView.getText().toString();
-        return title.length() >= 1 ;
+        return title.length() >= 1;
     }
 
     private void onSubmitButtonPressed() {
         enableInputs(false);
-        String title = titleTextView.getText().toString();
-        String description = descriptionTextView.getText().toString();
-
-        ElasticSearchTask.addTask(this, new Task(new User(getElasticSearchUser().getUsername()), title, description), new AddResponseListener() {
+        final String title = titleTextView.getText().toString();
+        final String description = descriptionTextView.getText().toString();
+        final User user = new User(getElasticSearchUser().getUsername());
+        ElasticSearchTask.addTask(this, new Task(user, title, description), new AddResponseListener() {
             @Override
             public void onCreated(String id) {
                 submitButton.onSuccess();
+                Intent intent = new Intent();
+                ElasticSearchTask task = new ElasticSearchTask(id, user, title, description, null, null);
+                intent.putExtra("task", new Gson().toJson(task));
+                AddTaskActivity.this.setResult(RESULT_OK, intent);
                 finish();
             }
 
