@@ -11,6 +11,9 @@ import ca.ualberta.angrybidding.elasticsearch.ElasticSearchResponseListener;
 
 import java.util.ArrayList;
 
+/*
+This is the TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.
+ */
 public class TaskPostedFragment extends TaskListFragment {
 
     public void onCreate(Bundle savedInstanceState) {
@@ -18,6 +21,10 @@ public class TaskPostedFragment extends TaskListFragment {
 
     }
 
+    /*
+    onRefresh() will update the task list and get the task list of current
+    user from the elastic search server, and add the tasks to the task ArrayList
+     */
     @Override
     public void onRefresh() {
         super.onRefresh();
@@ -29,6 +36,9 @@ public class TaskPostedFragment extends TaskListFragment {
                 finishRefresh();
             }
 
+            /*
+            Show message when a error occurs
+             */
             @Override
             public void onError(VolleyError error) {
                 Log.e("TaskPostedFragment", error.getMessage(), error);

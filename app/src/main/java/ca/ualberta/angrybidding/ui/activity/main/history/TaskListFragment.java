@@ -19,11 +19,17 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 
+/*
+This class is the task list fragment which is the fragment of the bid list
+ */
 public class TaskListFragment extends AdvancedFragment {
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
 
+    /*
+    This method is used to when the views are created, and it will inflate views
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_task_list, container, false);
@@ -61,7 +67,9 @@ public class TaskListFragment extends AdvancedFragment {
 
         return fl;
     }
-
+    /*
+    refresh() will refresh the bid list when it's called
+     */
     public void refresh() {
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
@@ -69,6 +77,9 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
+    /*
+    clear() will clear the task ArrayList
+     */
     public void clear() {
         tasks.clear();
         recyclerView.getAdapter().notifyDataSetChanged();
@@ -82,6 +93,9 @@ public class TaskListFragment extends AdvancedFragment {
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    /*
+    This method will check if there's a duplicated task in the list
+     */
     public boolean hasDuplicate(ElasticSearchTask task) {
         for (ElasticSearchTask t : tasks) {
             if (t.getID().equals(task.getID())) {
@@ -91,6 +105,9 @@ public class TaskListFragment extends AdvancedFragment {
         return false;
     }
 
+    /*
+    addTask will add a new task to the ArrayList
+     */
     public void addTask(ElasticSearchTask task) {
         if (!hasDuplicate(task)) {
             tasks.add(task);
@@ -98,16 +115,25 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
+    /*
+    removeTask will delete a selected task from the ArrayList
+     */
     public void removeTask(ElasticSearchTask task) {
         if (tasks.remove(task)) {
             recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
+    /*
+    onBindView will bind a task to a taskView
+     */
     protected void onBindView(TaskView taskView, ElasticSearchTask task) {
         taskView.setTask(task);
     }
 
+    /*
+    This is the method to create a new taskView
+     */
     protected TaskView createTaskView() {
         TaskView taskView = new TaskView(getContext());
         return taskView;

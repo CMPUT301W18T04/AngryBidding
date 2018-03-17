@@ -12,6 +12,9 @@ import com.slouple.android.widget.image.ImageSlider;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 
+/*
+TaskView is the class of task view, which is used to show tasks on the UI
+ */
 public class TaskView extends LinearLayout {
     protected ElasticSearchTask elasticSearchTask;
 
@@ -19,6 +22,9 @@ public class TaskView extends LinearLayout {
     protected TextView titleTextView;
     protected TextView ownerTextView;
 
+    /*
+    Three types of constructor of taskView
+     */
     public TaskView(Context context) {
         this(context, null);
     }
@@ -32,6 +38,10 @@ public class TaskView extends LinearLayout {
         init();
     }
 
+    /*
+    loadViews() inflates the LinearLayout and connect contents(title and owner of the task) to
+    the ID in resource file
+     */
     protected void loadViews() {
         container = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_task, this, true);
 
@@ -43,6 +53,9 @@ public class TaskView extends LinearLayout {
         loadViews();
     }
 
+    /*
+    Set a taskView to a specific task, which is to set the information of that task
+     */
     public void setTask(ElasticSearchTask task) {
         this.elasticSearchTask = task;
         if (task.getTitle() == null) {
