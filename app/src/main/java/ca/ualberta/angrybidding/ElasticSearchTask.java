@@ -15,6 +15,7 @@ import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.ElasticSearchResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -92,6 +93,22 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    public static void listTask(Context context, final ListTaskListener listener) {
+        MatchAllQuery query = new MatchAllQuery();
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
     public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
@@ -111,7 +128,7 @@ public class ElasticSearchTask extends Task {
 
     protected static ArrayList<ElasticSearchTask> parseTasks(SearchResult searchResult) {
         ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
-        for (int i = 0; i < searchResult.getHitCount(); i++) {
+        for (int i = 0; i < searchResult.getSearchResultObjects().size(); i++) {
             SearchResult.SearchResultObject searchResultObject = searchResult.getSearchResultObjects().get(i);
             String taskString = searchResultObject.getSource().toString();
             ElasticSearchTask task = new Gson().fromJson(taskString, ElasticSearchTask.class);
