@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Bid {
     private User user;
@@ -21,5 +22,9 @@ public class Bid {
 
     public BigDecimal getPrice() {
         return this.price;
+    }
+
+    public String getPriceString(){
+        return "$" + this.price.setScale(2, RoundingMode.HALF_UP).toString(); // round to 2 decimal places
     }
 }

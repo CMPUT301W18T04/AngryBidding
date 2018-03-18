@@ -7,25 +7,19 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.slouple.android.AdvancedActivity;
-import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
-import com.slouple.android.widget.filter.UsernameTextWatcher;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
-import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 public class AddTaskActivity extends AngryBiddingActivity {
 
@@ -74,7 +68,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
         titleTextView.addTextChangedListener(watcher);
         descriptionTextView.addTextChangedListener(watcher);
 
-        submitButton = findViewById(R.id.submitButton);
+        submitButton = findViewById(R.id.addTaskSubmitButton);
         submitButton.setButtonListener(new SubmitButtonListener() {
             @Override
             public void onSubmit() {

@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -27,13 +27,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            tools:text="Bob B." />
+            android:textColor="@color/colorUsername"
+            tools:text="Bob B."
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:id="@+id/taskDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="Something something something something" />
 
         <TextView
@@ -45,16 +47,16 @@
             android:gravity="center"
             android:text="@string/bids"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/taskDetailBids"
             android:layout_width="match_parent"
             android:layout_height="300dp">
 
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
