@@ -129,7 +129,6 @@ public class TaskListFragment extends AdvancedFragment {
      */
     protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
 
-    protected void onBindView(TaskView taskView, ElasticSearchTask task) {
         taskView.setTask(task);
         taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
 
@@ -145,6 +144,7 @@ public class TaskListFragment extends AdvancedFragment {
             }
         });
     }
+
 
     /*
     This is the method to create a new taskView

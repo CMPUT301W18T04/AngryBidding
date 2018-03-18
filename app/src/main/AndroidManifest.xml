@@ -23,7 +23,8 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.SignUpActivity" />
         <activity android:name=".ui.activity.AddTaskActivity" />
-        <activity android:name=".ui.activity.ViewTaskDetailActivity"></activity>
+        <activity android:name=".ui.activity.ViewTaskDetailActivity" />
+        <activity android:name=".ui.activity.AddBidActivity"></activity>
     </application>
 
 </manifest>

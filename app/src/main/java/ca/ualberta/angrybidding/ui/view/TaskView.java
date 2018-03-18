@@ -19,6 +19,7 @@ import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
+import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
@@ -162,7 +163,10 @@ public class TaskView extends LinearLayout {
                         });
                         break;
                     case R.id.taskPopupBidTask:
-                        //TODO Bid Task Activity
+                        Intent i = new Intent(TaskView.this.getContext(), AddBidActivity.class);
+                        i.putExtra("task", new Gson().toJson(elasticSearchTask));
+                        i.putExtra("ID", elasticSearchTask.getID());
+                        getContext().startActivity(i);
                         break;
                 }
 
