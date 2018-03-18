@@ -22,6 +22,7 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
+import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
@@ -146,7 +147,7 @@ public class TaskView extends LinearLayout {
                         openViewDetailActivity();
                         break;
                     case R.id.taskPopupEditTask:
-                        //TODO open EditTaskActivity
+                        openEditTaskActivity(listener);
                         break;
                     case R.id.taskPopupDeleteTask:
                         ElasticSearchTask.deleteTask(getContext(), elasticSearchTask.getID(), new DeleteResponseListener() {
@@ -208,6 +209,13 @@ public class TaskView extends LinearLayout {
     public interface OnTaskChangeListener {
         void onDelete();
         void onEdit();
+    }
+
+    public void openEditTaskActivity(final OnTaskChangeListener listener){
+        Intent editIntent = new Intent(getContext(), EditTaskActivity.class);
+        editIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        editIntent.putExtra("id", elasticSearchTask.getID());
+        ((AdvancedActivity)getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
     }
 
 
