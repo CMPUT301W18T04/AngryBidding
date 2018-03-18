@@ -26,27 +26,27 @@ import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
 public class AddBidActivity extends AngryBiddingActivity {
+    public static final int REQUEST_CODE = 1003;
     private ElasticSearchTask elasticSearchTask;
     private User user;
-    private String price;
     private String id;
+    private EditText priceTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bid);
         Intent i = getIntent();
         String taskJson = i.getStringExtra("task");
-        id = i.getStringExtra("ID");
+        id = i.getStringExtra("id");
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
         user = ElasticSearchUser.getMainUser(this);
+        priceTextView = findViewById(R.id.amount_of_bid);
 
     }
 
     public void BidTaskClick(View view){
-        price =((EditText) findViewById(R.id.amount_of_bid)).getText().toString();
-        double price1 = Double.parseDouble(price);
-        elasticSearchTask.getBids().add(new Bid(user, price1));
-//        elasticSearchTask.setBids(new Bid(user, price1));
+        double price = Double.parseDouble(priceTextView.getText().toString());
+        elasticSearchTask.getBids().add(new Bid(user, price));
         ElasticSearchTask.updateTask(this, id, elasticSearchTask, new UpdateResponseListener() {
             @Override
             public void onCreated(String id) {

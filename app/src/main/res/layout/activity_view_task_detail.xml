@@ -38,7 +38,7 @@
             android:text="Bids made: "/>
 
         <ListView
-            android:id="@+id/list_view"
+            android:id="@+id/taskDetailBids"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
