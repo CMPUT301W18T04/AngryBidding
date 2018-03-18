@@ -2,6 +2,7 @@ package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
     private TextView titleTextView;
     private TextView ownerTextView;
     private TextView descriptionTextView;
+    private TextView bidsLable;
     private ListView bidListView;
     /**
      * Creates ViewTaskDetailActivity
@@ -38,6 +40,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
         descriptionTextView = findViewById(R.id.taskDetailDescription);
+        bidsLable = findViewById(R.id.taskDetailBidsLabel);
         bidListView = findViewById(R.id.taskDetailBids);
 
         titleTextView.setText(elasticSearchTask.getTitle());
@@ -47,8 +50,9 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         BidAdapter bidAdapter = new BidAdapter(this, elasticSearchTask.getBids());
         bidListView.setAdapter(bidAdapter);
 
-        if(elasticSearchTask.getBids().size() < 0){
-
+        if(elasticSearchTask.getBids().size() < 1){
+            bidsLable.setVisibility(View.GONE);
+            bidListView.setVisibility(View.GONE);
         }
     }
 

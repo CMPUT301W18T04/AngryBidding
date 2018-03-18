@@ -22,4 +22,6 @@
     <string name="editTask">Edit</string>
     <string name="deleteTask">Delete</string>
     <string name="bidTask">Bid</string>
+    <string name="bids">Bids</string>
+    <string name="bid">Bid</string>
 </resources>
