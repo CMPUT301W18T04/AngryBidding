@@ -26,4 +26,6 @@
     <string name="bid">Bid</string>
     <string name="price">Price</string>
     <string name="submitBid">Submit Bid</string>
+    <string name="keywords">Keywords</string>
+    <string name="searchKeywords">Search Keywords</string>
 </resources>

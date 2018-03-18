@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -26,8 +27,8 @@ public class AddTaskActivity extends AngryBiddingActivity {
     public static final int REQUEST_CODE = 1001;
 
     private SubmitButton submitButton;
-    private TextView titleTextView;
-    private TextView descriptionTextView;
+    private EditText titleEditText;
+    private EditText descriptionEditText;
 
 
     @Override
@@ -43,8 +44,8 @@ public class AddTaskActivity extends AngryBiddingActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.addTask));
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
 
-        titleTextView = findViewById(R.id.addTaskTitle);
-        descriptionTextView = findViewById(R.id.addTaskDescription);
+        titleEditText = findViewById(R.id.addTaskTitle);
+        descriptionEditText = findViewById(R.id.addTaskDescription);
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -65,8 +66,8 @@ public class AddTaskActivity extends AngryBiddingActivity {
                 }
             }
         };
-        titleTextView.addTextChangedListener(watcher);
-        descriptionTextView.addTextChangedListener(watcher);
+        titleEditText.addTextChangedListener(watcher);
+        descriptionEditText.addTextChangedListener(watcher);
 
         submitButton = findViewById(R.id.addTaskSubmitButton);
         submitButton.setButtonListener(new SubmitButtonListener() {
@@ -86,7 +87,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
             }
         });
 
-        descriptionTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        descriptionEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -99,14 +100,14 @@ public class AddTaskActivity extends AngryBiddingActivity {
     }
 
     private boolean canSubmit() {
-        String title = titleTextView.getText().toString();
+        String title = titleEditText.getText().toString();
         return title.length() >= 1;
     }
 
     private void onSubmitButtonPressed() {
         enableInputs(false);
-        final String title = titleTextView.getText().toString();
-        final String description = descriptionTextView.getText().toString();
+        final String title = titleEditText.getText().toString();
+        final String description = descriptionEditText.getText().toString();
         final User user = new User(getElasticSearchUser().getUsername());
         ElasticSearchTask.addTask(this, new Task(user, title, description), new AddResponseListener() {
             @Override
@@ -139,7 +140,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
     }
 
     public void enableInputs(boolean enabled) {
-        titleTextView.setEnabled(enabled);
-        descriptionTextView.setEnabled(enabled);
+        titleEditText.setEnabled(enabled);
+        descriptionEditText.setEnabled(enabled);
     }
 }
