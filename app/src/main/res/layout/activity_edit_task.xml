@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slouple="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <EditText
-            android:id="@+id/editTaskTitle"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="24sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTaskDescription"
-            android:textSize="24sp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/editTaskPhoto"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="16sp"
-            android:text="Add photos+"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/colorContentBackground">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/colorAccentDark"/>
 
-        <Button
-            android:id="@+id/editTaskLocation"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="16sp"
-            android:text="Add location+"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-        <com.slouple.android.widget.button.SubmitButton
-            android:id="@+id/editTaskSave"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="24sp"
-            android:text="Save Task"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                <EditText
+                    android:id="@+id/editTaskTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:hint="@string/title"
+                    android:textSize="25sp"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:maxLines="1" />
 
-        <com.slouple.android.widget.button.SubmitButton
-            android:id="@+id/editTaskDelete"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="24sp"
-            android:text="Delete Task"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                <EditText
+                    android:id="@+id/editTaskDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.80"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="@string/description"
+                    android:minLines="5"
+                    android:maxLength="300"
+                    android:inputType="textMultiLine" />
 
-
-
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+                <com.slouple.android.widget.button.SubmitButton
+                    android:id="@+id/editTaskSubmitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    slouple:primaryText="Save Task"
+                    slouple:textSize="25"
+                    slouple:primaryColor="@color/colorAccent"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
