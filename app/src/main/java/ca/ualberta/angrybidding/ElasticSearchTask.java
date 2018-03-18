@@ -16,6 +16,7 @@ import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.ElasticSearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
+import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -75,9 +76,9 @@ public class ElasticSearchTask extends Task {
     }
 
     public static void searchTaskByKeywords(Context context, String[] keywords, final ListTaskListener listener){
-        TermAndQuery query = new TermAndQuery();
+        MatchAndQuery query = new MatchAndQuery();
         for(String keyword : keywords){
-            query.addTerm("description", keyword);
+            query.addMatch("description", keyword);
         }
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
