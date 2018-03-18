@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.slouple.android.AdvancedActivity;
+import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.PopupMenuButton;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
@@ -91,6 +93,12 @@ public class TaskView extends LinearLayout {
 
         descriptionTextView.setText(task.getDescription());
 
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openViewDetailActivity();
+            }
+        });
 
     }
 
@@ -135,16 +143,12 @@ public class TaskView extends LinearLayout {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.taskPopupViewDetail:
-                        //TODO open ViewTaskDetailActivity
-                        Intent intent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
-                        intent.putExtra("task", new Gson().toJson(elasticSearchTask));
-                        getContext().startActivity(intent);
+                        openViewDetailActivity();
                         break;
                     case R.id.taskPopupEditTask:
                         //TODO open EditTaskActivity
                         break;
                     case R.id.taskPopupDeleteTask:
-                        //TODO Elastic search remove task
                         ElasticSearchTask.deleteTask(getContext(), elasticSearchTask.getID(), new DeleteResponseListener() {
                             @Override
                             public void onDeleted(String id) {
@@ -163,11 +167,10 @@ public class TaskView extends LinearLayout {
                         });
                         break;
                     case R.id.taskPopupBidTask:
-                        Intent i = new Intent(TaskView.this.getContext(), AddBidActivity.class);
-                        i.putExtra("task", new Gson().toJson(elasticSearchTask));
-                        i.putExtra("ID", elasticSearchTask.getID());
-                        getContext().startActivity(i);
+                        openAddBidActivity(listener);
+
                         break;
+
                 }
 
                 return true;
@@ -175,12 +178,35 @@ public class TaskView extends LinearLayout {
         });
     }
 
+    public void openAddBidActivity(final OnTaskChangeListener listener){
+        ((AdvancedActivity)getContext()).addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                listener.onEdit();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+
+            }
+        });
+        Intent bidIntent = new Intent(getContext(), AddBidActivity.class);
+        bidIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        bidIntent.putExtra("id", elasticSearchTask.getID());
+        ((AdvancedActivity)getContext()).startActivityForResult(bidIntent, AddBidActivity.REQUEST_CODE);
+    }
+
+    public void openViewDetailActivity(){
+        Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
+        detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        getContext().startActivity(detailIntent);
+    }
+
     /**
      * The listener called on delete or edit
      */
     public interface OnTaskChangeListener {
         void onDelete();
-
         void onEdit();
     }
 

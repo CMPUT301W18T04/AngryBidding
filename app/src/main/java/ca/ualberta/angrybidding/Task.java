@@ -65,6 +65,9 @@ public class Task {
     }
 
     public ArrayList<Bid> getBids() {
+        if(this.bids == null){
+            this.bids = new ArrayList<>();
+        }
         return this.bids;
     }
 

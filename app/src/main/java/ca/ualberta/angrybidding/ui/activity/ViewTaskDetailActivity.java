@@ -2,7 +2,7 @@ package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,15 +14,13 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.view.BidAdapter;
 
 public class ViewTaskDetailActivity extends AdvancedActivity {
-
-    ArrayAdapter adapter;
     private ElasticSearchTask elasticSearchTask;
-    //    private ArrayList bids = new ArrayList<>();
+
     private TextView titleTextView;
     private TextView ownerTextView;
     private TextView descriptionTextView;
-    private ListView listView;
-    private BidAdapter bidAdapter;
+    private TextView bidsLable;
+    private ListView bidListView;
     /**
      * Creates ViewTaskDetailActivity
      * Gets task object from Intent using Gson
@@ -42,14 +40,20 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
         descriptionTextView = findViewById(R.id.taskDetailDescription);
-        listView =(ListView)findViewById(R.id.list_view);
+        bidsLable = findViewById(R.id.taskDetailBidsLabel);
+        bidListView = findViewById(R.id.taskDetailBids);
 
         titleTextView.setText(elasticSearchTask.getTitle());
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
 
-        bidAdapter = new BidAdapter(this, elasticSearchTask.getBids());
-        listView.setAdapter(bidAdapter);
+        BidAdapter bidAdapter = new BidAdapter(this, elasticSearchTask.getBids());
+        bidListView.setAdapter(bidAdapter);
+
+        if(elasticSearchTask.getBids().size() < 1){
+            bidsLable.setVisibility(View.GONE);
+            bidListView.setVisibility(View.GONE);
+        }
     }
 
 }
