@@ -21,7 +21,9 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
 /*
-This class is the task list fragment which is the fragment of the bid list
+ * Create and inflate views for task list
+ * Remove and add tasks
+ * Refresh the task list
  */
 public class TaskListFragment extends AdvancedFragment {
     protected SwipeRefreshLayout swipeRefreshLayout;
@@ -29,7 +31,7 @@ public class TaskListFragment extends AdvancedFragment {
     protected ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
 
     /*
-    This method is used to when the views are created, and it will inflate views
+     * This method is used to when the views are created, and it will inflate views
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class TaskListFragment extends AdvancedFragment {
         return fl;
     }
     /*
-    refresh() will refresh the bid list when it's called
+     * refresh() will refresh the bid list when it's called
      */
     public void refresh() {
         if (!swipeRefreshLayout.isRefreshing()) {
@@ -79,7 +81,7 @@ public class TaskListFragment extends AdvancedFragment {
     }
 
     /*
-    clear() will clear the task ArrayList
+     * clear() will clear the task ArrayList
      */
     public void clear() {
         tasks.clear();
@@ -95,7 +97,7 @@ public class TaskListFragment extends AdvancedFragment {
     }
 
     /*
-    This method will check if there's a duplicated task in the list
+     * This method will check if there's a duplicated task in the list
      */
     public boolean hasDuplicate(ElasticSearchTask task) {
         for (ElasticSearchTask t : tasks) {
@@ -107,7 +109,7 @@ public class TaskListFragment extends AdvancedFragment {
     }
 
     /*
-    addTask will add a new task to the ArrayList
+     * addTask will add a new task to the ArrayList
      */
     public void addTask(ElasticSearchTask task) {
         if (!hasDuplicate(task)) {
@@ -117,7 +119,7 @@ public class TaskListFragment extends AdvancedFragment {
     }
 
     /*
-    removeTask will delete a selected task from the ArrayList
+     * removeTask will delete a selected task from the ArrayList
      */
     public void removeTask(ElasticSearchTask task) {
         if (tasks.remove(task)) {
@@ -125,7 +127,7 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
     /*
-    onBindView will bind a task to a taskView
+     * onBindView will bind a task to a taskView
      */
     protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
 
@@ -147,7 +149,7 @@ public class TaskListFragment extends AdvancedFragment {
 
 
     /*
-    This is the method to create a new taskView
+     * This is the method to create a new taskView
      */
     protected TaskView createTaskView() {
         TaskView taskView = new TaskView(getContext());

@@ -27,7 +27,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
     }
 
     /*
-    This method returns task posted fragment and task provided fragment on need
+     * This method returns task posted fragment and task provided fragment on need
      */
     @Override
     public Fragment getItem(int position) {
@@ -42,7 +42,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
     }
 
     /*
-    This method returns the titles for the two pagers
+     * This method returns the titles for the two pagers
      */
     @Override
     public CharSequence getPageTitle(int position) {

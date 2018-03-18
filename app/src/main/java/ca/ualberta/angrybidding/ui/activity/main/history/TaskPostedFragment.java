@@ -15,7 +15,7 @@ import ca.ualberta.angrybidding.ui.view.TaskView;
 import java.util.ArrayList;
 
 /*
-This is the TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.
+ * This is the TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.
  */
 public class TaskPostedFragment extends TaskListFragment {
 
@@ -25,8 +25,8 @@ public class TaskPostedFragment extends TaskListFragment {
     }
 
     /*
-    onRefresh() will update the task list and get the task list of current
-    user from the elastic search server, and add the tasks to the task ArrayList
+     * onRefresh() will update the task list and get the task list of current
+     * user from the elastic search server, and add the tasks to the task ArrayList
      */
     @Override
     public void onRefresh() {
@@ -40,7 +40,7 @@ public class TaskPostedFragment extends TaskListFragment {
             }
 
             /*
-            Show message when a error occurs
+             * Show message when a error occurs
              */
             @Override
             public void onError(VolleyError error) {
