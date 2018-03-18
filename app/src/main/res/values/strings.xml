@@ -24,4 +24,6 @@
     <string name="bidTask">Bid</string>
     <string name="bids">Bids</string>
     <string name="bid">Bid</string>
+    <string name="price">Price</string>
+    <string name="submitBid">Submit Bid</string>
 </resources>

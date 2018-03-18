@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slouple="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.ualberta.angrybidding.ui.activity.AddBidActivity">
+    android:background="@color/colorBackground">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/colorContentBackground">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            tools:text="Enter an amount: " />
+            android:baselineAligned="false"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="1">
 
-        <EditText
-            android:id="@+id/amount_of_bid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:inputType="numberDecimal"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimaryDark" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-        <Button
-            android:onClick="BidTaskClick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BID TASK"
-            android:textSize="25dp"/>
+                <EditText
+                    android:id="@+id/addBidPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:hint="@string/price"
+                    android:textSize="25sp"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                    android:maxLines="1"
+                    android:textAlignment="center"/>
 
-    </LinearLayout>
+                <com.slouple.android.widget.button.SubmitButton
+                    android:id="@+id/addBidSubmitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    slouple:primaryText="Add Bid"
+                    slouple:textSize="25"
+                    slouple:primaryColor="@color/colorPrimary"/>
+            </LinearLayout>
 
-
-</android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -2,16 +2,19 @@ package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
+import com.slouple.android.widget.adapter.DummyAdapter;
 
+import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.ui.view.BidAdapter;
+import ca.ualberta.angrybidding.ui.view.BidView;
 
 public class ViewTaskDetailActivity extends AdvancedActivity {
     private ElasticSearchTask elasticSearchTask;
@@ -20,7 +23,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
     private TextView ownerTextView;
     private TextView descriptionTextView;
     private TextView bidsLable;
-    private ListView bidListView;
+    private RecyclerView bidRecyclerView;
     /**
      * Creates ViewTaskDetailActivity
      * Gets task object from Intent using Gson
@@ -41,18 +44,33 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         ownerTextView = findViewById(R.id.taskDetailOwner);
         descriptionTextView = findViewById(R.id.taskDetailDescription);
         bidsLable = findViewById(R.id.taskDetailBidsLabel);
-        bidListView = findViewById(R.id.taskDetailBids);
+        bidRecyclerView = findViewById(R.id.taskDetailBids);
 
         titleTextView.setText(elasticSearchTask.getTitle());
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
 
-        BidAdapter bidAdapter = new BidAdapter(this, elasticSearchTask.getBids());
-        bidListView.setAdapter(bidAdapter);
-
         if(elasticSearchTask.getBids().size() < 1){
             bidsLable.setVisibility(View.GONE);
-            bidListView.setVisibility(View.GONE);
+            bidRecyclerView.setVisibility(View.GONE);
+        }else{
+            bidRecyclerView.setAdapter(new DummyAdapter<Bid, BidView>(elasticSearchTask.getBids()) {
+                @Override
+                public BidView createView(int i) {
+                    return new BidView(ViewTaskDetailActivity.this);
+                }
+
+                @Override
+                public void onBindView(BidView bidView, Bid bid) {
+                    bidView.setBid(bid);
+                }
+
+                @Override
+                public void onReachingLastItem(int i) {
+
+                }
+            });
+            bidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 
