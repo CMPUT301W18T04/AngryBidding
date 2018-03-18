@@ -7,12 +7,12 @@ import android.widget.LinearLayout;
 import com.android.volley.VolleyError;
 import com.slouple.android.Units;
 
+import java.util.ArrayList;
+
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
-
-import java.util.ArrayList;
 
 /*
  * This is the TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.

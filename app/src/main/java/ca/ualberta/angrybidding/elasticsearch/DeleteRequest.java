@@ -1,7 +1,5 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import org.json.JSONObject;
-
 public class DeleteRequest extends ElasticSearchRequest {
 
     public DeleteRequest(String index, String id, DeleteResponseListener listener) {

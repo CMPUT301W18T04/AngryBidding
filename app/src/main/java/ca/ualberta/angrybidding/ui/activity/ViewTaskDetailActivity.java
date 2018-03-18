@@ -24,6 +24,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
     private TextView descriptionTextView;
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
+
     /**
      * Creates ViewTaskDetailActivity
      * Gets task object from Intent using Gson
@@ -50,10 +51,10 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
 
-        if(elasticSearchTask.getBids().size() < 1){
+        if (elasticSearchTask.getBids().size() < 1) {
             bidsLable.setVisibility(View.GONE);
             bidRecyclerView.setVisibility(View.GONE);
-        }else{
+        } else {
             bidRecyclerView.setAdapter(new DummyAdapter<Bid, BidView>(elasticSearchTask.getBids()) {
                 @Override
                 public BidView createView(int i) {

@@ -128,7 +128,7 @@ public class TaskView extends LinearLayout {
      * Checks if the user is the owner of the task and displays menu accordingly
      * Evokes different actions for different cases
      *
-     * @param user The user using the pop up menu
+     * @param user     The user using the pop up menu
      * @param listener The listener to be called when task changes
      */
     public void usePopupMenu(final ElasticSearchUser user, final OnTaskChangeListener listener) {
@@ -179,8 +179,8 @@ public class TaskView extends LinearLayout {
         });
     }
 
-    public void openAddBidActivity(final OnTaskChangeListener listener){
-        ((AdvancedActivity)getContext()).addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+    public void openAddBidActivity(final OnTaskChangeListener listener) {
+        ((AdvancedActivity) getContext()).addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
             @Override
             public void onResult(Intent intent) {
                 listener.onEdit();
@@ -194,10 +194,10 @@ public class TaskView extends LinearLayout {
         Intent bidIntent = new Intent(getContext(), AddBidActivity.class);
         bidIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
         bidIntent.putExtra("id", elasticSearchTask.getID());
-        ((AdvancedActivity)getContext()).startActivityForResult(bidIntent, AddBidActivity.REQUEST_CODE);
+        ((AdvancedActivity) getContext()).startActivityForResult(bidIntent, AddBidActivity.REQUEST_CODE);
     }
 
-    public void openViewDetailActivity(){
+    public void openViewDetailActivity() {
         Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
         getContext().startActivity(detailIntent);
@@ -208,14 +208,15 @@ public class TaskView extends LinearLayout {
      */
     public interface OnTaskChangeListener {
         void onDelete();
+
         void onEdit();
     }
 
-    public void openEditTaskActivity(final OnTaskChangeListener listener){
+    public void openEditTaskActivity(final OnTaskChangeListener listener) {
         Intent editIntent = new Intent(getContext(), EditTaskActivity.class);
         editIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
         editIntent.putExtra("id", elasticSearchTask.getID());
-        ((AdvancedActivity)getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
+        ((AdvancedActivity) getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
     }
 
 

@@ -24,7 +24,7 @@ public class Bid {
         return this.price;
     }
 
-    public String getPriceString(){
+    public String getPriceString() {
         return "$" + this.price.setScale(2, RoundingMode.HALF_UP).toString(); // round to 2 decimal places
     }
 }

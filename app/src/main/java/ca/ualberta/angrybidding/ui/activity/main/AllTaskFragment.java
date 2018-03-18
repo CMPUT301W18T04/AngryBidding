@@ -7,19 +7,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
-import com.slouple.android.AdvancedFragment;
 import com.slouple.android.Units;
 
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;

@@ -28,7 +28,7 @@ public class SearchQuery {
         return this.query;
     }
 
-    public void setFrom(int from){
+    public void setFrom(int from) {
         try {
             root.put("from", from);
         } catch (JSONException e) {
@@ -36,7 +36,7 @@ public class SearchQuery {
         }
     }
 
-    public void setSize(int size){
+    public void setSize(int size) {
         try {
             root.put("size", size);
         } catch (JSONException e) {

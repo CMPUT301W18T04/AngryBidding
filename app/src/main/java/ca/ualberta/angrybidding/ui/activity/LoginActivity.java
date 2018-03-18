@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.slouple.android.AdvancedActivity;
 import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;

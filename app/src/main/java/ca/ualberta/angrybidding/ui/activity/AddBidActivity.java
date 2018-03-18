@@ -1,24 +1,17 @@
 package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
@@ -26,9 +19,6 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
-import ca.ualberta.angrybidding.ui.activity.main.AllTaskFragment;
-import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
-import ca.ualberta.angrybidding.ui.view.TaskView;
 
 public class AddBidActivity extends AngryBiddingActivity {
     public static final int REQUEST_CODE = 1003;
@@ -63,9 +53,9 @@ public class AddBidActivity extends AngryBiddingActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(canSubmit()){
+                if (canSubmit()) {
                     submitButton.setEnabled(true);
-                }else{
+                } else {
                     submitButton.setEnabled(false);
                 }
             }
@@ -91,20 +81,20 @@ public class AddBidActivity extends AngryBiddingActivity {
 
     }
 
-    public boolean canSubmit(){
-        try{
+    public boolean canSubmit() {
+        try {
             BigDecimal price = new BigDecimal(priceEditText.getText().toString());
             return price.compareTo(new BigDecimal("0.01")) >= 0;
-        }catch(Throwable throwable){
+        } catch (Throwable throwable) {
             return false;
         }
     }
 
-    public BigDecimal getPrice(){
+    public BigDecimal getPrice() {
         return new BigDecimal(priceEditText.getText().toString());
     }
 
-    public void onSubmit(){
+    public void onSubmit() {
         BigDecimal price = getPrice();
         elasticSearchTask.getBids().add(new Bid(user, price));
         ElasticSearchTask.updateTask(this, id, elasticSearchTask, new UpdateResponseListener() {

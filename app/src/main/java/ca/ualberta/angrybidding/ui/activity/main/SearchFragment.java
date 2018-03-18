@@ -13,18 +13,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.slouple.android.AdvancedFragment;
 import com.slouple.android.Units;
 
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
@@ -53,16 +50,16 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     tasks.clear();
                     recyclerView.getAdapter().notifyDataSetChanged();
                     InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     View focused = getContext().getCurrentFocus();
-                    if(focused != null) {
+                    if (focused != null) {
                         inputManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
 
-                    if(getKeywords().length == 0){
+                    if (getKeywords().length == 0) {
                         return true;
                     }
 
@@ -128,19 +125,19 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
         return taskView;
     }
 
-    public String[] getKeywords(){
+    public String[] getKeywords() {
         return searchEditText.getText().toString().trim().split(" ");
     }
 
-    private void search(){
-        if(searchEditText == null){
+    private void search() {
+        if (searchEditText == null) {
             return;
         }
         ElasticSearchTask.searchTaskByKeywords(getContext(), getKeywords(), new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
-                for(ElasticSearchTask task : newTasks){
-                    if(task.getChosenBid() == null && !task.isCompleted()){
+                for (ElasticSearchTask task : newTasks) {
+                    if (task.getChosenBid() == null && !task.isCompleted()) {
                         tasks.add(task);
                     }
                 }

@@ -1,6 +1,5 @@
 package ca.ualberta.angrybidding.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.slouple.android.AdvancedFragment;
-import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
 /*
@@ -74,6 +71,7 @@ public class TaskListFragment extends AdvancedFragment {
 
         return fl;
     }
+
     /*
      * refresh() will refresh the bid list when it's called
      */
@@ -130,6 +128,7 @@ public class TaskListFragment extends AdvancedFragment {
             recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
+
     /*
      * onBindView will bind a task to a taskView
      */

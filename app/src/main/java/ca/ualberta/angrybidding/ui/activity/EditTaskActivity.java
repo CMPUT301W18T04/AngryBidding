@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
-
-import java.math.BigDecimal;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
@@ -21,7 +18,7 @@ import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 /*
  * This class is used to edit the tasks which are already created
  */
-public class EditTaskActivity extends AngryBiddingActivity{
+public class EditTaskActivity extends AngryBiddingActivity {
     public final static int REQUEST_CODE = 1004;
     private ElasticSearchTask currentTask;
     private String currentID;
@@ -29,7 +26,7 @@ public class EditTaskActivity extends AngryBiddingActivity{
     private EditText descriptionEditText;
     private SubmitButton editSaveButton;
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
@@ -93,17 +90,17 @@ public class EditTaskActivity extends AngryBiddingActivity{
         });
     }
 
-    public String getEditTitle(){
+    public String getEditTitle() {
         titleEditText = findViewById(R.id.editTaskTitle);
         return titleEditText.getText().toString();
     }
 
-    public String getEditDescription(){
+    public String getEditDescription() {
         descriptionEditText = findViewById(R.id.editTaskDescription);
         return descriptionEditText.getText().toString();
     }
 
-    public boolean canSubmit(){
+    public boolean canSubmit() {
         String title = titleEditText.getText().toString();
         return title.length() >= 1;
     }
