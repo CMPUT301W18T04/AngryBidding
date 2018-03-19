@@ -21,7 +21,7 @@ import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.ui.view.BidView;
 
-public class ViewTaskDetailActivity extends AdvancedActivity {
+public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ElasticSearchTask elasticSearchTask;
     private User user;
     private String id;
