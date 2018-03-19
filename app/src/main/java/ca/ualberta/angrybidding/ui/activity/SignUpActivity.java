@@ -20,7 +20,10 @@ import com.slouple.android.widget.filter.UsernameTextWatcher;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 
-public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActivity {
+/**
+ * Sign Up with username, password and email address
+ */
+public class SignUpActivity extends AngryBiddingActivity {
     private TextView usernameTextView;
     private TextView passwordTextView;
     private TextView emailAddressTextView;
@@ -34,6 +37,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
         setContentView(R.layout.activity_sign_up);
         getSupportActionBar().setTitle(R.string.createAccount);
 
+        //Init views
         usernameTextView = (EditText) findViewById(R.id.signUpUsername);
         usernameTextView.addTextChangedListener(new UsernameTextWatcher());
 
@@ -42,6 +46,7 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
 
         emailAddressTextView = findViewById(R.id.signUpEmailAddress);
 
+        //Submit watcher
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -95,6 +100,9 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
         });
     }
 
+    /**
+     * Handles sign up
+     */
     private void onSignUpButtonPressed() {
         enableInputs(false);
         final String username = usernameTextView.getText().toString();
@@ -126,6 +134,9 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
         });
     }
 
+    /**
+     * Confirms exit before closing
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -142,11 +153,17 @@ public class SignUpActivity<T extends AdvancedActivity> extends AngryBiddingActi
                 .show();
     }
 
+    /**
+     * @return Are inputs valid for sign up
+     */
     private boolean canSubmit() {
         return usernameTextView.length() >= 4 && passwordTextView.length() >= 8 &&
                 emailAddressTextView.length() >= 5 && emailAddressTextView.getText().toString().contains("@");
     }
 
+    /**
+     * @param enabled Should input be enabled
+     */
     public void enableInputs(boolean enabled) {
         usernameTextView.setEnabled(enabled);
         passwordTextView.setEnabled(enabled);

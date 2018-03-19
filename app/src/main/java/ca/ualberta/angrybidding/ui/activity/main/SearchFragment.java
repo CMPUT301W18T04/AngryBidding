@@ -26,6 +26,9 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
+/**
+ * Fragment for searching task based on keywords
+ */
 public class SearchFragment extends TaskListFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
@@ -47,10 +50,12 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
             toolbar = getAppBarLayout(rootView, inflater).findViewById(R.id.search_fragment_toolbar);
         }
         searchEditText = toolbar.findViewById(R.id.search_fragment_toolbar_search);
+        //IME Listener
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    //Clear results
                     tasks.clear();
                     recyclerView.getAdapter().notifyDataSetChanged();
                     InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -103,6 +108,9 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
         super.onAttach(context);
     }
 
+    /**
+     * Call search again when being refreshed
+     */
     @Override
     public void onRefresh() {
         super.onRefresh();
@@ -125,10 +133,16 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
         return taskView;
     }
 
+    /**
+     * @return String[] of keywords entered in searchEditText
+     */
     public String[] getKeywords() {
         return searchEditText.getText().toString().trim().split(" ");
     }
 
+    /**
+     * Send a searchRequest and display search results
+     */
     private void search() {
         if (searchEditText == null) {
             return;
@@ -137,6 +151,7 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
                 for (ElasticSearchTask task : newTasks) {
+                    //Make sure task is not assigned and not completed
                     if (task.getChosenBid() == null && !task.isCompleted()) {
                         tasks.add(task);
                     }
@@ -146,9 +161,6 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
                 finishRefresh();
             }
 
-            /*
-            Show message when a error occurs
-             */
             @Override
             public void onError(VolleyError error) {
                 Log.e("SearchFragment", error.getMessage(), error);

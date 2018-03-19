@@ -20,6 +20,9 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
+/**
+ * Login and saves user to SharePreference
+ */
 public class LoginActivity extends AngryBiddingActivity {
 
     private SubmitButton loginButton;
@@ -33,9 +36,12 @@ public class LoginActivity extends AngryBiddingActivity {
 
         getSupportActionBar().setTitle(getResources().getString(R.string.login));
 
+        //Init views
         usernameTextView = findViewById(R.id.loginUsernameTextView);
         usernameTextView.addTextChangedListener(new UsernameTextWatcher());
         passwordTextView = findViewById(R.id.loginPasswordTextView);
+
+        //submit TextWatcher
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -88,6 +94,7 @@ public class LoginActivity extends AngryBiddingActivity {
             }
         });
 
+        //Start SignUp Activity
         TextView createAccountTextView = (TextView) findViewById(R.id.createAccountTextView);
         createAccountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +104,7 @@ public class LoginActivity extends AngryBiddingActivity {
             }
         });
 
+        //Closes LoginActivity when SignUp is successful
         addResultRequest(new ResultRequest(SignUpActivity.SUCCESS_REQUEST) {
             @Override
             public void onResult(Intent data) {
@@ -112,12 +120,18 @@ public class LoginActivity extends AngryBiddingActivity {
         });
     }
 
+    /**
+     * @return Are inputs valid for login
+     */
     private boolean canSubmit() {
         String username = usernameTextView.getText().toString();
         String password = passwordTextView.getText().toString();
         return username.length() >= 4 && password.length() >= 8;
     }
 
+    /**
+     * Handles login
+     */
     private void onLoginButtonPressed() {
         enableInputs(false);
         String username = usernameTextView.getText().toString();

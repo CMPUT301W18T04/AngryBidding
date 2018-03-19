@@ -21,6 +21,10 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
 import ca.ualberta.angrybidding.ui.activity.main.history.HistoryPageAdapter;
 
+/**
+ * HistoryFragement of MainActivity
+ * Contains TaskPostedFragment and TaskProvidedFragment
+ */
 public class HistoryFragment extends AdvancedFragment implements IMainFragment {
     private HistoryPageAdapter pageAdapter;
     private AppBarLayout appBarLayout;
@@ -82,6 +86,7 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment {
         tabLayout = layout.findViewById(R.id.historyTabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
+        //Add Task floating action button
         this.addTaskActionButton = layout.findViewById(R.id.addTaskActionButton);
         this.addTaskActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +96,7 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment {
             }
         });
 
+        //Add task refresh result
         getContext().addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
             @Override
             public void onResult(Intent intent) {

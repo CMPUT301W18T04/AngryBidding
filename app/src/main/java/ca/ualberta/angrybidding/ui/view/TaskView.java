@@ -179,6 +179,10 @@ public class TaskView extends LinearLayout {
         });
     }
 
+    /**
+     * Opens AddBidActivity
+     * @param listener calls bid is added
+     */
     public void openAddBidActivity(final OnTaskChangeListener listener) {
         ((AdvancedActivity) getContext()).addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
             @Override
@@ -197,10 +201,24 @@ public class TaskView extends LinearLayout {
         ((AdvancedActivity) getContext()).startActivityForResult(bidIntent, AddBidActivity.REQUEST_CODE);
     }
 
+    /**
+     * Opens ViewDetailActivity
+     */
     public void openViewDetailActivity() {
         Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
         getContext().startActivity(detailIntent);
+    }
+
+    /**
+     * Opens EditTaskActivity
+     * @param listener calls when task is edited
+     */
+    public void openEditTaskActivity(final OnTaskChangeListener listener) {
+        Intent editIntent = new Intent(getContext(), EditTaskActivity.class);
+        editIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        editIntent.putExtra("id", elasticSearchTask.getID());
+        ((AdvancedActivity) getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
     }
 
     /**
@@ -210,13 +228,6 @@ public class TaskView extends LinearLayout {
         void onDelete();
 
         void onEdit();
-    }
-
-    public void openEditTaskActivity(final OnTaskChangeListener listener) {
-        Intent editIntent = new Intent(getContext(), EditTaskActivity.class);
-        editIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
-        editIntent.putExtra("id", elasticSearchTask.getID());
-        ((AdvancedActivity) getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
     }
 
 

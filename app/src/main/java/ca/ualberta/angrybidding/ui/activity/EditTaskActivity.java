@@ -15,8 +15,8 @@ import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
-/*
- * This class is used to edit the tasks which are already created
+/**
+ * EditTask a task passed from intent
  */
 public class EditTaskActivity extends AngryBiddingActivity {
     public final static int REQUEST_CODE = 1004;
@@ -90,21 +90,33 @@ public class EditTaskActivity extends AngryBiddingActivity {
         });
     }
 
+    /**
+     * @return Title from EditText
+     */
     public String getEditTitle() {
         titleEditText = findViewById(R.id.editTaskTitle);
         return titleEditText.getText().toString();
     }
 
+    /**
+     * @return Description from EditText
+     */
     public String getEditDescription() {
         descriptionEditText = findViewById(R.id.editTaskDescription);
         return descriptionEditText.getText().toString();
     }
 
+    /**
+     * @return Can task be submitted for update
+     */
     public boolean canSubmit() {
         String title = titleEditText.getText().toString();
         return title.length() >= 1;
     }
 
+    /**
+     * Handles submit for edit task button
+     */
     public void onSubmit() {
         currentTask.setTitle(getEditTitle());
         currentTask.setDescription(getEditDescription());

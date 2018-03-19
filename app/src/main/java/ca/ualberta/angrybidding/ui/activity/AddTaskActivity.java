@@ -31,6 +31,10 @@ public class AddTaskActivity extends AngryBiddingActivity {
     private EditText descriptionEditText;
 
 
+    /**
+     * Color for ActionBar and status bar
+     * @return Color resource ID
+     */
     @Override
     protected int getColorID() {
         return R.color.colorAccentDark;
@@ -99,11 +103,17 @@ public class AddTaskActivity extends AngryBiddingActivity {
         });
     }
 
+    /**
+     * @return Can task be submitted
+     */
     private boolean canSubmit() {
         String title = titleEditText.getText().toString();
         return title.length() >= 1;
     }
 
+    /**
+     * Handles submit
+     */
     private void onSubmitButtonPressed() {
         enableInputs(false);
         final String title = titleEditText.getText().toString();
@@ -134,11 +144,9 @@ public class AddTaskActivity extends AngryBiddingActivity {
         finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
+    /**
+     * @param enabled Should inputs be enabled
+     */
     public void enableInputs(boolean enabled) {
         titleEditText.setEnabled(enabled);
         descriptionEditText.setEnabled(enabled);

@@ -27,24 +27,51 @@ public class ElasticSearchTask extends Task {
     public static final String ELASTIC_SEARCH_INDEX = "task";
     private transient String id;
 
+    /**
+     * @param id ElasticSearch object id
+     * @param user User who created the task
+     * @param title Title of the task
+     * @param description Description of the task
+     * @param locationPoint Location of the task
+     * @param bids Bids of the task
+     */
     public ElasticSearchTask(String id, User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         super(user, title, description, locationPoint, bids);
         this.id = id;
     }
 
+    /**
+     * @param user User who created the task
+     * @param title Title of the task
+     * @param description Description of the task
+     * @param locationPoint Location of the task
+     */
     public ElasticSearchTask(User user, String title, String description, LocationPoint locationPoint, Bid chosenBid) {
         super(user, title, description, locationPoint, chosenBid);
         this.id = id;
     }
 
+    /**
+     * Set ElasticSearch object ID
+     * @param id ElasticSearch object ID
+     */
     private void setID(String id) {
         this.id = id;
     }
 
+    /**
+     * @return ElasticSearch object ID
+     */
     public String getID() {
         return this.id;
     }
 
+    /**
+     * Add a task to the ElasticSearch Server
+     * @param context Context
+     * @param task Task to add
+     * @param listener Listener to call on response
+     */
     public static void addTask(Context context, Task task, AddResponseListener listener) {
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(task));
@@ -55,15 +82,36 @@ public class ElasticSearchTask extends Task {
         }
     }
 
+    /**
+     * Delete a task from the ElasticSearch Server
+     * @param context Context
+     * @param id ID of the task
+     * @param listener Listener to call on response
+     */
     public static void deleteTask(Context context, String id, DeleteResponseListener listener) {
         DeleteRequest deleteRequest = new DeleteRequest(ELASTIC_SEARCH_INDEX, id, listener);
         deleteRequest.submit(context);
     }
 
+    /**
+     * Update a task in the ElasticSearch Server
+     * This should not be used when the ElasticSearchTask object is passed by Gson since
+     * ElasticSearchTask.id is transient which means it will not be parse as string with Gson
+     * @param context Context
+     * @param task Task to edit
+     * @param listener Listener to call on response
+     */
     public static void updateTask(Context context, ElasticSearchTask task, UpdateResponseListener listener) {
         updateTask(context, task.getID(), task, listener);
     }
 
+    /**
+     * Update a task with associated id in the ElasticSearch Server
+     * @param context Context
+     * @param id ID of the task
+     * @param task Task to edit
+     * @param listener Listener to call on response
+     */
     public static void updateTask(Context context, String id, Task task, UpdateResponseListener listener) {
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(task));
@@ -74,6 +122,12 @@ public class ElasticSearchTask extends Task {
         }
     }
 
+    /**
+     * Search and list tasks that matches all keywords in the description
+     * @param context Context
+     * @param keywords List of keywords to search with
+     * @param listener Listener to call on response
+     */
     public static void searchTaskByKeywords(Context context, String[] keywords, final ListTaskListener listener) {
         MatchAndQuery query = new MatchAndQuery();
         for (String keyword : keywords) {
@@ -93,6 +147,11 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    /**
+     * List all tasks
+     * @param context Context
+     * @param listener Listener to call on response
+     */
     public static void listTask(Context context, final ListTaskListener listener) {
         MatchAllQuery query = new MatchAllQuery();
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
@@ -109,6 +168,12 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    /**
+     * List tasks of a user
+     * @param context Context
+     * @param username Username of the user to list
+     * @param listener Listener to call on response
+     */
     public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
@@ -126,6 +191,11 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    /**
+     * Parse SearchResult to an ArrayList of ElasticSearchTask objects
+     * @param searchResult SearchResult to parse
+     * @return List of ElasticSearchTask objects
+     */
     protected static ArrayList<ElasticSearchTask> parseTasks(SearchResult searchResult) {
         ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
         for (int i = 0; i < searchResult.getSearchResultObjects().size(); i++) {
@@ -138,6 +208,9 @@ public class ElasticSearchTask extends Task {
         return tasks;
     }
 
+    /**
+     * Listener for listing task requests
+     */
     public interface ListTaskListener {
         void onResult(ArrayList<ElasticSearchTask> tasks);
 

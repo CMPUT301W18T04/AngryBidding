@@ -20,19 +20,14 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
-/*
- * Create and inflate views for task list
- * Remove and add tasks
- * Refresh the task list
+/**
+ * Fragment with RecyclerView and SwipeRefreshLayout for list of tasks
  */
 public class TaskListFragment extends AdvancedFragment {
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
 
-    /*
-     * This method is used to when the views are created, and it will inflate views
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_task_list, container, false);
@@ -72,8 +67,8 @@ public class TaskListFragment extends AdvancedFragment {
         return fl;
     }
 
-    /*
-     * refresh() will refresh the bid list when it's called
+    /**
+     * Refreshes the list
      */
     public void refresh() {
         if (!swipeRefreshLayout.isRefreshing()) {
@@ -82,24 +77,32 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
-    /*
-     * clear() will clear the task ArrayList
+    /**
+     * Remove existing tasks
      */
     public void clear() {
         tasks.clear();
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
+    /**
+     * Child classes can override this to there own list generation
+     */
     public void onRefresh() {
         clear();
     }
 
+    /**
+     * Set refreshing to false for SwipeRefreshLayout
+     */
     public void finishRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    /*
-     * This method will check if there's a duplicated task in the list
+    /**
+     * Check if there is a duplicate in the list
+     * @param task Task to check
+     * @return Does duplicate exist
      */
     public boolean hasDuplicate(ElasticSearchTask task) {
         for (ElasticSearchTask t : tasks) {
@@ -110,8 +113,9 @@ public class TaskListFragment extends AdvancedFragment {
         return false;
     }
 
-    /*
-     * addTask will add a new task to the ArrayList
+    /**
+     * Add task to the list
+     * @param task Task to add
      */
     public void addTask(ElasticSearchTask task) {
         if (!hasDuplicate(task)) {
@@ -120,8 +124,9 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
-    /*
-     * removeTask will delete a selected task from the ArrayList
+    /**
+     * Removes task from the list
+     * @param task Task to remove
      */
     public void removeTask(ElasticSearchTask task) {
         if (tasks.remove(task)) {
@@ -129,8 +134,10 @@ public class TaskListFragment extends AdvancedFragment {
         }
     }
 
-    /*
-     * onBindView will bind a task to a taskView
+    /**
+     * Bind a task to a TaskView
+     * @param taskView TaskView to bind with
+     * @param task Task to Bind with
      */
     protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
 
@@ -149,9 +156,9 @@ public class TaskListFragment extends AdvancedFragment {
         });
     }
 
-
-    /*
-     * This is the method to create a new taskView
+    /**
+     * Creates new TaskView
+     * @return newly created TaskView
      */
     protected TaskView createTaskView() {
         TaskView taskView = new TaskView(getContext());

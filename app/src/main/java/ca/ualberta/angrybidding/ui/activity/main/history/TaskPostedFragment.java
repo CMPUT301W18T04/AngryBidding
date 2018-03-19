@@ -14,8 +14,9 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
-/*
- * This is the TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.
+/**
+ * The TaskPostedFragment in HistoryFragment, and it will deal with the posted tasks.
+ * Extends TaskListFragment for UI and basic functionality
  */
 public class TaskPostedFragment extends TaskListFragment {
 
@@ -24,7 +25,7 @@ public class TaskPostedFragment extends TaskListFragment {
 
     }
 
-    /*
+    /**
      * onRefresh() will update the task list and get the task list of current
      * user from the elastic search server, and add the tasks to the task ArrayList
      */
@@ -49,6 +50,10 @@ public class TaskPostedFragment extends TaskListFragment {
         });
     }
 
+    /**
+     * Creates new TaskView with margin
+     * @return TaskView with margin
+     */
     @Override
     protected TaskView createTaskView() {
         TaskView taskView = super.createTaskView();

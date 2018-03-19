@@ -39,6 +39,7 @@ public class AddBidActivity extends AngryBiddingActivity {
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
         user = ElasticSearchUser.getMainUser(this);
 
+        // Add textwatcher
         priceEditText = findViewById(R.id.addBidPrice);
         priceEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -81,6 +82,9 @@ public class AddBidActivity extends AngryBiddingActivity {
 
     }
 
+    /**
+     * @return Can bid be submitted
+     */
     public boolean canSubmit() {
         try {
             BigDecimal price = new BigDecimal(priceEditText.getText().toString());
@@ -90,10 +94,16 @@ public class AddBidActivity extends AngryBiddingActivity {
         }
     }
 
+    /**
+     * @return Price enter in priceEditText
+     */
     public BigDecimal getPrice() {
         return new BigDecimal(priceEditText.getText().toString());
     }
 
+    /**
+     * Update task with new bid in it and finishes.
+     */
     public void onSubmit() {
         BigDecimal price = getPrice();
         elasticSearchTask.getBids().add(new Bid(user, price));

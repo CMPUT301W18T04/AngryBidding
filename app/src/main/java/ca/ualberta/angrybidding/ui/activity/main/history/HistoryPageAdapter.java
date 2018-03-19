@@ -7,17 +7,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import ca.ualberta.angrybidding.R;
 
-/*
-* This class is the adapter for the history fragment
-* And it will connect all the history fragments to the UI
-*/
+/**
+ * The adapter for the history fragment
+ * And it will connect all the history fragments to the UI
+ */
 public class HistoryPageAdapter extends FragmentPagerAdapter {
     private TaskPostedFragment taskPostedFragment;
     private TaskProvidedFragment taskProvidedFragment;
     private Context context;
 
-    /*
-     * This method connects the pager to the UI
+    /**
+     * @param fm FragmentManager
+     * @param context Context
      */
     public HistoryPageAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -26,8 +27,10 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
         taskProvidedFragment = new TaskProvidedFragment();
     }
 
-    /*
-     * This method returns task posted fragment and task provided fragment on need
+    /**
+     * Links position with appropriate fragment
+     * @param position
+     * @return Fragment
      */
     @Override
     public Fragment getItem(int position) {
@@ -41,8 +44,10 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
         }
     }
 
-    /*
-     * This method returns the titles for the two pagers
+    /**
+     * Links position with appropriate title
+     * @param position
+     * @return Page Title
      */
     @Override
     public CharSequence getPageTitle(int position) {
@@ -56,15 +61,25 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
         }
     }
 
+    /**
+     * Number of history page fragments
+     * @return
+     */
     @Override
     public int getCount() {
         return 2;
     }
 
+    /**
+     * @return TaskPostedFragment
+     */
     public TaskPostedFragment getTaskPostedFragment() {
         return taskPostedFragment;
     }
 
+    /**
+     * @return TaskProvidedFragment
+     */
     public TaskProvidedFragment getTaskProvidedFragment() {
         return taskProvidedFragment;
     }

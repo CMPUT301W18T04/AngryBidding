@@ -15,6 +15,9 @@ import com.slouple.android.SharedPreferenceChangeListener;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * Fragment for settings
+ */
 public class SettingsFragment extends AdvancedPreferenceFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
@@ -59,9 +62,7 @@ public class SettingsFragment extends AdvancedPreferenceFragment implements IMai
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.fragment_settings);
-        triggerSharedPreferenceChangeListener("mapViewResolution", 4);
 
-        //Zoom In Center
         addSharedPreferenceChangeListener(new SharedPreferenceChangeListener<Boolean>("testSwitch") {
             @Override
             public void onChange(Boolean value) {

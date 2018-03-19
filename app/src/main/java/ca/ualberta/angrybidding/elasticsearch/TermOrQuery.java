@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Get all data that passes one of the terms
+ */
 public class TermOrQuery extends SearchQuery {
     private JSONObject disMax;
     private JSONArray queries;
@@ -22,6 +25,11 @@ public class TermOrQuery extends SearchQuery {
         }
     }
 
+    /**
+     * Add a term for the query
+     * @param field Field name
+     * @param value Field value to match
+     */
     public void addTerm(String field, String value) {
         try {
             JSONObject term = new JSONObject();
@@ -34,7 +42,13 @@ public class TermOrQuery extends SearchQuery {
         }
     }
 
-    public void addRange(String field, String value, String from, String to) {
+    /**
+     * Add a range for the query
+     * @param field Field name
+     * @param from Min inclusive value
+     * @param to Max inclusive value
+     */
+    public void addRange(String field, String from, String to) {
         try {
             JSONObject range = new JSONObject();
             JSONObject fieldJson = new JSONObject();
@@ -49,10 +63,16 @@ public class TermOrQuery extends SearchQuery {
         }
     }
 
+    /**
+     * @return dis_max JSONObject inside query
+     */
     public JSONObject getDisMax() {
         return this.disMax;
     }
 
+    /**
+     * @return queries JSONArray inside dis_max
+     */
     public JSONArray getQueries() {
         return this.queries;
     }

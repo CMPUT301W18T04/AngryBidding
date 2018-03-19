@@ -10,8 +10,9 @@ import android.widget.TextView;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 
-/*
- * TaskView is the class of task view, which is used to show tasks on the UI
+
+/**
+ * View for displaying a simple summary of a task including title, username and description
  */
 public class TaskView extends LinearLayout {
     protected ElasticSearchTask elasticSearchTask;
@@ -20,9 +21,6 @@ public class TaskView extends LinearLayout {
     protected TextView titleTextView;
     protected TextView ownerTextView;
 
-    /*
-     * Three types of constructor of taskView
-     */
     public TaskView(Context context) {
         this(context, null);
     }
@@ -36,9 +34,9 @@ public class TaskView extends LinearLayout {
         init();
     }
 
-    /*
+    /**
      * loadViews() inflates the LinearLayout and connect contents(title and owner of the task) to
-     * the ID in resource file
+     * the ID in layout file
      */
     protected void loadViews() {
         container = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_task, this, true);
@@ -47,12 +45,16 @@ public class TaskView extends LinearLayout {
         ownerTextView = findViewById(R.id.taskOwner);
     }
 
+    /**
+     * Initialize
+     */
     protected void init() {
         loadViews();
     }
 
-    /*
-     * Set a taskView to a specific task, which is to set the information of that task
+    /**
+     * Binds specific task to this view
+     * @param task Task object to bind
      */
     public void setTask(ElasticSearchTask task) {
         this.elasticSearchTask = task;
@@ -71,18 +73,30 @@ public class TaskView extends LinearLayout {
         }
     }
 
+    /**
+     * @return View container
+     */
     public LinearLayout getContainer() {
         return container;
     }
 
+    /**
+     * @return Task that is currently binded to the view
+     */
     public ElasticSearchTask getElasticSearchTask() {
         return elasticSearchTask;
     }
 
+    /**
+     * @return Title TextView
+     */
     public TextView getTitleTextView() {
         return titleTextView;
     }
 
+    /**
+     * @return Owner/Username TextView
+     */
     public TextView getOwnerTextView() {
         return ownerTextView;
     }

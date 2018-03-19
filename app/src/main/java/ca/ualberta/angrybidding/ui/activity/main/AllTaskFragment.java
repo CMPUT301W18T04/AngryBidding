@@ -20,6 +20,9 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
+/**
+ * Debug fragment for listing all tasks that is in the ElasticSearch
+ */
 public class AllTaskFragment extends TaskListFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
@@ -71,6 +74,9 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
         super.onAttach(context);
     }
 
+    /**
+     * Lists all tasks in the ElasticSearch
+     */
     @Override
     public void onRefresh() {
         super.onRefresh();
@@ -89,6 +95,10 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
         });
     }
 
+    /**
+     * Creates new TaskView with margin
+     * @return TaskView with margin
+     */
     @Override
     protected TaskView createTaskView() {
         TaskView taskView = super.createTaskView();

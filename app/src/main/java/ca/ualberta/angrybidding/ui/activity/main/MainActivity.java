@@ -30,6 +30,11 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 
+/**
+ * Activity that incorporates all basic app fragments
+ * Fragments can be added and removed
+ * Extends AdvancedActivity
+ */
 public class MainActivity extends AngryBiddingActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fm;
@@ -56,14 +61,17 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
+        //Set navigationView
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         navigationView.setItemTextColor(null);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //AppBar
         appBarMain = (CoordinatorLayout) findViewById(R.id.app_bar_main);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        //Account image and text click
         View.OnClickListener accountClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +96,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             }
         };
 
+        //Header, including user image and user displayName
         View header = navigationView.getHeaderView(0);
         avatarView = header.findViewById(R.id.userAvatarImageView);
         avatarView.setOnClickListener(accountClickListener);
@@ -95,11 +104,13 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         displayNameView.setOnClickListener(accountClickListener);
 
 
+        //If user is not logged in, open LoginActivity
         if (getElasticSearchUser() == null) {
             startActivity(LoginActivity.class);
             finish();
         } else {
             displayNameView.setText(getElasticSearchUser().getUsername());
+            //Added all fragments
             addFragment(R.id.nav_history, new HistoryFragment(), true);
             addFragment(R.id.nav_search, new SearchFragment(), true);
             addFragment(R.id.nav_nearby, new NearbyFragment(), true);
@@ -120,6 +131,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             Log.d("MainActivity", "Restoring Saved Instance State");
+            //Load savedFragmentsID
             savedFragmentID = savedInstanceState.getInt("currentFragmentID");
         }
     }
@@ -137,6 +149,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         handleIntent(intent);
     }
 
+    //Handles intent which specifies which fragment to display on start
     public void handleIntent(Intent intent) {
         if (intent == null || intent.getExtras() == null) {
             return;
@@ -166,6 +179,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         if (savedInstanceState == null) {
             savedInstanceState = new Bundle();
         }
+        //Save currentFragmentID
         savedInstanceState.putInt("currentFragmentID", currentFragmentID);
     }
 
@@ -180,11 +194,22 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         Log.d("MainActivity", "Finished onStart");
     }
 
+    /**
+     * Color of the status bar
+     * Override from AdvancedActivity
+     * @return color of the status bar
+     */
     @Override
     protected int getColorID() {
         return R.color.colorPrimaryDark;
     }
 
+    /**
+     * Add fragment to the activity
+     * @param drawerID The drawer ID links to the fragment. This is also used to distinguish between different fragments.
+     * @param fragment The fragment to add
+     * @param preserve Should the fragment be preserved when switched to other fragments
+     */
     public void addFragment(int drawerID, Fragment fragment, boolean preserve) {
         Fragment savedFragment = fm.findFragmentByTag(String.valueOf(drawerID));
         if (savedFragment == null) {
@@ -199,6 +224,10 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
+    /**
+     * Remove a fragment
+     * @param drawerID DrawerID of the fragment
+     */
     public void removeFragment(int drawerID) {
         MainFragmentEntry fragmentEntry = fragmentList.get(drawerID);
         if (fragmentEntry != null) {
@@ -212,7 +241,11 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
-    //Use setCurrentFragment instead
+    /**
+     * Use setCurrentFragment instead
+     * Does not handle drawer
+     * @param drawerID
+     */
     private void switchFragment(int drawerID) {
         MainFragmentEntry fragmentEntry = fragmentList.get(drawerID);
         if (drawerID == currentFragmentID || fragmentEntry == null) {
@@ -246,6 +279,10 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
+    /**
+     * Set AppBarLayout to the one from fragment
+     * @param fragment
+     */
     private void setFragmentAppBarLayout(final IMainFragment fragment) {
         if (currentAppBarLayout != null) {
             appBarMain.removeView(currentAppBarLayout);
@@ -262,6 +299,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         toggle.syncState();
         fragment.onActionBarAdded(getSupportActionBar());
 
+        //Set main container margin depending on fragment shouldOffsetForToolbar
         final CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT);
         if (fragment.shouldOffsetForToolbar()) {
             ViewTreeObserver observer = toolbar.getViewTreeObserver();
@@ -282,10 +320,17 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
+    /**
+     * @param drawerID DrawerID of the fragment
+     * @return The fragment linked with the drawerID
+     */
     public Fragment getFragment(int drawerID) {
         return fragmentList.get(drawerID).getFragment();
     }
 
+    /**
+     * Updates drawer menu depending on which fragment is added
+     */
     public void updateDrawerMenu() {
         for (int i = 0; i < navigationView.getMenu().size(); i++) {
             MenuItem item = navigationView.getMenu().getItem(i);
@@ -297,15 +342,25 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         }
     }
 
+    /**
+     * Switch current fragment by triggering drawer
+     * @param id drawerID of the fragment
+     */
     public void setCurrentFragment(int id) {
         navigationView.setCheckedItem(id);
         onNavigationItemSelected(id);
     }
 
+    /**
+     * @return The current fragment being displayed
+     */
     public Fragment getCurrentFragment() {
         return getFragment(getCurrentFragmentID());
     }
 
+    /**
+     * @return DrawerID of the current fragment being displayed
+     */
     public int getCurrentFragmentID() {
         return currentFragmentID;
     }
@@ -316,7 +371,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             drawer.closeDrawer(GravityCompat.START);
         } else if (!(getCurrentFragment() instanceof IMainFragment) ||
                 !((IMainFragment) getCurrentFragment()).onBackPressed()) {
-
+            //Returns to history fragment instead of closing
             if (currentFragmentID != R.id.nav_history) {
                 setCurrentFragment(R.id.nav_history);
             } else {
@@ -337,6 +392,9 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         return true;
     }
 
+    /**
+     * Data type for storing a main fragment and its values
+     */
     private class MainFragmentEntry {
         private Fragment fragment;
         private boolean preserve;

@@ -5,6 +5,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Basic ElasticSearch Search Query
+ */
 public class SearchQuery {
     private JSONObject root;
     private JSONObject query;
@@ -17,13 +20,19 @@ public class SearchQuery {
         } catch (JSONException e) {
             Log.e("SearchQuery", e.getMessage(), e);
         }
-        setSize(1000);
+        setSize(1000); //Defaults size to 1000
     }
 
+    /**
+     * @return root JSONObject for the body
+     */
     public JSONObject getRoot() {
         return this.root;
     }
 
+    /**
+     * @return query JSONObject inside root
+     */
     public JSONObject getQuery() {
         return this.query;
     }
@@ -36,6 +45,10 @@ public class SearchQuery {
         }
     }
 
+    /**
+     * Set max result size
+     * @param size Maximum result size
+     */
     public void setSize(int size) {
         try {
             root.put("size", size);

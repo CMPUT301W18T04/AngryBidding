@@ -14,6 +14,9 @@ import com.slouple.android.AdvancedFragment;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * Fragment to display all tasks on a map around user
+ */
 public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
