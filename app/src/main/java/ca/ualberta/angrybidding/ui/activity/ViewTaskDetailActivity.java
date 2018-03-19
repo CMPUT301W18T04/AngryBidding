@@ -7,24 +7,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
+import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.ui.view.BidView;
 
 public class ViewTaskDetailActivity extends AdvancedActivity {
     private ElasticSearchTask elasticSearchTask;
+    private User user;
+    private String id;
 
     private TextView titleTextView;
     private TextView ownerTextView;
     private TextView descriptionTextView;
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
-
     /**
      * Creates ViewTaskDetailActivity
      * Gets task object from Intent using Gson
@@ -39,7 +45,9 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
 
         Intent intent = getIntent();
         String taskJson = intent.getStringExtra("task");
+        id = intent.getStringExtra("id");
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
+        user = ElasticSearchUser.getMainUser(this);
 
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
@@ -59,11 +67,25 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
                 @Override
                 public BidView createView(int i) {
                     return new BidView(ViewTaskDetailActivity.this);
+
                 }
 
                 @Override
-                public void onBindView(BidView bidView, Bid bid) {
+                public void onBindView(BidView bidView, final Bid bid) {
                     bidView.setBid(bid);
+                    if (elasticSearchTask.getUser().equals(user)) {
+                        bidView.useBidPopupMenu(bid, new BidView.OnBidActionListener() {
+                            @Override
+                            public void onDecline() {
+                                ViewTaskDetailActivity.this.onDecline(bid);
+                            }
+
+                            @Override
+                            public void onAccept() {
+                                ViewTaskDetailActivity.this.onAccept(bid);
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -73,6 +95,37 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
             });
             bidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
+    }
+
+    public void onDecline (Bid bid) {
+        elasticSearchTask.getBids().remove(bid);
+        updateFinish();
+
+    }
+
+    public void onAccept (Bid bid) {
+        elasticSearchTask.setChosenBid(bid);
+        updateFinish();
+    }
+
+    public void updateFinish() {
+        ElasticSearchTask.updateTask(this, id, elasticSearchTask, new UpdateResponseListener() {
+            @Override
+            public void onCreated(String id) {
+
+            }
+
+            @Override
+            public void onUpdated(int version) {
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
 }

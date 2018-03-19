@@ -200,6 +200,7 @@ public class TaskView extends LinearLayout {
     public void openViewDetailActivity() {
         Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        detailIntent.putExtra("id", elasticSearchTask.getID());
         getContext().startActivity(detailIntent);
     }
 

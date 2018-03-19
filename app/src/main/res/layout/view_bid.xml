@@ -7,6 +7,15 @@
     android:background="@color/colorContentBackground"
     android:orientation="vertical">
 
+    <com.slouple.android.widget.button.PopupMenuButton
+        android:id="@+id/BidPopupMenuButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_more_horiz" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
