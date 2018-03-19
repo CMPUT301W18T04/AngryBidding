@@ -1,4 +1,4 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.instrumented;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
+
+import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.User;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

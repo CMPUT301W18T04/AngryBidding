@@ -1,9 +1,11 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.instrumented;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ca.ualberta.angrybidding.User;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -15,20 +17,21 @@ import static org.junit.Assert.assertThat;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ElasticSearchUserInstrumentedTest {
+public class UserInstrumentedTest {
     public static final String USERNAME = "Carl";
     public static final String EMAIL_ADDRESS = "Carl@ualberta.ca";
-    public static final String PASSWORD_HASH = "123456asdfgh";
-    public static final String ID = "abcde";
-
 
     @Test
-    public void elasticSearchUserConstructor() {
-        ElasticSearchUser newUser = new ElasticSearchUser(ID, USERNAME, PASSWORD_HASH, EMAIL_ADDRESS);
-        assertThat(newUser.getID(), is(ID));
+    public void userConstructor() {
+        User newUser = new User(USERNAME);
         assertThat(newUser.getUsername(), is(USERNAME.toLowerCase()));
-        assertThat(newUser.getPasswordHash(), is(PASSWORD_HASH));
-        assertThat(newUser.getEmailAddress(), is(EMAIL_ADDRESS.toLowerCase()));
+        assertEquals(newUser.getEmailAddress(), null);
+    }
 
+    @Test
+    public void userConstructorEmail() {
+        User newUser = new User(USERNAME, EMAIL_ADDRESS);
+        assertThat(newUser.getUsername(), is(USERNAME.toLowerCase()));
+        assertThat(newUser.getEmailAddress(), is(EMAIL_ADDRESS.toLowerCase()));
     }
 }
