@@ -5,8 +5,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.view.MenuItem;
+import android.view.View;
+import android.support.v7.widget.PopupMenu;
+
+import com.slouple.android.widget.button.PopupMenuButton;
 
 import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 
 /**
@@ -15,10 +21,12 @@ import ca.ualberta.angrybidding.R;
  */
 public class BidView extends FrameLayout {
     protected Bid bid;
+    protected ElasticSearchTask elasticSearchTask;
 
     protected FrameLayout container;
     protected TextView usernameTextView;
     protected TextView priceTextView;
+    protected PopupMenuButton popupMenuButton;
 
     public BidView(Context context) {
         this(context, null);
@@ -41,6 +49,7 @@ public class BidView extends FrameLayout {
 
         usernameTextView = findViewById(R.id.bidUsername);
         priceTextView = findViewById(R.id.bidPrice);
+        popupMenuButton = findViewById(R.id.BidPopupMenuButton);
     }
 
     /**
@@ -59,6 +68,7 @@ public class BidView extends FrameLayout {
         this.bid = bid;
         usernameTextView.setText(bid.getUser().getUsername());
         priceTextView.setText(bid.getPriceString());
+        popupMenuButton.setVisibility(View.GONE);
     }
 
     public FrameLayout getContainer() {
@@ -75,5 +85,53 @@ public class BidView extends FrameLayout {
 
     public TextView getPriceTextView() {
         return priceTextView;
+    }
+
+    public PopupMenuButton getPopupMenuButton() {
+        return popupMenuButton;
+    }
+
+    public void useBidPopupMenu(final Bid bid) {
+        this.bid = bid;
+        popupMenuButton.setVisibility(View.VISIBLE);
+        getPopupMenuButton().getPopupMenu().getMenu().clear();
+        getPopupMenuButton().setMenuRes(R.menu.bid_popup);
+        getPopupMenuButton().getPopupMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.BidPopupAccept:
+                        //elasticSearchTask.setChosenBid(bid);
+                        //elasticSearchTask.getBids().clear();
+                        break;
+                    case R.id.BidPopupDecline:
+                        //final OnBidChangeListener listener
+                        /*elasticSearchTask.getBids().remove(bid);
+                        ElasticSearchTask.updateTask(getContext(), elasticSearchTask.getID(), elasticSearchTask, new DeleteResponseListener() {
+                            @Override
+                            public void onDeleted(String id) {
+                                listener.onDelete();
+                            }
+
+                            @Override
+                            public void onNotFound() {
+
+                            }
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("TaskView", "taskView: " + error);
+                            }
+                        });*/
+                        break;
+                }
+
+                return true;
+            }
+        });
+    }
+
+    public interface OnBidChangeListener {
+        void onDelete();
     }
 }

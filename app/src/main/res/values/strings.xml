@@ -28,4 +28,6 @@
     <string name="submitBid">Submit Bid</string>
     <string name="keywords">Keywords</string>
     <string name="searchKeywords">Search Keywords</string>
+    <string name="Accept">Accept Bid</string>
+    <string name="Decline">Decline Bid</string>
 </resources>

@@ -13,11 +13,14 @@ import com.slouple.android.widget.adapter.DummyAdapter;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.ui.view.BidView;
 
 public class ViewTaskDetailActivity extends AdvancedActivity {
     private ElasticSearchTask elasticSearchTask;
+    private User user;
 
     private TextView titleTextView;
     private TextView ownerTextView;
@@ -40,6 +43,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         Intent intent = getIntent();
         String taskJson = intent.getStringExtra("task");
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
+        user = ElasticSearchUser.getMainUser(this);
 
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
@@ -59,11 +63,15 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
                 @Override
                 public BidView createView(int i) {
                     return new BidView(ViewTaskDetailActivity.this);
+
                 }
 
                 @Override
                 public void onBindView(BidView bidView, Bid bid) {
                     bidView.setBid(bid);
+                    if (elasticSearchTask.getUser().equals(user)) {
+                        bidView.useBidPopupMenu(bid);
+                    }
                 }
 
                 @Override
