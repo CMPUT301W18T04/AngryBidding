@@ -91,7 +91,13 @@ public class BidView extends FrameLayout {
         return popupMenuButton;
     }
 
-    public void useBidPopupMenu(final Bid bid) {
+    /** Use and show the popup menu.
+     * Evokes different actions for different cases
+     *
+     * @param bid The bid selected
+     * @param listener The listener to be called when user chooses accept or decline
+     */
+    public void useBidPopupMenu(final Bid bid, final OnBidActionListener listener) {
         this.bid = bid;
         popupMenuButton.setVisibility(View.VISIBLE);
         getPopupMenuButton().getPopupMenu().getMenu().clear();
@@ -101,28 +107,11 @@ public class BidView extends FrameLayout {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.BidPopupAccept:
-                        //elasticSearchTask.setChosenBid(bid);
-                        //elasticSearchTask.getBids().clear();
+                        listener.onAccept();
                         break;
+
                     case R.id.BidPopupDecline:
-                        //final OnBidChangeListener listener
-                        /*elasticSearchTask.getBids().remove(bid);
-                        ElasticSearchTask.updateTask(getContext(), elasticSearchTask.getID(), elasticSearchTask, new DeleteResponseListener() {
-                            @Override
-                            public void onDeleted(String id) {
-                                listener.onDelete();
-                            }
-
-                            @Override
-                            public void onNotFound() {
-
-                            }
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("TaskView", "taskView: " + error);
-                            }
-                        });*/
+                        listener.onDecline();
                         break;
                 }
 
@@ -131,7 +120,11 @@ public class BidView extends FrameLayout {
         });
     }
 
-    public interface OnBidChangeListener {
-        void onDelete();
+    /**
+     * The listener called on decline or accept
+     */
+    public interface OnBidActionListener {
+        void onDecline();
+        void onAccept();
     }
 }
