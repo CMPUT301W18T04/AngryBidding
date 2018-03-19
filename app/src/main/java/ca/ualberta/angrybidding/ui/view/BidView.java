@@ -92,7 +92,7 @@ public class BidView extends FrameLayout {
     }
 
     /** Use and show the popup menu.
-     * Evokes different actions for different cases
+     *  Evokes different actions for different cases
      *
      * @param bid The bid selected
      * @param listener The listener to be called when user chooses accept or decline
