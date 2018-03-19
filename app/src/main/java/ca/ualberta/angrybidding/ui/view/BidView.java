@@ -91,6 +91,12 @@ public class BidView extends FrameLayout {
         return popupMenuButton;
     }
 
+    /** Use and show the popup menu.
+     * Evokes different actions for different cases
+     *
+     * @param bid The bid selected
+     * @param listener The listener to be called when user chooses accept or decline
+     */
     public void useBidPopupMenu(final Bid bid, final OnBidActionListener listener) {
         this.bid = bid;
         popupMenuButton.setVisibility(View.VISIBLE);
@@ -114,6 +120,9 @@ public class BidView extends FrameLayout {
         });
     }
 
+    /**
+     * The listener called on decline or accept
+     */
     public interface OnBidActionListener {
         void onDecline();
         void onAccept();

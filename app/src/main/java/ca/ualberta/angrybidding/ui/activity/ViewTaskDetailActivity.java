@@ -59,6 +59,7 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
 
+
         if (elasticSearchTask.getBids().size() < 1) {
             bidsLable.setVisibility(View.GONE);
             bidRecyclerView.setVisibility(View.GONE);
@@ -70,6 +71,12 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
 
                 }
 
+                /** Sets the list view of Bids
+                 *  Checks if Task detail view user is owner or not and displays popup menu accordingly
+                 *
+                 * @param bidView view of bid list
+                 * @param bid The bid in bid list
+                 */
                 @Override
                 public void onBindView(BidView bidView, final Bid bid) {
                     bidView.setBid(bid);
@@ -97,17 +104,28 @@ public class ViewTaskDetailActivity extends AdvancedActivity {
         }
     }
 
+    /**Removes or Declines selected bid
+     *
+     * @param bid The selected bid
+     */
     public void onDecline (Bid bid) {
         elasticSearchTask.getBids().remove(bid);
         updateFinish();
 
     }
 
+    /**Removes bids from bid list except Accepted(chosen) bid
+     *
+     * @param bid The selected bid
+     */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
         updateFinish();
     }
 
+    /**
+     * Updates the change
+     */
     public void updateFinish() {
         ElasticSearchTask.updateTask(this, id, elasticSearchTask, new UpdateResponseListener() {
             @Override
