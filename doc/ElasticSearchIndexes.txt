@@ -23,9 +23,10 @@
         "locationPoint":      { "type": "object" },
         "latitude":      { "type": "double" },
         "longitude":      { "type": "double" },
-        "completed":     { "type": "boolean"  },
         "bids":     { "type": "nested"  },
-        "price":      { "type": "double" }
+        "price":      { "type": "double" },
+        "status":     { "type": "keyword" },
+        "dateTime":     { "type": "date" }
       }
     }
   }
