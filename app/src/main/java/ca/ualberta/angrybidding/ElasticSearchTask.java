@@ -42,17 +42,6 @@ public class ElasticSearchTask extends Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
-     * @param locationPoint Location of the task
-     */
-    public ElasticSearchTask(String id, User user, String title, String description, LocationPoint locationPoint, Bid chosenBid) {
-        super(user, title, description, locationPoint, chosenBid);
-        this.id = id;
-    }
-
-    /**
      * Set ElasticSearch object ID
      * @param id ElasticSearch object ID
      */
