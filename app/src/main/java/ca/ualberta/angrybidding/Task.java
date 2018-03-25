@@ -119,6 +119,7 @@ public class Task {
     public void setChosenBid(Bid chosenBid) {
         this.chosenBid = chosenBid;
         this.getBids().clear();
+        updateStatus();
     }
 
     /**
