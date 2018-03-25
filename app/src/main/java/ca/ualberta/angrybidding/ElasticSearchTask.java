@@ -19,6 +19,7 @@ import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
+import ca.ualberta.angrybidding.elasticsearch.SearchSort;
 import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
@@ -133,6 +134,10 @@ public class ElasticSearchTask extends Task {
         for (String keyword : keywords) {
             query.addMatch("description", keyword);
         }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("_score", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -154,6 +159,10 @@ public class ElasticSearchTask extends Task {
      */
     public static void listTask(Context context, final ListTaskListener listener) {
         MatchAllQuery query = new MatchAllQuery();
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -168,15 +177,54 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    public static void listTaskByUser(Context context, String username, final ListTaskListener listener){
+        listTaskByUser(context, username, null, listener);
+    }
+
     /**
      * List tasks of a user
      * @param context Context
      * @param username Username of the user to list
      * @param listener Listener to call on response
      */
-    public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
+    public static void listTaskByUser(Context context, String username, Status status, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
+        if(status != null){
+            query.addTerm("status", status.toString());
+        }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
+    public static void listTaskByChosenUser(Context context, String username, final ListTaskListener listener) {
+        listTaskByChosenUser(context, username, null, listener);
+    }
+
+    public static void listTaskByChosenUser(Context context, String username, Status status, final ListTaskListener listener) {
+        TermAndQuery query = new TermAndQuery();
+        query.addTerm("chosenBid.user.username", username.toLowerCase().trim());
+        if(status != null){
+            query.addTerm("status", status.toString());
+        }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {

@@ -1,6 +1,9 @@
 package ca.ualberta.angrybidding;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Task model class
@@ -13,7 +16,8 @@ public class Task {
     private LocationPoint locationPoint;
     private Bid chosenBid;
     private ArrayList<Bid> bids;
-    private boolean completed = false;
+    private Status status;
+    private Date dateTime;
 
     /**
      * @param user User who created the task
@@ -22,6 +26,8 @@ public class Task {
     public Task(User user, String title) {
         this.user = user;
         this.title = title;
+        this.status = Status.REQUESTED;
+        this.dateTime = new Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
     }
 
     /**
@@ -147,18 +153,52 @@ public class Task {
         return this.locationPoint;
     }
 
-    /**
-     * Set Task to completed or not
-     * @param completed Is task completed
-     */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void updateStatus(){
+        if(this.status == Status.COMPLETED){
+            return;
+        }else if(getChosenBid() != null){
+            this.status = Status.ASSIGNED;
+        }else if(getBids().size() == 0){
+            this.status = Status.REQUESTED;
+        }else{
+            this.status = Status.BIDDED;
+        }
     }
 
-    /**
-     * @return Is task completed
-     */
-    public boolean isCompleted() {
-        return this.completed;
+    public Status getStatus(){
+        updateStatus();
+        return this.status;
+    }
+
+    public void setCompleted(){
+        if(getStatus() == Status.ASSIGNED){
+            this.status = Status.COMPLETED;
+        }
+    }
+
+    public Date getDateTime(){
+        return this.dateTime;
+    }
+
+    public enum Status{
+        REQUESTED,
+        BIDDED,
+        ASSIGNED,
+        COMPLETED;
+
+        public static Status getStatus(String statusString){
+            statusString = statusString.trim().toLowerCase();
+            if(statusString.equalsIgnoreCase("requested")){
+                return REQUESTED;
+            }else if(statusString.equalsIgnoreCase("bidded")){
+                return BIDDED;
+            }else if(statusString.equalsIgnoreCase("assigned")){
+                return ASSIGNED;
+            }else if(statusString.equalsIgnoreCase("completed")){
+                return COMPLETED;
+            }else{
+                return null;
+            }
+        }
     }
 }
