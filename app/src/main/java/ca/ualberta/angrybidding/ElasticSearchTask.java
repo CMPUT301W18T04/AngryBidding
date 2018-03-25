@@ -168,15 +168,22 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    public static void listTaskByUser(Context context, String username, final ListTaskListener listener){
+        listTaskByUser(context, username, null, listener);
+    }
+
     /**
      * List tasks of a user
      * @param context Context
      * @param username Username of the user to list
      * @param listener Listener to call on response
      */
-    public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
+    public static void listTaskByUser(Context context, String username, Status status, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
+        if(status != null){
+            query.addTerm("status", status.toString());
+        }
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
