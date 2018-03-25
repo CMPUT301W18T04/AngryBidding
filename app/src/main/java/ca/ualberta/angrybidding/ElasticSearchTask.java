@@ -19,6 +19,7 @@ import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
+import ca.ualberta.angrybidding.elasticsearch.SearchSort;
 import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
@@ -133,6 +134,10 @@ public class ElasticSearchTask extends Task {
         for (String keyword : keywords) {
             query.addMatch("description", keyword);
         }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("_score", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -154,6 +159,10 @@ public class ElasticSearchTask extends Task {
      */
     public static void listTask(Context context, final ListTaskListener listener) {
         MatchAllQuery query = new MatchAllQuery();
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -184,6 +193,10 @@ public class ElasticSearchTask extends Task {
         if(status != null){
             query.addTerm("status", status.toString());
         }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -208,6 +221,10 @@ public class ElasticSearchTask extends Task {
         if(status != null){
             query.addTerm("status", status.toString());
         }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {

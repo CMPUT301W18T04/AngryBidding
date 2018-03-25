@@ -57,5 +57,13 @@ public class SearchQuery {
         }
     }
 
+    public void addSearchSort(SearchSort searchSort){
+        try {
+            root.put("sort", searchSort.getSort());
+        } catch (JSONException e) {
+            Log.e("SearchQuery", e.getMessage(), e);
+        }
+    }
+
 
 }
