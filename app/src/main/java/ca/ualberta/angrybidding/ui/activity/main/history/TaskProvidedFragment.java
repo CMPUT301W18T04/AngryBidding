@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
+import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
 
 /**
  * The TaskPostedFragment in HistoryFragment, and it will deal with the provided tasks.
  * Extends TaskListFragment for UI and basic functionality
  */
-public class TaskProvidedFragment extends TaskListFragment {
+public class TaskProvidedFragment extends TaskStatusListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
