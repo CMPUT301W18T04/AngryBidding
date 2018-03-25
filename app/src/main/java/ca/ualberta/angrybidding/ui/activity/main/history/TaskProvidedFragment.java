@@ -2,6 +2,10 @@ package ca.ualberta.angrybidding.ui.activity.main.history;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.android.volley.VolleyError;
 
@@ -9,6 +13,8 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
+import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
 
@@ -22,6 +28,16 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
 
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.taskProvidedStatusArray, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        return view;
+    }
+
     /**
      * onRefresh() will update the task list and get the task list of current
      * user from the elastic search server, and add the tasks to the task ArrayList
@@ -29,7 +45,8 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        ElasticSearchTask.listTaskByUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchTask.ListTaskListener() {
+        Task.Status spinnerStatus = Task.Status.getStatus(super.getSelectedSpinnerItem());
+        ElasticSearchTask.ListTaskListener listener = new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
                 tasks.addAll(newTasks);
@@ -37,13 +54,16 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
                 finishRefresh();
             }
 
-            /*
-             * Show message when a error occurs
-             */
             @Override
             public void onError(VolleyError error) {
-                Log.e("TaskPostedFragment", error.getMessage(), error);
+                Log.e("TaskProvidedFragment", error.getMessage(), error);
             }
-        });
+        };
+        if (spinnerStatus == Task.Status.BIDDED){
+            ElasticSearchTask.listTaskByBiddedUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
+        }else{
+            ElasticSearchTask.listTaskByChosenUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
+        }
+
     }
 }

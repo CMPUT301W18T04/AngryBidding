@@ -31,8 +31,40 @@ public class TaskStatusListFragment extends TaskListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        spinner = view.findViewById(R.id.historySpinner);
+
+        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_task_status_list, container, false);
+        fl.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
+
+        swipeRefreshLayout = (SwipeRefreshLayout) fl.findViewById(R.id.taskListSwipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                TaskStatusListFragment.this.onRefresh();
+            }
+        });
+
+        recyclerView = (RecyclerView) fl.findViewById(R.id.taskListRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new DummyAdapter<ElasticSearchTask, TaskView>(tasks) {
+            @Override
+            public TaskView createView(int viewType) {
+                return createTaskView();
+            }
+
+            @Override
+            public void onBindView(TaskView view, ElasticSearchTask item) {
+                TaskStatusListFragment.this.onBindView(view, item);
+            }
+
+            @Override
+            public void onReachingLastItem(int i) {
+
+            }
+
+        });
+
+        spinner = fl.findViewById(R.id.taskListStatusSpinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -47,11 +79,12 @@ public class TaskStatusListFragment extends TaskListFragment {
         });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.statusStringArray, android.R.layout.simple_spinner_item);
+                R.array.taskStatusArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        return view;
+        refresh();
+        return fl;
     }
 
     public String getSelectedSpinnerItem() {
