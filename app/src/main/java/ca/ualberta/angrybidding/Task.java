@@ -184,6 +184,21 @@ public class Task {
         REQUESTED,
         BIDDED,
         ASSIGNED,
-        COMPLETED
+        COMPLETED;
+
+        public static Status getStatus(String statusString){
+            statusString = statusString.trim().toLowerCase();
+            if(statusString.equalsIgnoreCase("requested")){
+                return REQUESTED;
+            }else if(statusString.equalsIgnoreCase("bidded")){
+                return BIDDED;
+            }else if(statusString.equalsIgnoreCase("assigned")){
+                return ASSIGNED;
+            }else if(statusString.equalsIgnoreCase("completed")){
+                return COMPLETED;
+            }else{
+                return null;
+            }
+        }
     }
 }
