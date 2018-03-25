@@ -198,6 +198,30 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
+    public static void listTaskByChosenUser(Context context, String username, final ListTaskListener listener) {
+        listTaskByChosenUser(context, username, null, listener);
+    }
+
+    public static void listTaskByChosenUser(Context context, String username, Status status, final ListTaskListener listener) {
+        TermAndQuery query = new TermAndQuery();
+        query.addTerm("chosenBid.user.username", username.toLowerCase().trim());
+        if(status != null){
+            query.addTerm("status", status.toString());
+        }
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
     /**
      * Parse SearchResult to an ArrayList of ElasticSearchTask objects
      * @param searchResult SearchResult to parse
