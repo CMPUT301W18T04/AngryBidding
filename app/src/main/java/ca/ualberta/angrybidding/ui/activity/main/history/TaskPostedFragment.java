@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
@@ -34,10 +35,11 @@ public class TaskPostedFragment extends TaskStatusListFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        ElasticSearchTask.listTaskByUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchTask.ListTaskListener() {
+        String spinnerStatus = super.getSelectedSpinnerItem();
+        ElasticSearchTask.listTaskByUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), Task.Status.getStatus(spinnerStatus), new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
-                checkSpinner(newTasks);
+                tasks.addAll(newTasks);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 finishRefresh();
             }
@@ -65,21 +67,4 @@ public class TaskPostedFragment extends TaskStatusListFragment {
         return taskView;
     }
 
-    protected void checkSpinner(ArrayList<ElasticSearchTask> newTasks){
-        String spinner = super.getSelectedSpinnerItem();
-        if (spinner == null || spinner.isEmpty()){
-            tasks.addAll(newTasks);
-            return;
-        }else if(spinner. == "requested"){
-
-        }else if(spinner == "bidded"){
-
-        }else if(spinner == "assigned"){
-
-        }else if(spinner == "completed"){
-
-        }
-
-
-    }
 }
