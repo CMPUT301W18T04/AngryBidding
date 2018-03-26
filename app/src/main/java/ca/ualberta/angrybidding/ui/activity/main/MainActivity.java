@@ -23,10 +23,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 

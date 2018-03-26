@@ -42,6 +42,20 @@ public class MatchAndQuery extends SearchQuery {
         }
     }
 
+    @Override
+    public void addNestedQuery(String path, SearchQuery searchQuery){
+        try {
+            JSONObject wrapper = new JSONObject();
+            JSONObject nested = new JSONObject();
+            nested.put("path", path);
+            nested.put("query", searchQuery.getQuery());
+            wrapper.put("nested", nested);
+            must.put(wrapper);
+        } catch (JSONException e) {
+            Log.e("SearchQuery", e.getMessage(), e);
+        }
+    }
+
     /**
      * @return bool JSONObject inside query
      */
