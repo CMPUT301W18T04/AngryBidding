@@ -124,17 +124,6 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             setCurrentFragment(R.id.nav_history);
         }
         Log.d("MainActivity", "Finished onCreate");
-        ElasticSearchTask.listTaskByBiddedUser(this, "teser", new ElasticSearchTask.ListTaskListener() {
-            @Override
-            public void onResult(ArrayList<ElasticSearchTask> tasks) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
     }
 
     @Override
