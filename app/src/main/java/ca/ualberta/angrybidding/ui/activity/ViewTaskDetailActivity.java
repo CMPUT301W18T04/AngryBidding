@@ -109,6 +109,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onDecline (Bid bid) {
         elasticSearchTask.getBids().remove(bid);
+        elasticSearchTask.updateStatus();
         updateFinish();
 
     }

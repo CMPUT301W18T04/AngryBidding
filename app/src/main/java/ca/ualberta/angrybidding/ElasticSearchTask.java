@@ -16,6 +16,7 @@ import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
 import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -38,17 +39,6 @@ public class ElasticSearchTask extends Task {
      */
     public ElasticSearchTask(String id, User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         super(user, title, description, locationPoint, bids);
-        this.id = id;
-    }
-
-    /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
-     * @param locationPoint Location of the task
-     */
-    public ElasticSearchTask(User user, String title, String description, LocationPoint locationPoint, Bid chosenBid) {
-        super(user, title, description, locationPoint, chosenBid);
         this.id = id;
     }
 
@@ -221,6 +211,39 @@ public class ElasticSearchTask extends Task {
         if(status != null){
             query.addTerm("status", status.toString());
         }
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTime", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
+
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
+    public static void listTaskByBiddedUser(Context context, String username, final ListTaskListener listener) {
+        listTaskByBiddedUser(context, username, null, listener);
+    }
+
+    public static void listTaskByBiddedUser(Context context, String username, Status status, final ListTaskListener listener) {
+        TermAndQuery query = new TermAndQuery();
+
+        TermAndQuery nestedQuery = new TermAndQuery();
+        nestedQuery.addTerm("bids.user.username", username.toLowerCase().trim());
+        query.addNestedQuery("bids", nestedQuery);
+
+        if(status != null){
+            query.addTerm("status", status.toString());
+        }
+
         SearchSort searchSort = new SearchSort();
         searchSort.addField("dateTime", SearchSort.Order.DESC);
         query.addSearchSort(searchSort);

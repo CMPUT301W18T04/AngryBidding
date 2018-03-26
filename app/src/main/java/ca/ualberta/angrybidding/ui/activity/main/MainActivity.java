@@ -23,10 +23,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 
@@ -119,6 +124,17 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             setCurrentFragment(R.id.nav_history);
         }
         Log.d("MainActivity", "Finished onCreate");
+        ElasticSearchTask.listTaskByBiddedUser(this, "teser", new ElasticSearchTask.ListTaskListener() {
+            @Override
+            public void onResult(ArrayList<ElasticSearchTask> tasks) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     @Override

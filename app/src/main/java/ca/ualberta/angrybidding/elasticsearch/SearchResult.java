@@ -23,7 +23,7 @@ public class SearchResult {
         this.timedOut = jsonObject.getBoolean("timed_out");
         jsonObject = jsonObject.getJSONObject("hits");
         this.hitCount = jsonObject.getInt("total");
-        if (this.hitCount > 0) {
+        if (this.hitCount > 0 && !jsonObject.isNull("max_score")) {
             this.maxScore = jsonObject.getDouble("max_score");
         } else {
             this.maxScore = -1;
@@ -86,7 +86,7 @@ public class SearchResult {
             this.index = jsonObject.getString("_index");
             this.type = jsonObject.getString("_type");
             this.id = jsonObject.getString("_id");
-            this.score = jsonObject.getDouble("_score");
+            this.score = jsonObject.isNull("_score") ? -1 : jsonObject.getDouble("_score");
             this.source = jsonObject.getJSONObject("_source");
         }
 

@@ -63,6 +63,20 @@ public class TermOrQuery extends SearchQuery {
         }
     }
 
+    @Override
+    public void addNestedQuery(String path, SearchQuery searchQuery){
+        try {
+            JSONObject wrapper = new JSONObject();
+            JSONObject nested = new JSONObject();
+            nested.put("path", path);
+            nested.put("query", searchQuery.getQuery());
+            wrapper.put("nested", nested);
+            queries.put(wrapper);
+        } catch (JSONException e) {
+            Log.e("SearchQuery", e.getMessage(), e);
+        }
+    }
+
     /**
      * @return dis_max JSONObject inside query
      */

@@ -133,6 +133,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 submitButton.onError(R.string.errorOccurred);
+                enableInputs(true);
                 Log.e("AddTaskActivity", error.getMessage(), error);
             }
         });

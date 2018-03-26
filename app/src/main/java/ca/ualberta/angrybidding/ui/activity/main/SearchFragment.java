@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
@@ -152,7 +153,7 @@ public class SearchFragment extends TaskListFragment implements IMainFragment {
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
                 for (ElasticSearchTask task : newTasks) {
                     //Make sure task is not assigned and not completed
-                    if (task.getChosenBid() == null && !task.isCompleted()) {
+                    if (task.getStatus() != Task.Status.ASSIGNED && task.getStatus() != Task.Status.COMPLETED) {
                         tasks.add(task);
                     }
                 }
