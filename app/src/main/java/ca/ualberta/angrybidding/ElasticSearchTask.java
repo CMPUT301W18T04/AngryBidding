@@ -16,6 +16,7 @@ import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
 import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -234,10 +235,15 @@ public class ElasticSearchTask extends Task {
 
     public static void listTaskByBiddedUser(Context context, String username, Status status, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
-        query.addTerm("bids.user.username", username.toLowerCase().trim());
+
+        TermAndQuery nestedQuery = new TermAndQuery();
+        nestedQuery.addTerm("bids.user.username", username.toLowerCase().trim());
+        query.addNestedQuery("bids", nestedQuery);
+
         if(status != null){
             query.addTerm("status", status.toString());
         }
+
         SearchSort searchSort = new SearchSort();
         searchSort.addField("dateTime", SearchSort.Order.DESC);
         query.addSearchSort(searchSort);
