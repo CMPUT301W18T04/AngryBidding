@@ -1,7 +1,15 @@
 package ca.ualberta.angrybidding.ui.activity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +18,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
+//noti
+//import com.slouple.android.notification.Notification;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import ca.ualberta.angrybidding.Bid;
@@ -77,7 +87,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                  * @param bid The bid in bid list
                  */
                 @Override
-                public void onBindView(BidView bidView, final Bid bid) {
+                public void onBindView(final BidView bidView, final Bid bid) {
                     bidView.setBid(bid);
                     if (elasticSearchTask.getUser().equals(user)) {
                         bidView.useBidPopupMenu(bid, new BidView.OnBidActionListener() {
@@ -120,6 +130,26 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
+        Intent notificationIntent = new Intent(this, ViewTaskDetailActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+        NotificationCompat.Builder notification =
+                new NotificationCompat.Builder(this, bid.getUser().getUsername())
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setContentTitle("Notification")
+                        .setContentText("Accepted Bids")
+                        .setTicker("Ticker")
+                        .setDefaults(Notification.PRIORITY_MAX)
+                        .setContentIntent(contentIntent);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(bid.getUser().getUsername(),
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+        mNotificationManager.notify(0, notification.build());
+        //notificationManager.notify(R.string.app_name, notification);
         updateFinish();
     }
 
