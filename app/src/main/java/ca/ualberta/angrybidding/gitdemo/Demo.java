@@ -11,4 +11,12 @@ public class Demo {
      * Demo Fix 1
      * Demo Fix 2
      */
+
+    /*
+    Fix this part
+     */
+
+    /*
+    Fix that part
+     */
 }
