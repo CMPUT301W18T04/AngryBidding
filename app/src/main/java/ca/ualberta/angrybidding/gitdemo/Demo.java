@@ -4,6 +4,11 @@ public class Demo {
     /**
      * Demo Comment 1
      * Demo Comment 2
-     * Demo Comment 3
+     * Demo Fix 3
+     */
+
+    /**
+     * Demo Fix 1
+     * Demo Fix 2
      */
 }
