@@ -119,7 +119,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onDecline (Bid bid) {
         elasticSearchTask.getBids().remove(bid);
-        elasticSearchTask.updateStatus();
+        elasticSearchTask.updateStatus(); 
         updateFinish();
 
     }
@@ -129,7 +129,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      * @param bid The selected bid
      */
     public void onAccept (Bid bid) {
-        elasticSearchTask.setChosenBid(bid); 
+        elasticSearchTask.setChosenBid(bid);
         Intent notificationIntent = new Intent(this, ViewTaskDetailActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
         NotificationCompat.Builder notification =
