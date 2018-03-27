@@ -11,4 +11,12 @@ public class Demo {
      * Demo Fix 1
      * Demo Fix 2
      */
+
+    /*
+    This comment should be kept.
+     */
+
+    /*
+    This comment can be removed.
+     */
 }
