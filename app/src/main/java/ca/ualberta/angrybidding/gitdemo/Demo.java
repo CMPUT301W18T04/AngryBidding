@@ -17,6 +17,10 @@ public class Demo {
      */
 
     /*
-    This comment can be removed.
+    Fix this part
+     */
+
+    /*
+    Fix that part
      */
 }
