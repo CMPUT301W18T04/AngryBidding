@@ -21,7 +21,6 @@ import ca.ualberta.angrybidding.R;
  */
 public class BidView extends FrameLayout {
     protected Bid bid;
-    protected ElasticSearchTask elasticSearchTask;
 
     protected FrameLayout container;
     protected TextView usernameTextView;

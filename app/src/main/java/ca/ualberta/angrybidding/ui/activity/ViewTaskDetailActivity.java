@@ -1,9 +1,9 @@
 package ca.ualberta.angrybidding.ui.activity;
 
-import android.app.Notification;
+/*import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.PendingIntent;*/
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -19,7 +19,8 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedActivity;
 //noti
-//import com.slouple.android.notification.Notification;
+import com.slouple.android.notification.Notification;
+import com.slouple.android.notification.NotificationCallback;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import java.util.HashMap;
@@ -133,6 +134,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
 
+        //sendNotification(bid.getUser().getUsername());
         /*NotificationCompat.Builder notification =
                 new NotificationCompat.Builder(this, bid.getUser().getUsername())
                         .setSmallIcon(R.mipmap.ic_launcher_round)
