@@ -22,6 +22,8 @@ import com.slouple.android.AdvancedActivity;
 //import com.slouple.android.notification.Notification;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
+import java.util.HashMap;
+
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
@@ -119,7 +121,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onDecline (Bid bid) {
         elasticSearchTask.getBids().remove(bid);
-        elasticSearchTask.updateStatus(); 
+        elasticSearchTask.updateStatus();
         updateFinish();
 
     }
@@ -130,16 +132,14 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
-        Intent notificationIntent = new Intent(this, ViewTaskDetailActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
-        NotificationCompat.Builder notification =
+
+        /*NotificationCompat.Builder notification =
                 new NotificationCompat.Builder(this, bid.getUser().getUsername())
                         .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Notification")
                         .setContentText("Accepted Bids")
                         .setTicker("Ticker")
-                        .setDefaults(Notification.PRIORITY_MAX)
-                        .setContentIntent(contentIntent);
+                        .setDefaults(Notification.PRIORITY_MAX);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         //NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -148,11 +148,10 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                     NotificationManager.IMPORTANCE_DEFAULT);
             mNotificationManager.createNotificationChannel(channel);
         }
-        mNotificationManager.notify(0, notification.build());
-        //notificationManager.notify(R.string.app_name, notification);
+        mNotificationManager.notify(0, notification.build());*/
+
         updateFinish();
     }
-
     /**
      * Updates the change
      */
