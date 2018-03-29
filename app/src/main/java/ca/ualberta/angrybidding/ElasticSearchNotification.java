@@ -5,9 +5,14 @@ import android.content.Context;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ca.ualberta.angrybidding.elasticsearch.AddRequest;
+import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -36,6 +41,16 @@ public class ElasticSearchNotification extends Notification{
      */
     public String getID() {
         return this.id;
+    }
+
+    public static void addNotification(Context context, Notification notification, AddResponseListener listener){
+        try {
+            JSONObject jsonObject = new JSONObject(new Gson().toJson(notification));
+            AddRequest request = new AddRequest(ELASTIC_SEARCH_INDEX, jsonObject, listener);
+            request.submit(context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener){
