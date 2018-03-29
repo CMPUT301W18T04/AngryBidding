@@ -16,14 +16,16 @@ import ca.ualberta.angrybidding.User;
 public class Notification {
     private User user;
     private String notificationType;
+    private boolean seen;
     //private ArrayList<Parameter> parameters;
 
     private HashMap<String, String> parameters;
 
-    public Notification(User user, String notificationType, HashMap<String, String> parameters){
+    public Notification(User user, String notificationType, HashMap<String, String> parameters, boolean seen){
         this.user = user;
         this.notificationType = notificationType;
         this.parameters = parameters;
+        this.seen = false;
     }
 
     public User getUser(){
@@ -42,6 +44,9 @@ public class Notification {
         return parameters;
     }
 
+    public boolean isSeen() {
+        return seen;
+    }
 
     /*public ArrayList<Parameter> getParameters(){
         return parameters;

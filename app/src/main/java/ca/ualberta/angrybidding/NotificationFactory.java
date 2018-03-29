@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 //Copy from NotificationFactory.java
 
-/*public abstract class NotificationFactory {
+public abstract class NotificationFactory {
 
     public ArrayList<Notification> parseEntries(ArrayList<Entry> entries){
         ArrayList<Notification> notifications = new ArrayList<>();
@@ -20,5 +20,17 @@ import java.util.ArrayList;
         return notifications;
     }
 
+
+    /*public ArrayList<Notification> parseEntries(ArrayList<Entry> entries){
+        ArrayList<Notification> notifications = new ArrayList<>();
+        for(Entry entry : entries){
+            Notification notification = newInstance(entry.getEntryType().getEntryTypeName(), entry);
+            if(notification != null){
+                notifications.add(notification);
+            }
+        }
+        return notifications;
+    }*/
+
     public abstract Notification newInstance(String entryTypeName, Entry entry);
-}*/
+}
