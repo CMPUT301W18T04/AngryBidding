@@ -125,6 +125,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
+        H
         Notification noti = new Notification(user , "Accept", null);
         noti.getNotificationID();
         //sendNotification(bid.getUser().getUsername());
