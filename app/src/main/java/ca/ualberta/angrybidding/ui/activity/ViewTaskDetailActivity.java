@@ -4,12 +4,8 @@ package ca.ualberta.angrybidding.ui.activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;*/
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,19 +13,14 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.slouple.android.AdvancedActivity;
 //noti
 import com.slouple.android.notification.Notification;
-import com.slouple.android.notification.NotificationCallback;
 import com.slouple.android.widget.adapter.DummyAdapter;
-
-import java.util.HashMap;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.ui.view.BidView;
@@ -38,6 +29,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ElasticSearchTask elasticSearchTask;
     private User user;
     private String id;
+    private Notification notification;
 
     private TextView titleTextView;
     private TextView ownerTextView;
@@ -133,7 +125,8 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
-
+        Notification noti = new Notification(user , "Accept", null);
+        noti.getNotificationID();
         //sendNotification(bid.getUser().getUsername());
         /*NotificationCompat.Builder notification =
                 new NotificationCompat.Builder(this, bid.getUser().getUsername())
