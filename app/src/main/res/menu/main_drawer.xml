@@ -18,6 +18,10 @@
             android:id="@+id/nav_all_task"
             android:icon="@mipmap/ic_launcher_round"
             android:title="All Task"/>
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="Notification"/>
 
     </group>
     <group android:checkableBehavior="single"
