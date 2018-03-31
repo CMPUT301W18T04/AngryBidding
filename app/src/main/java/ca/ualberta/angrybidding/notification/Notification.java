@@ -1,10 +1,14 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.notification;
 
 /**
  * Created by SarahS on 2018/03/27.
  */
 
 //Copy from Entry.java
+
+import android.content.Context;
+
+import com.slouple.android.notification.NotificationCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,17 +52,4 @@ public class Notification {
         return seen;
     }
 
-    /*public ArrayList<Parameter> getParameters(){
-        return parameters;
-    }*/
-
-    /*public HashMap<String, String> getParameterMap(){
-        if(parameterMap == null){
-            parameterMap = new HashMap<>();
-            for(Parameter par : parameters){
-                parameterMap.put(par.getParameterName(), par.getValue());
-            }
-        }
-        return parameterMap;
-    }*/
 }

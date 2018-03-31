@@ -121,6 +121,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             addFragment(R.id.nav_nearby, new NearbyFragment(), true);
             addFragment(R.id.nav_all_task, new AllTaskFragment(), true);
             addFragment(R.id.nav_settings, new SettingsFragment(), true);
+            addFragment(R.id.nav_notification, new NotificationFragment(), true);
 
             setCurrentFragment(R.id.nav_history);
         }

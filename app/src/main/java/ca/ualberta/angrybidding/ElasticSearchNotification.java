@@ -17,6 +17,7 @@ import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
+import ca.ualberta.angrybidding.notification.Notification;
 
 public class ElasticSearchNotification extends Notification{
     public static final String ELASTIC_SEARCH_INDEX = "notification";

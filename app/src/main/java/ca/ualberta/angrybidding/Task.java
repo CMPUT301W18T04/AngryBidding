@@ -89,7 +89,6 @@ public class Task {
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * @return Title of the task
      */

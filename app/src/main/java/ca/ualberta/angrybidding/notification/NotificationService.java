@@ -1,4 +1,4 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.notification;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,17 +17,30 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
+//
+//import com.slouple.android.notification.Notification;
+
 import com.google.gson.Gson;
+//
 
 import java.util.ArrayList;
+
+import ca.ualberta.angrybidding.ElasticSearchNotification;
+import ca.ualberta.angrybidding.ElasticSearchUser;
+import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.User;
 
 /**
  * Created by SarahS on 2018/03/29.
  */
 
-/*public class NotificationService extends Service {
+public class NotificationService extends Service {
     private NotificationLoadingThread notificationLoadingThread = new NotificationLoadingThread();
-    private NotificationLoader loader;
+    private ElasticSearchNotification elasticSearchNotification;
+    private ElasticSearchNotification.ListNotificationListener listener;
+    private ElasticSearchUser user;
+    //private NotificationLoader loader;
     private long lastHeadsUpNotificationTime;
 
     private ArrayList<Messenger> clients = new ArrayList<Messenger>();
@@ -56,10 +69,11 @@ import java.util.ArrayList;
         }
     }
 
-    private void sendNotificationToAllClients(Notification notification){
+    //Korea
+    private void sendNotificationToAllClients(NotificationWrapper 알림){
         Gson gson = new Gson();
-        String className = notification.getClass().getName();
-        String notificationString = gson.toJson(notification);
+        String className = 알림.getClass().getName();
+        String notificationString = gson.toJson(알림);
         for (int i = clients.size() - 1; i >= 0; i--) {
             try {
                 Bundle bundle = new Bundle();
@@ -86,21 +100,26 @@ import java.util.ArrayList;
     public int onStartCommand(Intent intent, int flags, int startID){
         super.onStartCommand(intent, flags, startID);
         // onStartCommand can be called multiple times, check if it is already called
-        if(loader != null){
+        //
+        if(listener != null){
             return START_STICKY;
         }
-        loader = new NotificationLoader(this, "GetNewNotification", new NotificationResponseListener() {
+        listener = new ElasticSearchNotification.ListNotificationListener(){
+
             @Override
-            public void onSuccess(ArrayList<Notification> notifications) {
-                for(final Notification notification: notifications){
+            public void onResult(ArrayList<ElasticSearchNotification> notifications) {
+                //sendNotificationToAllClients
+                //Create
+                ArrayList<NotificationWrapper> notificationWrappers = new NotificationFactory().parseNotifications(notifications);
+                for(final NotificationWrapper notificationWrapper : notificationWrappers){
                     try {
-                        notification.onReceived(NewNotificationService.this, new NotificationCallback() {
+                        notificationWrapper.onReceived(NotificationService.this, new NotificationCallback() {
                             @Override
                             public void callBack() {
                                 if(clients.size() > 0){
-                                    sendNotificationToAllClients(notification);
+                                    sendNotificationToAllClients(notificationWrapper);
                                 }else{
-                                    createNotification(notification);
+                                    createNotification(notificationWrapper);
                                 }
                             }
                         });
@@ -111,12 +130,11 @@ import java.util.ArrayList;
             }
 
             @Override
-            public void onError(String error) {
-                if(error != null) {
-                    Log.e("NewNotificationService", error);
-                }
+            public void onError(VolleyError error) {
+                Log.e("NewNotificationService", error.getMessage(), error);
             }
-        });
+        };
+        //
         notificationLoadingThread.start();
         return START_STICKY;
     }
@@ -133,32 +151,34 @@ import java.util.ArrayList;
         notificationLoadingThread.interrupt();
     }
 
-    protected void createNotification(Notification notification){
+    //Kanji Character
+    protected void createNotification(NotificationWrapper 通知){
         int priority = NotificationCompat.PRIORITY_DEFAULT;
         long currentTime = System.currentTimeMillis();
         if(currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN){
             priority = NotificationCompat.PRIORITY_HIGH;
             lastHeadsUpNotificationTime = currentTime;
         }
-
-        //Build Intent
+        //Build Int
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(notification.getParentStack());
-        stackBuilder.addNextIntent(notification.getIntent(this));
+        stackBuilder.addParentStack(通知.getParentStack());
+        stackBuilder.addNextIntent(通知.getIntent(this));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        /*作り直し*/
         //Build Notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
                 .setLights(0xff1bccf1, 500, 100)
-                .setSmallIcon(R.drawable.logo_circle_128)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(resultPendingIntent)
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.logo_circle_128))
-                .setContentTitle(notification.getTitle(this))
-                .setContentText(notification.getContent(this))
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher_round))
+                .setContentTitle(通知.getTitle(this))
+                .setContentText(通知.getContent(this))
                 .setAutoCancel(true)
                 .setPriority(priority);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notification.getNotificationID(), builder.build());
+        notificationManager.notify(通知.getNotificationID(), builder.build());
     }
 
     private class NotificationLoadingThread extends Thread{
@@ -166,10 +186,10 @@ import java.util.ArrayList;
             try {
                 while (!isInterrupted()) {
                     Log.d("NewNotificationService", "run()");
-                    User user = User.getMainUserSession(NewNotificationService.this);
-                    if (user != null && user.getSession() != null) {
-                        loader.setUser(user);
-                        loader.load();
+                    User user = ElasticSearchUser.getMainUser(NotificationService.this);
+                    if (user != null) {
+                        //load() の代わり
+                        ElasticSearchNotification.listNotSeenNotificationByUsername(NotificationService.this, user.getUsername(), listener);
                     }
                     try {
                         Thread.sleep(3000);
@@ -178,8 +198,8 @@ import java.util.ArrayList;
                     }
                 }
             }catch(Throwable t){
-                Log.e("NewNotificationService", t.getMessage(), t);
+                Log.e("NotificationService", t.getMessage(), t);
             }
         }
     }
-}*/
+}

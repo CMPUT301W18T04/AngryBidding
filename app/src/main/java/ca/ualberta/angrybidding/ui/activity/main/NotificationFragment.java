@@ -1,4 +1,4 @@
-package ca.ualberta.angrybidding.ui.fragment;
+package ca.ualberta.angrybidding.ui.activity.main;
 
 import android.content.Context;
 import android.os.Bundle;
