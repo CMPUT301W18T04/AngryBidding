@@ -3,8 +3,11 @@ package ca.ualberta.angrybidding.notification;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
@@ -17,6 +20,7 @@ import ca.ualberta.angrybidding.R;
 public class BidAddedNotification extends NotificationWrapper {
     private User user;
     private Task task;
+    protected ElasticSearchTask elasticSearchTask;
     /*=private User commenter;
     private com.postphere.post.Entry commentEntry;
     private volatile int loadedCount = 0;*/
@@ -28,8 +32,9 @@ public class BidAddedNotification extends NotificationWrapper {
     @Override
     protected void loadEntryParameters(HashMap<String, String> parameters) {
         user = new User(parameters.get("BidUser"));
+        //task = new ElasticSearchTask(Integer.getInteger(parameters.get("TaskId")));
         //task from task ID?
-        //task = new (parameters.get("TaskID"));
+        //task = new ? (parameters.get("TaskID"));
         /*commenter = new User(Integer.parseInt(parameters.get("UserID")));
         commentEntry = new com.postphere.post.Entry(Integer.parseInt(parameters.get("EntryID")));*/
     }
@@ -52,6 +57,7 @@ public class BidAddedNotification extends NotificationWrapper {
     }
 
     @Override
+    //Copy
     public Intent getIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(intent.getFlags());
@@ -61,6 +67,7 @@ public class BidAddedNotification extends NotificationWrapper {
     }
 
     @Override
+    //Copy
     public Class<?> getParentStack() {
         return MainActivity.class;
         //return null;

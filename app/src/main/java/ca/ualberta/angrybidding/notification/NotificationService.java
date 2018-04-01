@@ -165,7 +165,6 @@ public class NotificationService extends Service {
         stackBuilder.addNextIntent(通知.getIntent(this));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        /*作り直し*/
         //Build Notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
