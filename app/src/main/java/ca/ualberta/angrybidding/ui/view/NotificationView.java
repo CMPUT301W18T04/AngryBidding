@@ -17,9 +17,10 @@ import ca.ualberta.angrybidding.notification.NotificationWrapper;
  * Created by SarahS on 2018/04/01.
  */
 
-public class NotificationView extends FrameLayout{
+public class NotificationView extends LinearLayout{
     //Copy from TaskView
     protected ElasticSearchNotification elasticSearchNotification;
+    protected NotificationWrapper notificationWrapper;
 
     protected LinearLayout container;
     protected TextView titleTextView;
@@ -60,12 +61,12 @@ public class NotificationView extends FrameLayout{
      *
      * @param task The task object
      */
-    //Need find way to access BidAddedNotification or getTask from paramaeter again TODO
-    public void setNotification(ElasticSearchNotification 通知) {
-        this.elasticSearchNotification = 通知;
+    //kanji character TODO
+    public void setNotification(NotificationWrapper 通知) {
+        this.notificationWrapper = 通知;
         titleTextView.setVisibility(View.VISIBLE);
-        titleTextView.setText("Bids Added");
-        messageTextView.setText("Bids Added to your Task");
+        titleTextView.setText(通知.getTitle(getContext()));
+        messageTextView.setText(通知.getContent(getContext()));
 
         //Notification onclick
         /*setOnClickListener(new OnClickListener() {

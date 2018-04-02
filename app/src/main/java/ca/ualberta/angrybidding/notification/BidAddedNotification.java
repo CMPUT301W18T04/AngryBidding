@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.Task;
@@ -57,8 +58,15 @@ public class BidAddedNotification extends NotificationWrapper {
 
     @Override
     public String getContent(Context context) {
+        String price = "unknown";
+        for (Bid bid: task.getBids()) {
+            if (bid.getUser().getUsername().equals(user.getUsername())) {
+                price = bid.getPriceString();
+                break;
+            }
+        }
 
-        return "user "+ user.getUsername() +" added bid of $"+ task.getBids().toString() +" on your task" + task.getTitle();
+        return "user "+ user.getUsername() +" added bid of "+ price +" on your task " + task.getTitle();
         //return null;
     }
 

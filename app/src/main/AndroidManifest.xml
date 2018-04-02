@@ -26,6 +26,8 @@
         <activity android:name=".ui.activity.EditTaskActivity" />
         <activity android:name=".ui.activity.ViewTaskDetailActivity" />
         <activity android:name=".ui.activity.AddBidActivity" />
+        <service android:name="ca.ualberta.angrybidding.notification.NotificationService"
+            android:process="ca.ualberta.angrybidding.NotificationService"/>
 
     </application>
 

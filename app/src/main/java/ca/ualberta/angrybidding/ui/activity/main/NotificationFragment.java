@@ -28,7 +28,9 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
+import ca.ualberta.angrybidding.notification.NotificationCallback;
 import ca.ualberta.angrybidding.notification.NotificationConnection;
+import ca.ualberta.angrybidding.notification.NotificationFactory;
 import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
@@ -40,7 +42,7 @@ import ca.ualberta.angrybidding.ui.view.NotificationView;
 public class NotificationFragment extends AdvancedFragment implements IMainFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private ArrayList<ElasticSearchNotification> notifications = new ArrayList<>();
+    private ArrayList<NotificationWrapper> notifications = new ArrayList<>();
     private ElasticSearchNotification.ListNotificationListener listener;
 
     private static final int COMMENT_VIEW_TYPE = 1;
@@ -105,6 +107,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             if(notificationWrapper != null){
                 //Need Sorting?
                 //addNotification(notification);
+                //notifications.add(notification);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 final MainActivity mainActivity = (MainActivity) getContext();
                 if(mainActivity.getCurrentFragmentID() != R.id.nav_notification) {
@@ -137,35 +140,19 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             @Override
             public void onRefresh() {
                 NotificationFragment.this.onRefresh();
-                ElasticSearchNotification.listNotificationByUsername(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchNotification.ListNotificationListener() {
-                    @Override
-                    public void onResult(ArrayList<ElasticSearchNotification> newNotification) {
-                        notifications.addAll(newNotification);
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        finishRefresh();
-                    }
-
-                    /*
-                     * Show message when a error occurs
-                     */
-                    @Override
-                    public void onError(VolleyError error) {
-                        Log.e("TaskPostedFragment", error.getMessage(), error);
-                    }
-                });
             }
         });
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.notificationsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new DummyAdapter<ElasticSearchNotification, NotificationView>(notifications) {
+        recyclerView.setAdapter(new DummyAdapter<NotificationWrapper, NotificationView>(notifications) {
             @Override
             public NotificationView createView(int viewType) {
                 return createTaskView();
             }
 
             @Override
-            public void onBindView(NotificationView view, ElasticSearchNotification item) {
+            public void onBindView(NotificationView view, NotificationWrapper item) {
                 NotificationFragment.this.onBindView(view, item);
             }
 
@@ -200,17 +187,41 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
 
     public void onRefresh() {
         clear();
+        ElasticSearchNotification.listNotificationByUsername(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchNotification.ListNotificationListener() {
+            @Override
+            public void onResult(ArrayList<ElasticSearchNotification> newNotification) {
+                NotificationFactory noti = new NotificationFactory<ElasticSearchNotification>();
+                ArrayList<NotificationWrapper> newNotifications = noti.parseNotifications(newNotification);
+                for (final NotificationWrapper notificationWrapper: newNotifications) {
+                    notificationWrapper.onReceived(getContext(), new NotificationCallback(){
+                        @Override
+                        public void callBack(){
+                            notifications.add(notificationWrapper);
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+                }
+                finishRefresh();
+            }
+
+            /*
+             * Show message when a error occurs
+             */
+            @Override
+            public void onError(VolleyError error) {
+                Log.e("NotificationFragment", error.getMessage(), error);
+            }
+        });
     }
 
     public void finishRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    protected void onBindView(NotificationView notificationView, final ElasticSearchNotification noti) {
+    protected void onBindView(NotificationView notificationView, final NotificationWrapper noti) {
         notificationView.setNotification(noti);
     }
 
-    //TODO
     protected NotificationView createTaskView() {
         NotificationView notificationView = new NotificationView(getContext());
         return notificationView;
@@ -238,6 +249,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         super.onStop();
         connection.disconnect();
         getContext().unbindService(connection);
+        Log.d("NotificationsFragment", "Stopped NotificationService");
     }
 
     /*public void removeNotification(Notification notification, boolean removeFromServer){

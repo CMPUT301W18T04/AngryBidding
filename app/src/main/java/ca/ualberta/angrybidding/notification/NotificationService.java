@@ -1,5 +1,6 @@
 package ca.ualberta.angrybidding.notification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -7,6 +8,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -124,14 +126,14 @@ public class NotificationService extends Service {
                             }
                         });
                     }catch (Throwable t){
-                        Log.e("NewNotificationService", t.getMessage(), t);
+                        Log.e("NotificationService", t.getMessage(), t);
                     }
                 }
             }
 
             @Override
             public void onError(VolleyError error) {
-                Log.e("NewNotificationService", error.getMessage(), error);
+                Log.e("NotificationService", error.getMessage(), error);
             }
         };
         //
@@ -166,7 +168,7 @@ public class NotificationService extends Service {
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Build Notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"channel 01")
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
                 .setLights(0xff1bccf1, 500, 100)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -177,6 +179,14 @@ public class NotificationService extends Service {
                 .setAutoCancel(true)
                 .setPriority(priority);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //notificationManager.notify(通知.getNotificationID(), builder.build());
+        //Channel created if needed
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("channel 01",
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
         notificationManager.notify(通知.getNotificationID(), builder.build());
     }
 

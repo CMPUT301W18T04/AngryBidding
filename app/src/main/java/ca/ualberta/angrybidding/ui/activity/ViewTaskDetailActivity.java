@@ -125,26 +125,6 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      */
     public void onAccept (Bid bid) {
         elasticSearchTask.setChosenBid(bid);
-        //Notification noti = new Notification(user , "Accept", null);
-        //noti.getNotificationID();
-        //sendNotification(bid.getUser().getUsername());
-        /*NotificationCompat.Builder notification =
-                new NotificationCompat.Builder(this, bid.getUser().getUsername())
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("Notification")
-                        .setContentText("Accepted Bids")
-                        .setTicker("Ticker")
-                        .setDefaults(Notification.PRIORITY_MAX);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(bid.getUser().getUsername(),
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            mNotificationManager.createNotificationChannel(channel);
-        }
-        mNotificationManager.notify(0, notification.build());*/
-
         updateFinish();
     }
     /**
