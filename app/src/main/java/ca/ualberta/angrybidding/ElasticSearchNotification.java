@@ -17,6 +17,8 @@ import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
+import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
 public class ElasticSearchNotification extends Notification{
     public static final String ELASTIC_SEARCH_INDEX = "notification";
@@ -70,14 +72,39 @@ public class ElasticSearchNotification extends Notification{
         request.submit(context);
     }
 
-    public static void listNotSeenNotificationByUsername(Context context, String username, final ListNotificationListener listener){
+    public static void listNotSeenNotificationByUsername(final Context context, String username, final ListNotificationListener listener) {
+        listNotSeenNotificationByUsername(context, username, true, listener);
+    }
+
+    public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener){
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username);
         query.addTerm("seen", "false");
-        SearchRequest request = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+        final SearchRequest request = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
-                listener.onResult(parseNotifications(searchResult));
+                ArrayList<ElasticSearchNotification> notifications = parseNotifications(searchResult);
+                if(setToSeen) {
+                    for (ElasticSearchNotification notification : notifications) {
+                        updateNotification(context, notification.getID(), notification, new UpdateResponseListener() {
+                            @Override
+                            public void onCreated(String id) {
+
+                            }
+
+                            @Override
+                            public void onUpdated(int version) {
+
+                            }
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        });
+                    }
+                }
+                listener.onResult(notifications);
             }
 
             @Override
@@ -86,6 +113,15 @@ public class ElasticSearchNotification extends Notification{
             }
         });
         request.submit(context);
+    }
+
+    public static void updateNotification(Context context, String id, Notification notification, UpdateResponseListener listener){
+        try {
+            UpdateRequest updateRequest = new UpdateRequest(ELASTIC_SEARCH_INDEX, id, new JSONObject(new Gson().toJson(notification)), listener);
+            updateRequest.submit(context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected static ArrayList<ElasticSearchNotification> parseNotifications(SearchResult searchResult) {

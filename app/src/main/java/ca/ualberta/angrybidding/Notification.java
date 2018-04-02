@@ -44,21 +44,11 @@ public class Notification {
         return parameters;
     }
 
+    public void setSeen(boolean seen){
+        this.seen = seen;
+    }
+
     public boolean isSeen() {
         return seen;
     }
-
-    /*public ArrayList<Parameter> getParameters(){
-        return parameters;
-    }*/
-
-    /*public HashMap<String, String> getParameterMap(){
-        if(parameterMap == null){
-            parameterMap = new HashMap<>();
-            for(Parameter par : parameters){
-                parameterMap.put(par.getParameterName(), par.getValue());
-            }
-        }
-        return parameterMap;
-    }*/
 }
