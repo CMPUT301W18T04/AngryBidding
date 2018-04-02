@@ -20,7 +20,7 @@ public class Task {
     private Date dateTime;
 
     /**
-     * @param user User who created the task
+     * @param user  User who created the task
      * @param title Title of the task
      */
     public Task(User user, String title) {
@@ -31,8 +31,8 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
+     * @param user        User who created the task
+     * @param title       Title of the task
      * @param description Description of the task
      */
     public Task(User user, String title, String description) {
@@ -41,9 +41,9 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint) {
@@ -52,11 +52,11 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
-     * @param bids List of bid of the task
+     * @param bids          List of bid of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         this(user, title, description, locationPoint);
@@ -64,11 +64,11 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
-     * @param chosenBid The accepted bid of the task
+     * @param chosenBid     The accepted bid of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint, Bid chosenBid) {
         this(user, title, description, locationPoint);
@@ -84,11 +84,13 @@ public class Task {
 
     /**
      * Set title
+     *
      * @param title Title
      */
     public void setTitle(String title) {
         this.title = title;
     }
+
     /**
      * @return Title of the task
      */
@@ -98,6 +100,7 @@ public class Task {
 
     /**
      * Set description of the task
+     *
      * @param description Description of the task
      */
     public void setDescription(String description) {
@@ -113,6 +116,7 @@ public class Task {
 
     /**
      * Set the accepted bid of the task and removes all other bids
+     *
      * @param chosenBid The bid that is accepted
      */
     public void setChosenBid(Bid chosenBid) {
@@ -140,6 +144,7 @@ public class Task {
 
     /**
      * Set LocationPoint
+     *
      * @param locationPoint LocationPoint of the Task
      */
     public void setLocationPoint(LocationPoint locationPoint) {
@@ -153,50 +158,50 @@ public class Task {
         return this.locationPoint;
     }
 
-    public void updateStatus(){
-        if(this.status == Status.COMPLETED){
+    public void updateStatus() {
+        if (this.status == Status.COMPLETED) {
             return;
-        }else if(getChosenBid() != null){
+        } else if (getChosenBid() != null) {
             this.status = Status.ASSIGNED;
-        }else if(getBids().size() == 0){
+        } else if (getBids().size() == 0) {
             this.status = Status.REQUESTED;
-        }else{
+        } else {
             this.status = Status.BIDDED;
         }
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         updateStatus();
         return this.status;
     }
 
-    public void setCompleted(){
-        if(getStatus() == Status.ASSIGNED){
+    public void setCompleted() {
+        if (getStatus() == Status.ASSIGNED) {
             this.status = Status.COMPLETED;
         }
     }
 
-    public Date getDateTime(){
+    public Date getDateTime() {
         return this.dateTime;
     }
 
-    public enum Status{
+    public enum Status {
         REQUESTED,
         BIDDED,
         ASSIGNED,
         COMPLETED;
 
-        public static Status getStatus(String statusString){
+        public static Status getStatus(String statusString) {
             statusString = statusString.trim().toLowerCase();
-            if(statusString.equalsIgnoreCase("requested")){
+            if (statusString.equalsIgnoreCase("requested")) {
                 return REQUESTED;
-            }else if(statusString.equalsIgnoreCase("bidded")){
+            } else if (statusString.equalsIgnoreCase("bidded")) {
                 return BIDDED;
-            }else if(statusString.equalsIgnoreCase("assigned")){
+            } else if (statusString.equalsIgnoreCase("assigned")) {
                 return ASSIGNED;
-            }else if(statusString.equalsIgnoreCase("completed")){
+            } else if (statusString.equalsIgnoreCase("completed")) {
                 return COMPLETED;
-            }else{
+            } else {
                 return null;
             }
         }

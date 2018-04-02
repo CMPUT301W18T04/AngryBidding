@@ -27,6 +27,7 @@ public class TermOrQuery extends SearchQuery {
 
     /**
      * Add a term for the query
+     *
      * @param field Field name
      * @param value Field value to match
      */
@@ -44,9 +45,10 @@ public class TermOrQuery extends SearchQuery {
 
     /**
      * Add a range for the query
+     *
      * @param field Field name
-     * @param from Min inclusive value
-     * @param to Max inclusive value
+     * @param from  Min inclusive value
+     * @param to    Max inclusive value
      */
     public void addRange(String field, String from, String to) {
         try {
@@ -64,7 +66,7 @@ public class TermOrQuery extends SearchQuery {
     }
 
     @Override
-    public void addNestedQuery(String path, SearchQuery searchQuery){
+    public void addNestedQuery(String path, SearchQuery searchQuery) {
         try {
             JSONObject wrapper = new JSONObject();
             JSONObject nested = new JSONObject();

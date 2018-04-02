@@ -28,7 +28,6 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
-import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationCallback;
 import ca.ualberta.angrybidding.notification.NotificationConnection;
 import ca.ualberta.angrybidding.notification.NotificationFactory;
@@ -94,9 +93,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         @Override
         public NotificationWrapper onDeserializeNotification(String className, String json) {
             Class<?> classType;
-            if(className.equals("ca.ualberta.angrybidding.notification.BidAddedNotification")){
+            if (className.equals("ca.ualberta.angrybidding.notification.BidAddedNotification")) {
                 classType = BidAddedNotification.class;
-            }else{
+            } else {
                 return null;
             }
             Gson gson = new Gson();
@@ -105,13 +104,13 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
 
         @Override
         public void onReceivedNotification(NotificationWrapper notificationWrapper) {
-            if(notificationWrapper != null){
+            if (notificationWrapper != null) {
                 //Need Sorting?
                 //addNotification(notification);
                 //notifications.add(notification);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 final MainActivity mainActivity = (MainActivity) getContext();
-                if(mainActivity.getCurrentFragmentID() != R.id.nav_notification) {
+                if (mainActivity.getCurrentFragmentID() != R.id.nav_notification) {
                     Snackbar.make(getView(), "New Notification", Snackbar.LENGTH_LONG)
                             .setAction("View", new View.OnClickListener() {
                                 @Override
@@ -163,10 +162,10 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             }
 
             @Override
-            public int getItemViewType(NotificationWrapper item){
-                if(item instanceof BidAddedNotification){
+            public int getItemViewType(NotificationWrapper item) {
+                if (item instanceof BidAddedNotification) {
                     return BID_ADDED_VIEW_TYPE;
-                }else{
+                } else {
                     return 0;
                 }
             }
@@ -202,10 +201,10 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             public void onResult(ArrayList<ElasticSearchNotification> newNotification) {
                 NotificationFactory noti = new NotificationFactory<ElasticSearchNotification>();
                 ArrayList<NotificationWrapper> newNotifications = noti.parseNotifications(newNotification);
-                for (final NotificationWrapper notificationWrapper: newNotifications) {
-                    notificationWrapper.onReceived(getContext(), new NotificationCallback(){
+                for (final NotificationWrapper notificationWrapper : newNotifications) {
+                    notificationWrapper.onReceived(getContext(), new NotificationCallback() {
                         @Override
-                        public void callBack(){
+                        public void callBack() {
                             notifications.add(notificationWrapper);
                             recyclerView.getAdapter().notifyDataSetChanged();
                         }
@@ -234,7 +233,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
 
     protected NotificationView createTaskView(int viewType) {
         NotificationView view;
-        switch (viewType){
+        switch (viewType) {
             case BID_ADDED_VIEW_TYPE:
                 view = new BidAddedNotificationView(getContext());
                 break;
@@ -245,16 +244,16 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        NotificationManager notificationManager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
         startNotificationService();
         getContext().bindService(new Intent(getContext(), NotificationService.class), connection, 0);
     }
 
-    public void startNotificationService(){
-        if(!getContext().isServiceRunning(NotificationService.class)){
+    public void startNotificationService() {
+        if (!getContext().isServiceRunning(NotificationService.class)) {
             Intent serviceIntent = new Intent(getContext(), NotificationService.class);
             getContext().startService(serviceIntent);
             Log.d("NotificationsFragment", "Starting NotificationService");
@@ -262,7 +261,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         connection.disconnect();
         getContext().unbindService(connection);

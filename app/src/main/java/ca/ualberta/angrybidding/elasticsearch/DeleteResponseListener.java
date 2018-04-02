@@ -12,6 +12,7 @@ public abstract class DeleteResponseListener extends ElasticSearchResponseListen
 
     /**
      * Unpacks response and calls onDelete if found and onNotFound when object with the corresponding ID not found
+     *
      * @param response
      */
     @Override
@@ -30,6 +31,7 @@ public abstract class DeleteResponseListener extends ElasticSearchResponseListen
 
     /**
      * Called when object is deleted in ElasticSearch
+     *
      * @param id
      */
     public abstract void onDeleted(String id);

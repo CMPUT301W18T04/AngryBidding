@@ -3,7 +3,6 @@ package ca.ualberta.angrybidding.ui.activity.main.history;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.android.volley.VolleyError;
 import com.slouple.android.Units;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.Task;
-import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
@@ -56,6 +54,7 @@ public class TaskPostedFragment extends TaskStatusListFragment {
 
     /**
      * Creates new TaskView with margin
+     *
      * @return TaskView with margin
      */
     @Override

@@ -79,6 +79,7 @@ public class SearchResult {
 
         /**
          * Unpacks SearchResult hit
+         *
          * @param jsonObject Object to unpack
          * @throws JSONException
          */

@@ -12,6 +12,7 @@ public abstract class GetResponseListener extends ElasticSearchResponseListener 
 
     /**
      * Unpack response and call onFound or onNotFound depending on the response
+     *
      * @param response
      */
     @Override
@@ -30,6 +31,7 @@ public abstract class GetResponseListener extends ElasticSearchResponseListener 
 
     /**
      * Calls when the object corresponding to the ID is found
+     *
      * @param object Object corresponding to the ID returned from the server
      */
     public abstract void onFound(JSONObject object);

@@ -181,6 +181,7 @@ public class TaskView extends LinearLayout {
 
     /**
      * Opens AddBidActivity
+     *
      * @param listener calls bid is added
      */
     public void openAddBidActivity(final OnTaskChangeListener listener) {
@@ -213,6 +214,7 @@ public class TaskView extends LinearLayout {
 
     /**
      * Opens EditTaskActivity
+     *
      * @param listener calls when task is edited
      */
     public void openEditTaskActivity(final OnTaskChangeListener listener) {

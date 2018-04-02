@@ -20,11 +20,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-//
-//import com.slouple.android.notification.Notification;
-
 import com.google.gson.Gson;
-//
 
 import java.util.ArrayList;
 
@@ -32,6 +28,10 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
+
+//
+//import com.slouple.android.notification.Notification;
+//
 
 /**
  * Created by SarahS on 2018/03/29.
@@ -72,7 +72,7 @@ public class NotificationService extends Service {
     }
 
     //Korea
-    private void sendNotificationToAllClients(NotificationWrapper 알림){
+    private void sendNotificationToAllClients(NotificationWrapper 알림) {
         Gson gson = new Gson();
         String className = 알림.getClass().getName();
         String notificationString = gson.toJson(알림);
@@ -94,38 +94,38 @@ public class NotificationService extends Service {
     }
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startID){
+    public int onStartCommand(Intent intent, int flags, int startID) {
         super.onStartCommand(intent, flags, startID);
         // onStartCommand can be called multiple times, check if it is already called
         //
-        if(listener != null){
+        if (listener != null) {
             return START_STICKY;
         }
-        listener = new ElasticSearchNotification.ListNotificationListener(){
+        listener = new ElasticSearchNotification.ListNotificationListener() {
 
             @Override
             public void onResult(ArrayList<ElasticSearchNotification> notifications) {
                 //sendNotificationToAllClients
                 //Create
                 ArrayList<NotificationWrapper> notificationWrappers = new NotificationFactory().parseNotifications(notifications);
-                for(final NotificationWrapper notificationWrapper : notificationWrappers){
+                for (final NotificationWrapper notificationWrapper : notificationWrappers) {
                     try {
                         notificationWrapper.onReceived(NotificationService.this, new NotificationCallback() {
                             @Override
                             public void callBack() {
-                                if(clients.size() > 0){
+                                if (clients.size() > 0) {
                                     sendNotificationToAllClients(notificationWrapper);
-                                }else{
+                                } else {
                                     createNotification(notificationWrapper);
                                 }
                             }
                         });
-                    }catch (Throwable t){
+                    } catch (Throwable t) {
                         Log.e("NotificationService", t.getMessage(), t);
                     }
                 }
@@ -148,16 +148,16 @@ public class NotificationService extends Service {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         notificationLoadingThread.interrupt();
     }
 
     //Kanji Character
-    protected void createNotification(NotificationWrapper 通知){
+    protected void createNotification(NotificationWrapper 通知) {
         int priority = NotificationCompat.PRIORITY_DEFAULT;
         long currentTime = System.currentTimeMillis();
-        if(currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN){
+        if (currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN) {
             priority = NotificationCompat.PRIORITY_HIGH;
             lastHeadsUpNotificationTime = currentTime;
         }
@@ -168,7 +168,7 @@ public class NotificationService extends Service {
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Build Notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"channel 01")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel 01")
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
                 .setLights(0xff1bccf1, 500, 100)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -190,8 +190,8 @@ public class NotificationService extends Service {
         notificationManager.notify(通知.getNotificationID(), builder.build());
     }
 
-    private class NotificationLoadingThread extends Thread{
-        public void run(){
+    private class NotificationLoadingThread extends Thread {
+        public void run() {
             try {
                 while (!isInterrupted()) {
                     Log.d("NewNotificationService", "run()");
@@ -206,7 +206,7 @@ public class NotificationService extends Service {
                         break;
                     }
                 }
-            }catch(Throwable t){
+            } catch (Throwable t) {
                 Log.e("NotificationService", t.getMessage(), t);
             }
         }

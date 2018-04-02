@@ -16,7 +16,7 @@ public class User {
     }
 
     /**
-     * @param username Username of the user
+     * @param username     Username of the user
      * @param emailAddress Email address of the user
      */
     public User(String username, String emailAddress) {

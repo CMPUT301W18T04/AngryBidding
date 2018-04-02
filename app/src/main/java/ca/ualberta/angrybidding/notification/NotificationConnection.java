@@ -30,8 +30,8 @@ public abstract class NotificationConnection implements ServiceConnection {
     }
 
     //Automatically called after bind
-    public void connect(){
-        if(serviceMessenger != null){
+    public void connect() {
+        if (serviceMessenger != null) {
             try {
                 Message message = Message.obtain(null, NotificationService.MSG_CONNECT);
                 message.replyTo = clientMessenger;
@@ -43,8 +43,8 @@ public abstract class NotificationConnection implements ServiceConnection {
     }
 
     //Call disconnect before unbind
-    public void disconnect(){
-        if(serviceMessenger != null){
+    public void disconnect() {
+        if (serviceMessenger != null) {
             try {
                 Message message = Message.obtain(null, NotificationService.MSG_DISCONNECT);
                 message.replyTo = clientMessenger;
@@ -61,8 +61,8 @@ public abstract class NotificationConnection implements ServiceConnection {
 
     class NewNotificationClientMessageHandler extends Handler {
         @Override
-        public void handleMessage(Message message){
-            switch(message.what){
+        public void handleMessage(Message message) {
+            switch (message.what) {
                 case NotificationService.MSG_NOTIFICATION_CALLBACK:
                     String className = message.getData().getString("className");
                     String json = message.getData().getString("notification");

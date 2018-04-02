@@ -101,6 +101,7 @@ public class TaskListFragment extends AdvancedFragment {
 
     /**
      * Check if there is a duplicate in the list
+     *
      * @param task Task to check
      * @return Does duplicate exist
      */
@@ -115,6 +116,7 @@ public class TaskListFragment extends AdvancedFragment {
 
     /**
      * Add task to the list
+     *
      * @param task Task to add
      */
     public void addTask(ElasticSearchTask task) {
@@ -126,6 +128,7 @@ public class TaskListFragment extends AdvancedFragment {
 
     /**
      * Removes task from the list
+     *
      * @param task Task to remove
      */
     public void removeTask(ElasticSearchTask task) {
@@ -136,8 +139,9 @@ public class TaskListFragment extends AdvancedFragment {
 
     /**
      * Bind a task to a TaskView
+     *
      * @param taskView TaskView to bind with
-     * @param task Task to Bind with
+     * @param task     Task to Bind with
      */
     protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
 
@@ -158,6 +162,7 @@ public class TaskListFragment extends AdvancedFragment {
 
     /**
      * Creates new TaskView
+     *
      * @return newly created TaskView
      */
     protected TaskView createTaskView() {

@@ -5,19 +5,14 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import ca.ualberta.angrybidding.Bid;
-import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.Task;
+import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
-import ca.ualberta.angrybidding.R;
 
 /**
  * Created by SarahS on 2018/03/31.
@@ -52,21 +47,21 @@ public class BidAddedNotification extends NotificationWrapper {
 
     @Override
     public String getTitle(Context context) {
-        return  "Bids Added on Your Task";
+        return "Bids Added on Your Task";
         //return null;
     }
 
     @Override
     public String getContent(Context context) {
         String price = "unknown";
-        for (Bid bid: task.getBids()) {
+        for (Bid bid : task.getBids()) {
             if (bid.getUser().getUsername().equals(user.getUsername())) {
                 price = bid.getPriceString();
                 break;
             }
         }
 
-        return "user "+ user.getUsername() +" added bid of "+ price +" on your task " + task.getTitle();
+        return "user " + user.getUsername() + " added bid of " + price + " on your task " + task.getTitle();
         //return null;
     }
 
@@ -101,15 +96,15 @@ public class BidAddedNotification extends NotificationWrapper {
     @Override
     public void onReceived(Context context, final NotificationCallback callback) {
         //Get task
-        ca.ualberta.angrybidding.ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener(){
+        ca.ualberta.angrybidding.ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener() {
             @Override
-            public void onFound(ElasticSearchTask tasks){
+            public void onFound(ElasticSearchTask tasks) {
                 task = tasks;
                 loadCallback(callback);
             }
 
             @Override
-            public void onNotFound(){
+            public void onNotFound() {
                 Log.e("BidAddedNotification", "No Task Found");
             }
 
@@ -119,7 +114,8 @@ public class BidAddedNotification extends NotificationWrapper {
             }
         });
     }
-    private void loadCallback(NotificationCallback callback){
+
+    private void loadCallback(NotificationCallback callback) {
         callback.callBack();
     }
 }

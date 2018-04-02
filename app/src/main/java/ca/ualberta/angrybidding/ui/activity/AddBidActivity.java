@@ -127,7 +127,7 @@ public class AddBidActivity extends AngryBiddingActivity {
                 //parameter.put(key, value);
                 parameter.put("BidUser", user.getUsername());
                 parameter.put("TaskId", id);
-                ElasticSearchNotification.addNotification(AddBidActivity.this, new Notification(taskUser,type,parameter,false), new AddResponseListener() {
+                ElasticSearchNotification.addNotification(AddBidActivity.this, new Notification(taskUser, type, parameter, false), new AddResponseListener() {
                     @Override
                     public void onCreated(String id) {
                         Intent intent = new Intent();

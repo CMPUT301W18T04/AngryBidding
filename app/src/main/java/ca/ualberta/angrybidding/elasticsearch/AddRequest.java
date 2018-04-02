@@ -8,8 +8,8 @@ import org.json.JSONObject;
 public class AddRequest extends ElasticSearchRequest {
 
     /**
-     * @param index ElasticSearch Index
-     * @param body Object to add
+     * @param index    ElasticSearch Index
+     * @param body     Object to add
      * @param listener Listener to call on response
      */
     public AddRequest(String index, JSONObject body, AddResponseListener listener) {
@@ -17,9 +17,9 @@ public class AddRequest extends ElasticSearchRequest {
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param index ElasticSearch Index
-     * @param body Object to add
+     * @param url      ElasticSearch Server URL
+     * @param index    ElasticSearch Index
+     * @param body     Object to add
      * @param listener Listener to call on response
      */
     public AddRequest(String url, String index, JSONObject body, AddResponseListener listener) {

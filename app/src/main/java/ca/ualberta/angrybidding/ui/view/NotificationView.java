@@ -1,29 +1,21 @@
 package ca.ualberta.angrybidding.ui.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import ca.ualberta.angrybidding.ElasticSearchNotification;
-import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.Task;
-import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
-import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
  * Created by SarahS on 2018/04/01.
  */
 
-public class NotificationView extends LinearLayout{
+public class NotificationView extends LinearLayout {
     //Copy from TaskView
     protected ElasticSearchNotification elasticSearchNotification;
     protected NotificationWrapper notificationWrapper;

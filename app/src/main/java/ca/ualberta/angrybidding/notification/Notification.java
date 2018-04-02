@@ -6,11 +6,6 @@ package ca.ualberta.angrybidding.notification;
 
 //Copy from Entry.java
 
-import android.content.Context;
-
-import com.slouple.android.notification.NotificationCallback;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import ca.ualberta.angrybidding.User;
@@ -25,22 +20,22 @@ public class Notification {
 
     private HashMap<String, String> parameters;
 
-    public Notification(User user, String notificationType, HashMap<String, String> parameters, boolean seen){
+    public Notification(User user, String notificationType, HashMap<String, String> parameters, boolean seen) {
         this.user = user;
         this.notificationType = notificationType;
         this.parameters = parameters;
         this.seen = false;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    public void setNotificationType(String notificationType){
+    public void setNotificationType(String notificationType) {
         this.notificationType = notificationType;
     }
 
-    public String getNotificationType(){
+    public String getNotificationType() {
         return this.notificationType;
     }
 
@@ -48,7 +43,7 @@ public class Notification {
         return parameters;
     }
 
-    public void setSeen(boolean seen){
+    public void setSeen(boolean seen) {
         this.seen = seen;
     }
 

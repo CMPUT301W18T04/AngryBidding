@@ -8,9 +8,7 @@ import android.view.View;
 import com.google.gson.Gson;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
-import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
@@ -36,7 +34,7 @@ public class BidAddedNotificationView extends NotificationView {
     @Override
     public void setNotification(final NotificationWrapper 通知) {
         super.setNotification(通知);
-        task = ((BidAddedNotification)通知).getTask();
+        task = ((BidAddedNotification) 通知).getTask();
         //Notification onclick
         setOnClickListener(new OnClickListener() {
             @Override
