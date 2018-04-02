@@ -25,7 +25,7 @@ import ca.ualberta.angrybidding.R;
 
 public class BidAddedNotification extends NotificationWrapper {
     private User user;
-    private Task task;
+    private ElasticSearchTask task;
     private String taskId;
     private ElasticSearchTask.GetTaskListener listener;
     //protected ElasticSearchTask elasticSearchTask;
@@ -70,8 +70,7 @@ public class BidAddedNotification extends NotificationWrapper {
         //return null;
     }
 
-    @Override
-    public Task getTask() {
+    public ElasticSearchTask getTask() {
         return task;
         //return null;
     }
@@ -101,10 +100,7 @@ public class BidAddedNotification extends NotificationWrapper {
     //unknown
     @Override
     public void onReceived(Context context, final NotificationCallback callback) {
-        //Get task ...
-        /*
-         *ERR0R!!!!!!!!!!!!!!!!!
-         */
+        //Get task
         ca.ualberta.angrybidding.ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener(){
             @Override
             public void onFound(ElasticSearchTask tasks){

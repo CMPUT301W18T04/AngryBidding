@@ -28,11 +28,13 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
+import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationCallback;
 import ca.ualberta.angrybidding.notification.NotificationConnection;
 import ca.ualberta.angrybidding.notification.NotificationFactory;
 import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
+import ca.ualberta.angrybidding.ui.view.BidAddedNotificationView;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
 
 /**
@@ -45,8 +47,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     private ArrayList<NotificationWrapper> notifications = new ArrayList<>();
     private ElasticSearchNotification.ListNotificationListener listener;
 
-    private static final int COMMENT_VIEW_TYPE = 1;
-    private static final int RATE_VIEW_TYPE = 2;
+    private static final int BID_ADDED_VIEW_TYPE = 1;
 
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
@@ -148,7 +149,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         recyclerView.setAdapter(new DummyAdapter<NotificationWrapper, NotificationView>(notifications) {
             @Override
             public NotificationView createView(int viewType) {
-                return createTaskView();
+                return createTaskView(viewType);
             }
 
             @Override
@@ -159,6 +160,15 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             @Override
             public void onReachingLastItem(int i) {
 
+            }
+
+            @Override
+            public int getItemViewType(NotificationWrapper item){
+                if(item instanceof BidAddedNotification){
+                    return BID_ADDED_VIEW_TYPE;
+                }else{
+                    return 0;
+                }
             }
 
         });
@@ -222,9 +232,16 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         notificationView.setNotification(noti);
     }
 
-    protected NotificationView createTaskView() {
-        NotificationView notificationView = new NotificationView(getContext());
-        return notificationView;
+    protected NotificationView createTaskView(int viewType) {
+        NotificationView view;
+        switch (viewType){
+            case BID_ADDED_VIEW_TYPE:
+                view = new BidAddedNotificationView(getContext());
+                break;
+            default:
+                view = new NotificationView(getContext());
+        }
+        return view;
     }
 
     @Override

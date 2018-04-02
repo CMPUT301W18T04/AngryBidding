@@ -27,7 +27,6 @@ public abstract class NotificationWrapper {
 
     public abstract String getTitle(Context context);
     public abstract String getContent(Context context);
-    public abstract Task getTask();
     public abstract int getNotificationID();
     public abstract Intent getIntent(Context context);
     public abstract Class<?> getParentStack();

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import ca.ualberta.angrybidding.ElasticSearchNotification;
+import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.notification.Notification;
@@ -30,7 +31,6 @@ public class NotificationView extends LinearLayout{
     protected LinearLayout container;
     protected TextView titleTextView;
     protected TextView messageTextView;
-    protected Task task;
 
     public NotificationView(Context context) {
         this(context, null);
@@ -73,14 +73,6 @@ public class NotificationView extends LinearLayout{
         titleTextView.setVisibility(View.VISIBLE);
         titleTextView.setText(通知.getTitle(getContext()));
         messageTextView.setText(通知.getContent(getContext()));
-
-        //Notification onclick
-        /*setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });*/
-
     }
 
     public LinearLayout getContainer() {
@@ -94,13 +86,6 @@ public class NotificationView extends LinearLayout{
     public TextView getTitleTextView() {
         return titleTextView;
     }
-
-    /*public void openViewDetailActivity(task) {
-        Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
-        detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
-        detailIntent.putExtra("id", elasticSearchTask.getID());
-        getContext().startActivity(detailIntent);
-    }*/
 
 
 }
