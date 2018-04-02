@@ -6,8 +6,8 @@ package ca.ualberta.angrybidding.elasticsearch;
 public class DeleteRequest extends ElasticSearchRequest {
 
     /**
-     * @param index ElasticSearch Index
-     * @param id ID of the object to delete
+     * @param index    ElasticSearch Index
+     * @param id       ID of the object to delete
      * @param listener Listener to call on response
      */
     public DeleteRequest(String index, String id, DeleteResponseListener listener) {
@@ -15,9 +15,9 @@ public class DeleteRequest extends ElasticSearchRequest {
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param index ElasticSearch Index
-     * @param id ID of the object to delete
+     * @param url      ElasticSearch Server URL
+     * @param index    ElasticSearch Index
+     * @param id       ID of the object to delete
      * @param listener Listener to call on response
      */
     public DeleteRequest(String url, String index, String id, DeleteResponseListener listener) {

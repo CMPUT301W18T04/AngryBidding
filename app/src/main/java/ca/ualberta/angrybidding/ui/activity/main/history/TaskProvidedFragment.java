@@ -15,7 +15,6 @@ import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
-import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
 
 /**
@@ -59,9 +58,9 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
                 Log.e("TaskProvidedFragment", error.getMessage(), error);
             }
         };
-        if (spinnerStatus == Task.Status.BIDDED){
+        if (spinnerStatus == Task.Status.BIDDED) {
             ElasticSearchTask.listTaskByBiddedUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
-        }else{
+        } else {
             ElasticSearchTask.listTaskByChosenUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
         }
 

@@ -14,9 +14,10 @@ import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.GetRequest;
+import ca.ualberta.angrybidding.elasticsearch.GetResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
 import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
-import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -30,12 +31,12 @@ public class ElasticSearchTask extends Task {
     private transient String id;
 
     /**
-     * @param id ElasticSearch object id
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param id            ElasticSearch object id
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint Location of the task
-     * @param bids Bids of the task
+     * @param bids          Bids of the task
      */
     public ElasticSearchTask(String id, User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         super(user, title, description, locationPoint, bids);
@@ -44,6 +45,7 @@ public class ElasticSearchTask extends Task {
 
     /**
      * Set ElasticSearch object ID
+     *
      * @param id ElasticSearch object ID
      */
     private void setID(String id) {
@@ -59,8 +61,9 @@ public class ElasticSearchTask extends Task {
 
     /**
      * Add a task to the ElasticSearch Server
-     * @param context Context
-     * @param task Task to add
+     *
+     * @param context  Context
+     * @param task     Task to add
      * @param listener Listener to call on response
      */
     public static void addTask(Context context, Task task, AddResponseListener listener) {
@@ -73,10 +76,16 @@ public class ElasticSearchTask extends Task {
         }
     }
 
+    public static void getTask(Context context, String taskID, GetTaskListener listener) {
+        GetRequest getRequest = new GetRequest(ELASTIC_SEARCH_INDEX, taskID, listener);
+        getRequest.submit(context);
+    }
+
     /**
      * Delete a task from the ElasticSearch Server
-     * @param context Context
-     * @param id ID of the task
+     *
+     * @param context  Context
+     * @param id       ID of the task
      * @param listener Listener to call on response
      */
     public static void deleteTask(Context context, String id, DeleteResponseListener listener) {
@@ -88,8 +97,9 @@ public class ElasticSearchTask extends Task {
      * Update a task in the ElasticSearch Server
      * This should not be used when the ElasticSearchTask object is passed by Gson since
      * ElasticSearchTask.id is transient which means it will not be parse as string with Gson
-     * @param context Context
-     * @param task Task to edit
+     *
+     * @param context  Context
+     * @param task     Task to edit
      * @param listener Listener to call on response
      */
     public static void updateTask(Context context, ElasticSearchTask task, UpdateResponseListener listener) {
@@ -98,9 +108,10 @@ public class ElasticSearchTask extends Task {
 
     /**
      * Update a task with associated id in the ElasticSearch Server
-     * @param context Context
-     * @param id ID of the task
-     * @param task Task to edit
+     *
+     * @param context  Context
+     * @param id       ID of the task
+     * @param task     Task to edit
      * @param listener Listener to call on response
      */
     public static void updateTask(Context context, String id, Task task, UpdateResponseListener listener) {
@@ -115,7 +126,8 @@ public class ElasticSearchTask extends Task {
 
     /**
      * Search and list tasks that matches all keywords in the description
-     * @param context Context
+     *
+     * @param context  Context
      * @param keywords List of keywords to search with
      * @param listener Listener to call on response
      */
@@ -144,7 +156,8 @@ public class ElasticSearchTask extends Task {
 
     /**
      * List all tasks
-     * @param context Context
+     *
+     * @param context  Context
      * @param listener Listener to call on response
      */
     public static void listTask(Context context, final ListTaskListener listener) {
@@ -167,20 +180,21 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
-    public static void listTaskByUser(Context context, String username, final ListTaskListener listener){
+    public static void listTaskByUser(Context context, String username, final ListTaskListener listener) {
         listTaskByUser(context, username, null, listener);
     }
 
     /**
      * List tasks of a user
-     * @param context Context
+     *
+     * @param context  Context
      * @param username Username of the user to list
      * @param listener Listener to call on response
      */
     public static void listTaskByUser(Context context, String username, Status status, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username.toLowerCase().trim());
-        if(status != null){
+        if (status != null) {
             query.addTerm("status", status.toString());
         }
         SearchSort searchSort = new SearchSort();
@@ -208,7 +222,7 @@ public class ElasticSearchTask extends Task {
     public static void listTaskByChosenUser(Context context, String username, Status status, final ListTaskListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("chosenBid.user.username", username.toLowerCase().trim());
-        if(status != null){
+        if (status != null) {
             query.addTerm("status", status.toString());
         }
         SearchSort searchSort = new SearchSort();
@@ -240,7 +254,7 @@ public class ElasticSearchTask extends Task {
         nestedQuery.addTerm("bids.user.username", username.toLowerCase().trim());
         query.addNestedQuery("bids", nestedQuery);
 
-        if(status != null){
+        if (status != null) {
             query.addTerm("status", status.toString());
         }
 
@@ -264,6 +278,7 @@ public class ElasticSearchTask extends Task {
 
     /**
      * Parse SearchResult to an ArrayList of ElasticSearchTask objects
+     *
      * @param searchResult SearchResult to parse
      * @return List of ElasticSearchTask objects
      */
@@ -277,6 +292,15 @@ public class ElasticSearchTask extends Task {
             tasks.add(task);
         }
         return tasks;
+    }
+
+    public abstract static class GetTaskListener extends GetResponseListener {
+        @Override
+        public void onFound(JSONObject object) {
+            onFound(new Gson().fromJson(object.toString(), ElasticSearchTask.class));
+        }
+
+        public abstract void onFound(ElasticSearchTask task);
     }
 
     /**

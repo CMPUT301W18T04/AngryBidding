@@ -1,0 +1,121 @@
+package ca.ualberta.angrybidding.notification;
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+import com.android.volley.VolleyError;
+
+import java.util.HashMap;
+
+import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
+
+/**
+ * Created by SarahS on 2018/03/31.
+ */
+
+public class BidAddedNotification extends NotificationWrapper {
+    private User user;
+    private ElasticSearchTask task;
+    private String taskId;
+    private ElasticSearchTask.GetTaskListener listener;
+    //protected ElasticSearchTask elasticSearchTask;
+
+    /*=private User commenter;
+    private com.postphere.post.Entry commentEntry;
+    private volatile int loadedCount = 0;*/
+
+    public BidAddedNotification(Notification notification) {
+        super(notification);
+    }
+
+    @Override
+    protected void loadEntryParameters(HashMap<String, String> parameters) {
+        user = new User(parameters.get("BidUser"));
+        taskId = parameters.get("TaskId");
+
+
+        //task from task ID?
+        //task = new ? (parameters.get("TaskID"));
+        /*commenter = new User(Integer.parseInt(parameters.get("UserID")));
+        commentEntry = new com.postphere.post.Entry(Integer.parseInt(parameters.get("EntryID")));*/
+    }
+
+    @Override
+    public String getTitle(Context context) {
+        return "Bids Added on Your Task";
+        //return null;
+    }
+
+    @Override
+    public String getContent(Context context) {
+        String price = "unknown";
+        for (Bid bid : task.getBids()) {
+            if (bid.getUser().getUsername().equals(user.getUsername())) {
+                price = bid.getPriceString();
+                break;
+            }
+        }
+
+        return "user " + user.getUsername() + " added bid of " + price + " on your task " + task.getTitle();
+        //return null;
+    }
+
+    public ElasticSearchTask getTask() {
+        return task;
+        //return null;
+    }
+
+    @Override
+    public int getNotificationID() {
+        return 0;
+    }
+
+    @Override
+    //Copy
+    public Intent getIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(intent.getFlags());
+        intent.putExtra("fragmentID", R.id.nav_notification);
+        return intent;
+        //return null;
+    }
+
+    @Override
+    //Copy
+    public Class<?> getParentStack() {
+        return MainActivity.class;
+        //return null;
+    }
+
+    //unknown
+    @Override
+    public void onReceived(Context context, final NotificationCallback callback) {
+        //Get task
+        ca.ualberta.angrybidding.ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener() {
+            @Override
+            public void onFound(ElasticSearchTask tasks) {
+                task = tasks;
+                loadCallback(callback);
+            }
+
+            @Override
+            public void onNotFound() {
+                Log.e("BidAddedNotification", "No Task Found");
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("BidAddedNotification", error.getMessage(), error);
+            }
+        });
+    }
+
+    private void loadCallback(NotificationCallback callback) {
+        callback.callBack();
+    }
+}

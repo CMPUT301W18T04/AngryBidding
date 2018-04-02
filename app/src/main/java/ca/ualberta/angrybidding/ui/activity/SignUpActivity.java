@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.slouple.android.AdvancedActivity;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.filter.UsernameTextWatcher;

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 public interface IMainFragment {
     /**
      * Get the AppBarLayout of the fragment
+     *
      * @param rootView
      * @param inflater
      * @return AppBarLayout of the fragment
@@ -21,6 +22,7 @@ public interface IMainFragment {
 
     /**
      * Gets the Toolbar of the fragment
+     *
      * @param rootView
      * @param inflater
      * @return Toolbar of the fragment
@@ -29,12 +31,14 @@ public interface IMainFragment {
 
     /**
      * Calls when ActionBar is added in MainActivity for the fragment
+     *
      * @param actionBar
      */
     void onActionBarAdded(ActionBar actionBar);
 
     /**
      * Return false if fragment should cover entire MainActivity including ActionBar area
+     *
      * @return
      */
     boolean shouldOffsetForToolbar();
@@ -46,6 +50,7 @@ public interface IMainFragment {
 
     /**
      * Calls when back is pressed while in current fragment
+     *
      * @return Is back pressed handled
      */
     boolean onBackPressed();

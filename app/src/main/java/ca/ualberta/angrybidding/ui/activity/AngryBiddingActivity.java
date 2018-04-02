@@ -20,6 +20,7 @@ public class AngryBiddingActivity extends AdvancedActivity {
     /**
      * Hides getUser from AdvancedActivity
      * Returns null. Do not use.
+     *
      * @return null
      */
     @Deprecated

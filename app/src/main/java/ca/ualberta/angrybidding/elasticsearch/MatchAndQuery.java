@@ -27,6 +27,7 @@ public class MatchAndQuery extends SearchQuery {
 
     /**
      * Add a match for the query
+     *
      * @param field Field name
      * @param value Field value to match
      */
@@ -43,7 +44,7 @@ public class MatchAndQuery extends SearchQuery {
     }
 
     @Override
-    public void addNestedQuery(String path, SearchQuery searchQuery){
+    public void addNestedQuery(String path, SearchQuery searchQuery) {
         try {
             JSONObject wrapper = new JSONObject();
             JSONObject nested = new JSONObject();

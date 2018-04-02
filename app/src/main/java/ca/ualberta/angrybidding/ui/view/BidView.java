@@ -1,18 +1,17 @@
 package ca.ualberta.angrybidding.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.PopupMenu;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.slouple.android.widget.button.PopupMenuButton;
 
 import ca.ualberta.angrybidding.Bid;
-import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 
 /**
@@ -21,7 +20,6 @@ import ca.ualberta.angrybidding.R;
  */
 public class BidView extends FrameLayout {
     protected Bid bid;
-    protected ElasticSearchTask elasticSearchTask;
 
     protected FrameLayout container;
     protected TextView usernameTextView;
@@ -91,10 +89,11 @@ public class BidView extends FrameLayout {
         return popupMenuButton;
     }
 
-    /** Use and show the popup menu.
+    /**
+     * Use and show the popup menu.
      * Evokes different actions for different cases
      *
-     * @param bid The bid selected
+     * @param bid      The bid selected
      * @param listener The listener to be called when user chooses accept or decline
      */
     public void useBidPopupMenu(final Bid bid, final OnBidActionListener listener) {
@@ -125,6 +124,7 @@ public class BidView extends FrameLayout {
      */
     public interface OnBidActionListener {
         void onDecline();
+
         void onAccept();
     }
 }

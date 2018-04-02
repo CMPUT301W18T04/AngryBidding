@@ -1,5 +1,7 @@
 ca.ualberta.angrybidding
 ca.ualberta.angrybidding.elasticsearch
+ca.ualberta.angrybidding.instrumented
+ca.ualberta.angrybidding.ui
 ca.ualberta.angrybidding.ui.activity
 ca.ualberta.angrybidding.ui.activity.main
 ca.ualberta.angrybidding.ui.activity.main.history
