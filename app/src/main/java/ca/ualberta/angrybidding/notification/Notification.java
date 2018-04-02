@@ -48,8 +48,11 @@ public class Notification {
         return parameters;
     }
 
+    public void setSeen(boolean seen){
+        this.seen = seen;
+    }
+
     public boolean isSeen() {
         return seen;
     }
-
 }
