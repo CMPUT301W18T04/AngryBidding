@@ -87,6 +87,7 @@ public class ElasticSearchNotification extends Notification{
                 ArrayList<ElasticSearchNotification> notifications = parseNotifications(searchResult);
                 if(setToSeen) {
                     for (ElasticSearchNotification notification : notifications) {
+                        notification.setSeen(true);
                         updateNotification(context, notification.getID(), notification, new UpdateResponseListener() {
                             @Override
                             public void onCreated(String id) {
