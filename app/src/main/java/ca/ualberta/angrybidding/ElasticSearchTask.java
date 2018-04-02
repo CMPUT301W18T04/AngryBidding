@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -302,6 +303,7 @@ public class ElasticSearchTask extends Task {
         }
 
         public abstract void onFound(Task task);
+
     }
 
     /**

@@ -14,11 +14,14 @@ import com.slouple.android.widget.button.SubmitButtonListener;
 import java.math.BigDecimal;
 
 import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.notification.Notification;
 
 public class AddBidActivity extends AngryBiddingActivity {
     public static final int REQUEST_CODE = 1003;
@@ -116,6 +119,17 @@ public class AddBidActivity extends AngryBiddingActivity {
 
             @Override
             public void onUpdated(int version) {
+                /*ElasticSearchNotification.addNotification(this, Notification notification, new AddResponseListener() {
+                    @Override
+                    public void onCreated(String id) {
+
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });*/
                 setResult(RESULT_OK);
                 finish();
             }

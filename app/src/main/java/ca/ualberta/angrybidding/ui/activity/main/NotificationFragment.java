@@ -4,20 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedFragment;
+import com.slouple.android.widget.adapter.DummyAdapter;
 
 import java.util.ArrayList;
 
@@ -25,12 +24,9 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
 import ca.ualberta.angrybidding.notification.Notification;
-import ca.ualberta.angrybidding.notification.NotificationCallback;
 import ca.ualberta.angrybidding.notification.NotificationConnection;
-import ca.ualberta.angrybidding.notification.NotificationFactory;
-import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
-import ca.ualberta.angrybidding.ui.activity.main.IMainFragment;
+import ca.ualberta.angrybidding.ui.view.NotificationView;
 
 /**
  * Created by SarahS on 2018/03/29.
@@ -39,7 +35,7 @@ import ca.ualberta.angrybidding.ui.activity.main.IMainFragment;
 public class NotificationFragment extends AdvancedFragment implements IMainFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private ArrayList<Notification> notifications = new ArrayList<>();
+    private ArrayList<ElasticSearchNotification> notifications = new ArrayList<>();
     private ElasticSearchNotification.ListNotificationListener listener;
 
     private static final int COMMENT_VIEW_TYPE = 1;
@@ -51,7 +47,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     @Override
     public AppBarLayout getAppBarLayout(ViewGroup rootView, LayoutInflater inflater) {
         if (appBarLayout == null) {
-            appBarLayout = (AppBarLayout) inflater.inflate(R.layout.notification_fragment_layout, rootView, false);
+            appBarLayout = (AppBarLayout) inflater.inflate(R.layout.notification_fragment_toolbar, rootView, false);
         }
         return appBarLayout;
 
@@ -102,8 +98,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         @Override
         public void onReceivedNotification(NotificationWrapper notificationWrapper) {
             if(notificationWrapper != null){
-                //ElasticsearchNotification.addNotification?
+                //Need Sorting?
                 //addNotification(notification);
+                recyclerView.getAdapter().notifyDataSetChanged();
                 final MainActivity mainActivity = (MainActivity) getContext();
                 if(mainActivity.getCurrentFragmentID() != R.id.nav_notification) {
                     Snackbar.make(getView(), "New Notification", Snackbar.LENGTH_LONG)
@@ -116,7 +113,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
                 }
             }
         }
-    };//
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,6 +125,36 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_notification, container, false);
         //ViewPager viewPager = layout.findViewById(R.id.notificationViewPager);
+        swipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.notificationsSwipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                NotificationFragment.this.onRefresh();
+            }
+        });
+
+        recyclerView = (RecyclerView) layout.findViewById(R.id.taskListRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new DummyAdapter<ElasticSearchNotification, NotificationView>(notifications) {
+            @Override
+            public NotificationView createView(int viewType) {
+                return createTaskView();
+            }
+
+            @Override
+            public void onBindView(NotificationView view, ElasticSearchNotification item) {
+                NotificationFragment.this.onBindView(view, item);
+            }
+
+            @Override
+            public void onReachingLastItem(int i) {
+
+            }
+
+        });
+
+        refresh();
 
         return layout;
     }
@@ -135,6 +162,44 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    public void refresh() {
+        if (!swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
+        }
+    }
+
+    public void clear() {
+        notifications.clear();
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    public void onRefresh() {
+        clear();
+    }
+
+    protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
+
+        taskView.setTask(task);
+        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
+
+            @Override
+            public void onDelete() {
+                refresh();
+            }
+
+            @Override
+            public void onEdit() {
+                refresh();
+            }
+        });
+    }
+
+    protected TaskView createTaskView() {
+        TaskView taskView = new TaskView(getContext());
+        return taskView;
     }
 
 }

@@ -2,11 +2,16 @@ package ca.ualberta.angrybidding.notification;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
@@ -20,7 +25,10 @@ import ca.ualberta.angrybidding.R;
 public class BidAddedNotification extends NotificationWrapper {
     private User user;
     private Task task;
+    private String taskId;
+    private ElasticSearchTask.GetTaskListener listener;
     protected ElasticSearchTask elasticSearchTask;
+
     /*=private User commenter;
     private com.postphere.post.Entry commentEntry;
     private volatile int loadedCount = 0;*/
@@ -32,7 +40,9 @@ public class BidAddedNotification extends NotificationWrapper {
     @Override
     protected void loadEntryParameters(HashMap<String, String> parameters) {
         user = new User(parameters.get("BidUser"));
-        //task = new ElasticSearchTask(Integer.getInteger(parameters.get("TaskId")));
+        taskId = parameters.get("TaskId");
+
+
         //task from task ID?
         //task = new ? (parameters.get("TaskID"));
         /*commenter = new User(Integer.parseInt(parameters.get("UserID")));
@@ -47,6 +57,7 @@ public class BidAddedNotification extends NotificationWrapper {
 
     @Override
     public String getContent(Context context) {
+
         return "user "+ user.getUsername() +" added bid of $"+ task.getBids().toString() +" on your task" + task.getTitle();
         //return null;
     }
@@ -75,6 +86,29 @@ public class BidAddedNotification extends NotificationWrapper {
 
     //unknown
     @Override
-    public void onReceived(Context context, NotificationCallback callback) {
+    public void onReceived(Context context, final NotificationCallback callback) {
+        //Get task ...
+        /*
+         *ERR0R!!!!!!!!!!!!!!!!!
+         */
+        task = ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener(){
+            @Override
+            public void onFound(Task task){
+                loadCallback(callback);
+            }
+
+            @Override
+            public void onNotFound(){
+                Log.e("BidAddedNotification", "No Task Found");
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("BidAddedNotification", error.getMessage(), error);
+            }
+        });
+    }
+    private void loadCallback(NotificationCallback callback){
+        callback.callBack();
     }
 }

@@ -3,18 +3,21 @@ package ca.ualberta.angrybidding.ui.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.Notification;
+import ca.ualberta.angrybidding.notification.NotificationWrapper;
 
 /**
  * Created by SarahS on 2018/04/01.
  */
 
-public class NotificationView {
+public class NotificationView extends FrameLayout{
     //Copy from TaskView
     protected ElasticSearchNotification elasticSearchNotification;
 
@@ -41,7 +44,7 @@ public class NotificationView {
     protected void loadViews() {
         container = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_notification, this, true);
 
-        titleTextView = findViewByID(R.id.notificationTitle);
+        titleTextView = findViewById(R.id.notificationTitle);
         messageTextView = findViewById(R.id.notificationMessage);
     }
 
@@ -57,25 +60,14 @@ public class NotificationView {
      *
      * @param task The task object
      */
-    public void setTask(ElasticSearchTask task) {
-        this.elasticSearchTask = task;
-        if (task.getTitle() == null) {
-            titleTextView.setText("Missing Title");
-        } else {
-            titleTextView.setVisibility(View.VISIBLE);
-            titleTextView.setText(task.getTitle());
-        }
+    //Need find way to access BidAddedNotification or getTask from paramaeter again
+    public void setNotification(ElasticSearchNotification 通知) {
+        this.elasticSearchNotification = 通知;
+        titleTextView.setVisibility(View.VISIBLE);
+        titleTextView.setText("Bids Added");
+        messageTextView.setText("Bids Added to your Task");
 
-        if (task.getUser().getUsername() == null) {
-            ownerTextView.setText("Missing User");
-        } else {
-            ownerTextView.setVisibility(View.VISIBLE);
-            ownerTextView.setText(task.getUser().getUsername());
-        }
-
-        descriptionTextView.setText(task.getDescription());
-
-        //Notification onclick?
+        //Notification onclick
         /*setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +89,5 @@ public class NotificationView {
         return titleTextView;
     }
 
-    public TextView getOwnerTextView() {
-        return ownerTextView;
-    }
 
 }
