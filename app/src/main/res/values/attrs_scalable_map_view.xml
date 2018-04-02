@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="minZoom" format="integer"/>
+    <attr name="baseScale" format="float"/>
+    <declare-styleable name="ScalableMapView" parent="MapView">
+        <attr name="minZoom"/>
+        <attr name="baseScale"/>
+    </declare-styleable>
+</resources>

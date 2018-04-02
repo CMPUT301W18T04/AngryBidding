@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="touchable" format="boolean" />
+    <declare-styleable name="TouchableMapView" parent="ScalableMapView">
+        <attr name="touchable"/>
+    </declare-styleable>
+</resources>
