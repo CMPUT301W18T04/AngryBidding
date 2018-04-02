@@ -27,7 +27,7 @@ public class BidAddedNotification extends NotificationWrapper {
     private Task task;
     private String taskId;
     private ElasticSearchTask.GetTaskListener listener;
-    protected ElasticSearchTask elasticSearchTask;
+    //protected ElasticSearchTask elasticSearchTask;
 
     /*=private User commenter;
     private com.postphere.post.Entry commentEntry;
@@ -91,9 +91,10 @@ public class BidAddedNotification extends NotificationWrapper {
         /*
          *ERR0R!!!!!!!!!!!!!!!!!
          */
-        task = ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener(){
+        ca.ualberta.angrybidding.ElasticSearchTask.getTask(context, taskId, new ElasticSearchTask.GetTaskListener(){
             @Override
-            public void onFound(Task task){
+            public void onFound(ElasticSearchTask tasks){
+                task = tasks;
                 loadCallback(callback);
             }
 

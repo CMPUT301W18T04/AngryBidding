@@ -88,6 +88,6 @@ public class NotificationView extends FrameLayout{
     public TextView getTitleTextView() {
         return titleTextView;
     }
-
+    
 
 }

@@ -180,26 +180,13 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         clear();
     }
 
-    protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
-
-        taskView.setTask(task);
-        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
-
-            @Override
-            public void onDelete() {
-                refresh();
-            }
-
-            @Override
-            public void onEdit() {
-                refresh();
-            }
-        });
+    protected void onBindView(NotificationView notificationView, final ElasticSearchNotification noti) {
+        notificationView.setNotification(noti);
     }
 
-    protected TaskView createTaskView() {
-        TaskView taskView = new TaskView(getContext());
-        return taskView;
+    protected NotificationView createTaskView() {
+        NotificationView notificationView = new NotificationView(getContext());
+        return notificationView;
     }
 
 }
