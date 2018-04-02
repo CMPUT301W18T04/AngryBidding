@@ -295,13 +295,13 @@ public class ElasticSearchTask extends Task {
         return tasks;
     }
 
-    public abstract class GetTaskListener extends GetResponseListener{
+    public abstract static class GetTaskListener extends GetResponseListener{
         @Override
         public void onFound(JSONObject object){
             onFound(new Gson().fromJson(object.toString(), ElasticSearchTask.class));
         }
 
-        public abstract void onFound(Task task);
+        public abstract void onFound(ElasticSearchTask task);
     }
 
     /**
