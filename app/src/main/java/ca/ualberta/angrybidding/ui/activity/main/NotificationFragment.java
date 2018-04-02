@@ -1,6 +1,8 @@
 package ca.ualberta.angrybidding.ui.activity.main;
 
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
@@ -9,11 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedFragment;
 import com.slouple.android.widget.adapter.DummyAdapter;
@@ -21,10 +25,11 @@ import com.slouple.android.widget.adapter.DummyAdapter;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchNotification;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
-import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationConnection;
+import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
 
@@ -86,7 +91,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         @Override
         public NotificationWrapper onDeserializeNotification(String className, String json) {
             Class<?> classType;
-            if(className.equals("com.postphere.notification.CommentNotification")){
+            if(className.equals("ca.ualberta.angrybidding.notification.BidAddedNotification")){
                 classType = BidAddedNotification.class;
             }else{
                 return null;
@@ -118,9 +123,10 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startNotificationService();
     }
 
-    //Notification view? New Class needed?
+    //Notification view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_notification, container, false);
@@ -131,10 +137,26 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             @Override
             public void onRefresh() {
                 NotificationFragment.this.onRefresh();
+                ElasticSearchNotification.listNotificationByUsername(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchNotification.ListNotificationListener() {
+                    @Override
+                    public void onResult(ArrayList<ElasticSearchNotification> newNotification) {
+                        notifications.addAll(newNotification);
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        finishRefresh();
+                    }
+
+                    /*
+                     * Show message when a error occurs
+                     */
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("TaskPostedFragment", error.getMessage(), error);
+                    }
+                });
             }
         });
 
-        recyclerView = (RecyclerView) layout.findViewById(R.id.taskListRecyclerView);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.notificationsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new DummyAdapter<ElasticSearchNotification, NotificationView>(notifications) {
             @Override
@@ -180,13 +202,66 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         clear();
     }
 
+    public void finishRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     protected void onBindView(NotificationView notificationView, final ElasticSearchNotification noti) {
         notificationView.setNotification(noti);
     }
 
+    //TODO
     protected NotificationView createTaskView() {
         NotificationView notificationView = new NotificationView(getContext());
         return notificationView;
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        NotificationManager notificationManager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+        startNotificationService();
+        getContext().bindService(new Intent(getContext(), NotificationService.class), connection, 0);
+    }
+
+    public void startNotificationService(){
+        if(!getContext().isServiceRunning(NotificationService.class)){
+            Intent serviceIntent = new Intent(getContext(), NotificationService.class);
+            getContext().startService(serviceIntent);
+            Log.d("NotificationsFragment", "Starting NotificationService");
+        }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        connection.disconnect();
+        getContext().unbindService(connection);
+    }
+
+    /*public void removeNotification(Notification notification, boolean removeFromServer){
+        if(notifications.remove(notification)){
+            sortNotifications();
+            recyclerView.getAdapter().notifyDataSetChanged();
+
+            if(removeFromServer){
+                PostAPIRequest request = new PostAPIRequest("DeleteNotification", new APIJsonResponseListener() {
+                    @Override
+                    public void onSuccess(HashMap<String, String> values) {
+                        Snackbar.make(getView(), R.string.notificationRemoved, Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                }, getContext());
+                request.getParams().put("entryID", String.valueOf(notification.getEntryID()));
+                request.setUser(User.getMainUserSession(getContext()));
+                request.submit();
+            }
+        }
+    }*/
 
 }

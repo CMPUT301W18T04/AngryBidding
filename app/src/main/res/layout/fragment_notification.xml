@@ -13,7 +13,6 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:id="@+id/notificationsRecyclerView">
-
         </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>

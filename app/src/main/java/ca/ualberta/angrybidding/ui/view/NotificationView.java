@@ -60,7 +60,7 @@ public class NotificationView extends FrameLayout{
      *
      * @param task The task object
      */
-    //Need find way to access BidAddedNotification or getTask from paramaeter again
+    //Need find way to access BidAddedNotification or getTask from paramaeter again TODO
     public void setNotification(ElasticSearchNotification 通知) {
         this.elasticSearchNotification = 通知;
         titleTextView.setVisibility(View.VISIBLE);
@@ -88,6 +88,6 @@ public class NotificationView extends FrameLayout{
     public TextView getTitleTextView() {
         return titleTextView;
     }
-    
+
 
 }
