@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import java.util.HashMap;
 
+import ca.ualberta.angrybidding.Task;
+
 /**
  * Created by SarahS on 2018/03/31.
  */
@@ -25,6 +27,7 @@ public abstract class NotificationWrapper {
 
     public abstract String getTitle(Context context);
     public abstract String getContent(Context context);
+    public abstract Task getTask();
     public abstract int getNotificationID();
     public abstract Intent getIntent(Context context);
     public abstract Class<?> getParentStack();

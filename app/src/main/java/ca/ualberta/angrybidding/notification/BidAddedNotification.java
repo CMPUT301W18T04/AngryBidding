@@ -71,6 +71,12 @@ public class BidAddedNotification extends NotificationWrapper {
     }
 
     @Override
+    public Task getTask() {
+        return task;
+        //return null;
+    }
+
+    @Override
     public int getNotificationID() {
         return 0;
     }

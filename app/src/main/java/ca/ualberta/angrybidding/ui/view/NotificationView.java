@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.notification.Notification;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
  * Created by SarahS on 2018/04/01.
@@ -25,6 +30,7 @@ public class NotificationView extends LinearLayout{
     protected LinearLayout container;
     protected TextView titleTextView;
     protected TextView messageTextView;
+    protected Task task;
 
     public NotificationView(Context context) {
         this(context, null);
@@ -62,7 +68,7 @@ public class NotificationView extends LinearLayout{
      * @param task The task object
      */
     //kanji character TODO
-    public void setNotification(NotificationWrapper 通知) {
+    public void setNotification(final NotificationWrapper 通知) {
         this.notificationWrapper = 通知;
         titleTextView.setVisibility(View.VISIBLE);
         titleTextView.setText(通知.getTitle(getContext()));
@@ -72,7 +78,6 @@ public class NotificationView extends LinearLayout{
         /*setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                openViewDetailActivity();
             }
         });*/
 
@@ -89,6 +94,13 @@ public class NotificationView extends LinearLayout{
     public TextView getTitleTextView() {
         return titleTextView;
     }
+
+    /*public void openViewDetailActivity(task) {
+        Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
+        detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
+        detailIntent.putExtra("id", elasticSearchTask.getID());
+        getContext().startActivity(detailIntent);
+    }*/
 
 
 }
