@@ -5,13 +5,12 @@ import android.content.Intent;
 
 import java.util.HashMap;
 
-/**
- * Created by SarahS on 2018/03/31.
- */
-
 public abstract class NotificationWrapper {
     protected Notification notification;
 
+    /**
+     * @param notification Notification
+     */
     public NotificationWrapper(Notification notification) {
         this.notification = notification;
         loadEntryParameters(notification.getParameterMap());

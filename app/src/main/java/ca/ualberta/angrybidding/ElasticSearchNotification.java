@@ -26,6 +26,13 @@ public class ElasticSearchNotification extends Notification {
 
     private transient String id;
 
+    /**
+     * @param id               ElasticSearch object id of the notification
+     * @param user             User of who created the task that was bidded
+     * @param notificationType Notification Type
+     * @param parameters       Parameter containing Bidded user username and Task ID
+     * @param seen             Boolean if the notification was seen or not
+     */
     public ElasticSearchNotification(String id, User user, String notificationType, HashMap<String, String> parameters, boolean seen) {
         super(user, notificationType, parameters, false);
         this.id = id;
@@ -47,6 +54,13 @@ public class ElasticSearchNotification extends Notification {
         return this.id;
     }
 
+    /**
+     * Adds new notification
+     *
+     * @param context      Context
+     * @param notification Notification
+     * @param listener     Listener to call when new notification re made
+     */
     public static void addNotification(Context context, Notification notification, AddResponseListener listener) {
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(notification));
@@ -57,6 +71,13 @@ public class ElasticSearchNotification extends Notification {
         }
     }
 
+    /**
+     * lists all the notification
+     *
+     * @param context  Context
+     * @param username Username of who created the task that was bidded
+     * @param listener Listener to call on response
+     */
     public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username);
@@ -74,10 +95,25 @@ public class ElasticSearchNotification extends Notification {
         request.submit(context);
     }
 
+    /**
+     * lists all the notification not seen
+     *
+     * @param context  Context
+     * @param username Username of who created the task that was bidded
+     * @param listener Listener to call on response
+     */
     public static void listNotSeenNotificationByUsername(final Context context, String username, final ListNotificationListener listener) {
         listNotSeenNotificationByUsername(context, username, true, listener);
     }
 
+    /**
+     * lists all the notification not seen
+     *
+     * @param context   Context
+     * @param username  Username of who created the task that was bidded
+     * @param setToSeen Boolean set to seen
+     * @param listener  Listener to call on response
+     */
     public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener) {
         TermAndQuery query = new TermAndQuery();
         query.addTerm("user.username", username);
@@ -118,6 +154,14 @@ public class ElasticSearchNotification extends Notification {
         request.submit(context);
     }
 
+    /**
+     * Updates the notification
+     *
+     * @param context      Context
+     * @param id           Id of the notification
+     * @param notification Notification
+     * @param listener     Listener to call on response
+     */
     public static void updateNotification(Context context, String id, Notification notification, UpdateResponseListener listener) {
         try {
             UpdateRequest updateRequest = new UpdateRequest(ELASTIC_SEARCH_INDEX, id, new JSONObject(new Gson().toJson(notification)), listener);
@@ -139,6 +183,9 @@ public class ElasticSearchNotification extends Notification {
         return notifications;
     }
 
+    /**
+     * Listener for listing notification requests
+     */
     public interface ListNotificationListener {
         void onResult(ArrayList<ElasticSearchNotification> notifications);
 

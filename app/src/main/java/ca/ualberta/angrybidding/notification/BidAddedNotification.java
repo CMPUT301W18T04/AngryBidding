@@ -14,43 +14,40 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
-/**
- * Created by SarahS on 2018/03/31.
- */
-
 public class BidAddedNotification extends NotificationWrapper {
     private User user;
     private ElasticSearchTask task;
     private String taskId;
-    private ElasticSearchTask.GetTaskListener listener;
-    //protected ElasticSearchTask elasticSearchTask;
 
-    /*=private User commenter;
-    private com.postphere.post.Entry commentEntry;
-    private volatile int loadedCount = 0;*/
-
+    /**
+     * @param notification notification
+     */
     public BidAddedNotification(Notification notification) {
         super(notification);
     }
 
+    /**
+     * @param parameters Parameters {"BidUser",username},{"TaskId",Id}
+     */
     @Override
     protected void loadEntryParameters(HashMap<String, String> parameters) {
         user = new User(parameters.get("BidUser"));
         taskId = parameters.get("TaskId");
-
-
-        //task from task ID?
-        //task = new ? (parameters.get("TaskID"));
-        /*commenter = new User(Integer.parseInt(parameters.get("UserID")));
-        commentEntry = new com.postphere.post.Entry(Integer.parseInt(parameters.get("EntryID")));*/
     }
 
+    /**
+     * @param context Context
+     * @return Returns notification title
+     */
     @Override
     public String getTitle(Context context) {
         return "Bids Added on Your Task";
-        //return null;
     }
 
+    /**
+     * @param context Context
+     * @return Returns notification description (message)
+     */
     @Override
     public String getContent(Context context) {
         String price = "unknown";
@@ -62,37 +59,47 @@ public class BidAddedNotification extends NotificationWrapper {
         }
 
         return "user " + user.getUsername() + " added bid of " + price + " on your task " + task.getTitle();
-        //return null;
     }
 
+    /**
+     * @return Task that is bidded
+     */
     public ElasticSearchTask getTask() {
         return task;
-        //return null;
     }
 
+    /**
+     * @return Notification Id
+     */
     @Override
     public int getNotificationID() {
         return 0;
     }
 
+    /**
+     * @param context Context
+     * @return Returns intent
+     */
     @Override
-    //Copy
     public Intent getIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(intent.getFlags());
         intent.putExtra("fragmentID", R.id.nav_notification);
         return intent;
-        //return null;
     }
 
+    /**
+     * @return MainActivity class
+     */
     @Override
-    //Copy
     public Class<?> getParentStack() {
         return MainActivity.class;
-        //return null;
     }
 
-    //unknown
+    /**
+     * @param context  Context
+     * @param callback Callback
+     */
     @Override
     public void onReceived(Context context, final NotificationCallback callback) {
         //Get task
@@ -115,6 +122,9 @@ public class BidAddedNotification extends NotificationWrapper {
         });
     }
 
+    /**
+     * @param callback Callback
+     */
     private void loadCallback(NotificationCallback callback) {
         callback.callBack();
     }

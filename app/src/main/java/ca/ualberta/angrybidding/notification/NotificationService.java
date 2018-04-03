@@ -29,23 +29,12 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 
-//
-//import com.slouple.android.notification.Notification;
-//
-
-/**
- * Created by SarahS on 2018/03/29.
- */
-
 public class NotificationService extends Service {
     private NotificationLoadingThread notificationLoadingThread = new NotificationLoadingThread();
-    private ElasticSearchNotification elasticSearchNotification;
     private ElasticSearchNotification.ListNotificationListener listener;
-    private ElasticSearchUser user;
-    //private NotificationLoader loader;
     private long lastHeadsUpNotificationTime;
 
-    private ArrayList<Messenger> clients = new ArrayList<Messenger>();
+    private ArrayList<Messenger> clients = new ArrayList<>();
 
     private final Messenger messenger = new Messenger(new IncomingHandler());
 
@@ -56,6 +45,9 @@ public class NotificationService extends Service {
     public static final long HEADS_UP_NOTIFICATION_COOLDOWN = 5 * 60 * 1000;
 
     class IncomingHandler extends Handler {
+        /**
+         * @param message Message
+         */
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
@@ -71,6 +63,11 @@ public class NotificationService extends Service {
         }
     }
 
+    /**
+     * Sends notification
+     *
+     * @param 알림 NotificationWrapper
+     */
     //Korea
     private void sendNotificationToAllClients(NotificationWrapper 알림) {
         Gson gson = new Gson();
@@ -98,11 +95,18 @@ public class NotificationService extends Service {
         super.onCreate();
     }
 
+    /**
+     * Starts service background activity
+     *
+     * @param intent  Intent
+     * @param flags   Flags
+     * @param startID StartID
+     * @return START_STICKY
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
         super.onStartCommand(intent, flags, startID);
         // onStartCommand can be called multiple times, check if it is already called
-        //
         if (listener != null) {
             return START_STICKY;
         }
@@ -110,7 +114,6 @@ public class NotificationService extends Service {
 
             @Override
             public void onResult(ArrayList<ElasticSearchNotification> notifications) {
-                //sendNotificationToAllClients
                 //Create
                 ArrayList<NotificationWrapper> notificationWrappers = new NotificationFactory().parseNotifications(notifications);
                 for (final NotificationWrapper notificationWrapper : notificationWrappers) {
@@ -136,7 +139,6 @@ public class NotificationService extends Service {
                 Log.e("NotificationService", error.getMessage(), error);
             }
         };
-        //
         notificationLoadingThread.start();
         return START_STICKY;
     }
@@ -153,6 +155,13 @@ public class NotificationService extends Service {
         notificationLoadingThread.interrupt();
     }
 
+    /**
+     * Create notification
+     *
+     * Notification Channel needed for API 26 and above
+     *
+     * @param 通知 NotificationWrapper
+     */
     //Kanji Character
     protected void createNotification(NotificationWrapper 通知) {
         int priority = NotificationCompat.PRIORITY_DEFAULT;
@@ -168,7 +177,7 @@ public class NotificationService extends Service {
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Build Notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel 01")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "GeneralNotification")
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
                 .setLights(0xff1bccf1, 500, 100)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -179,12 +188,12 @@ public class NotificationService extends Service {
                 .setAutoCancel(true)
                 .setPriority(priority);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //notificationManager.notify(通知.getNotificationID(), builder.build());
-        //Channel created if needed
+
+        //Notification Channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("channel 01",
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("GeneralNotification",
+                    "General Notification",
+                    NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(通知.getNotificationID(), builder.build());

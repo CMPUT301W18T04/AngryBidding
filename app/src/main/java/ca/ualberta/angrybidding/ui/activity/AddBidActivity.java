@@ -130,6 +130,9 @@ public class AddBidActivity extends AngryBiddingActivity {
                 ElasticSearchNotification.addNotification(AddBidActivity.this, new Notification(taskUser, type, parameter, false), new AddResponseListener() {
                     @Override
                     public void onCreated(String id) {
+                        /**
+                         * Create new notification
+                         */
                         Intent intent = new Intent();
                         ElasticSearchNotification notification = new ElasticSearchNotification(id, taskUser, type, parameter, false);
                         intent.putExtra("notification", new Gson().toJson(notification));

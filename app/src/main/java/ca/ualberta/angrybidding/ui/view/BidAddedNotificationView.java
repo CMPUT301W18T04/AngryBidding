@@ -12,10 +12,6 @@ import ca.ualberta.angrybidding.notification.BidAddedNotification;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
-/**
- * Created by SarahS on 2018/04/02.
- */
-
 public class BidAddedNotificationView extends NotificationView {
     protected ElasticSearchTask task;
 
@@ -31,6 +27,11 @@ public class BidAddedNotificationView extends NotificationView {
         super(context, attrs, defStyle);
     }
 
+    /**
+     * Set Notification message and Title
+     *
+     * @param 通知 NotificationWrapper
+     */
     @Override
     public void setNotification(final NotificationWrapper 通知) {
         super.setNotification(通知);

@@ -8,22 +8,23 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-//import com.slouple.android.notification.*;
-
-/**
- * Created by SarahS on 2018/03/31.
- */
-
 public abstract class NotificationConnection implements ServiceConnection {
     private Messenger serviceMessenger;
     private Messenger clientMessenger = new Messenger(new NewNotificationClientMessageHandler());
 
+    /**
+     * @param componentName ComponentName
+     * @param iBinder       IBinder
+     */
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         serviceMessenger = new Messenger(iBinder);
         connect();
     }
 
+    /**
+     * @param componentName ComponentName
+     */
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         serviceMessenger = null;
@@ -55,11 +56,24 @@ public abstract class NotificationConnection implements ServiceConnection {
         }
     }
 
+    /**
+     * Deserialize Notification
+     *
+     * @param className String ClassName
+     * @param json      Json
+     * @return NotificationWrapper
+     */
     public abstract NotificationWrapper onDeserializeNotification(String className, String json);
 
+    /**
+     * @param notificationWrapper NotificationWrapper
+     */
     public abstract void onReceivedNotification(NotificationWrapper notificationWrapper);
 
     class NewNotificationClientMessageHandler extends Handler {
+        /**
+         * @param message Message
+         */
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {

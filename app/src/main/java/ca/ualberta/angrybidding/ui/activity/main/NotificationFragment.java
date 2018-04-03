@@ -37,9 +37,8 @@ import ca.ualberta.angrybidding.ui.view.BidAddedNotificationView;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
 
 /**
- * Created by SarahS on 2018/03/29.
+ * Notification Fragment
  */
-
 public class NotificationFragment extends AdvancedFragment implements IMainFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
@@ -63,7 +62,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
     @Override
     public Toolbar getToolbar(ViewGroup rootView, LayoutInflater inflater) {
         if (toolbar == null) {
-            toolbar = (Toolbar) getAppBarLayout(rootView, inflater).findViewById(R.id.notification_fragment_toolbar);
+            toolbar = getAppBarLayout(rootView, inflater).findViewById(R.id.notification_fragment_toolbar);
         }
         return toolbar;
     }
@@ -88,7 +87,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         return false;
     }
 
-    //Need to add
+    /**
+     * Connection Object
+     */
     private NotificationConnection connection = new NotificationConnection() {
         @Override
         public NotificationWrapper onDeserializeNotification(String className, String json) {
@@ -129,12 +130,11 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         startNotificationService();
     }
 
-    //Notification view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_notification, container, false);
         //ViewPager viewPager = layout.findViewById(R.id.notificationViewPager);
-        swipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.notificationsSwipeRefreshLayout);
+        swipeRefreshLayout = layout.findViewById(R.id.notificationsSwipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -143,7 +143,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
             }
         });
 
-        recyclerView = (RecyclerView) layout.findViewById(R.id.notificationsRecyclerView);
+        recyclerView = layout.findViewById(R.id.notificationsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new DummyAdapter<NotificationWrapper, NotificationView>(notifications) {
             @Override
@@ -194,6 +194,10 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
+    /**
+     * onRefresh() will update the notification list and get the notification list of current
+     * user from the elastic search server, and add the notification to the ArrayList
+     */
     public void onRefresh() {
         clear();
         ElasticSearchNotification.listNotificationByUsername(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new ElasticSearchNotification.ListNotificationListener() {
@@ -213,9 +217,7 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
                 finishRefresh();
             }
 
-            /*
-             * Show message when a error occurs
-             */
+            //Show message when a error occurs
             @Override
             public void onError(VolleyError error) {
                 Log.e("NotificationFragment", error.getMessage(), error);
@@ -243,6 +245,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         return view;
     }
 
+    /**
+     * On Start calls startNotificationService()
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -252,6 +257,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         getContext().bindService(new Intent(getContext(), NotificationService.class), connection, 0);
     }
 
+    /**
+     * Starts the Notification Service in background
+     */
     public void startNotificationService() {
         if (!getContext().isServiceRunning(NotificationService.class)) {
             Intent serviceIntent = new Intent(getContext(), NotificationService.class);
@@ -260,6 +268,9 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         }
     }
 
+    /**
+     * Stops the service in background and disconnects the connection
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -267,29 +278,5 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         getContext().unbindService(connection);
         Log.d("NotificationsFragment", "Stopped NotificationService");
     }
-
-    /*public void removeNotification(Notification notification, boolean removeFromServer){
-        if(notifications.remove(notification)){
-            sortNotifications();
-            recyclerView.getAdapter().notifyDataSetChanged();
-
-            if(removeFromServer){
-                PostAPIRequest request = new PostAPIRequest("DeleteNotification", new APIJsonResponseListener() {
-                    @Override
-                    public void onSuccess(HashMap<String, String> values) {
-                        Snackbar.make(getView(), R.string.notificationRemoved, Snackbar.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(String error) {
-
-                    }
-                }, getContext());
-                request.getParams().put("entryID", String.valueOf(notification.getEntryID()));
-                request.setUser(User.getMainUserSession(getContext()));
-                request.submit();
-            }
-        }
-    }*/
 
 }

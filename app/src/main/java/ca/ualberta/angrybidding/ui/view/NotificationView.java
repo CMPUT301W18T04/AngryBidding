@@ -11,12 +11,7 @@ import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
 
-/**
- * Created by SarahS on 2018/04/01.
- */
-
 public class NotificationView extends LinearLayout {
-    //Copy from TaskView
     protected ElasticSearchNotification elasticSearchNotification;
     protected NotificationWrapper notificationWrapper;
 
@@ -57,9 +52,9 @@ public class NotificationView extends LinearLayout {
     /**
      * Extracts the task object into the view
      *
-     * @param task The task object
+     * @param 通知 NotificationWrapper
      */
-    //kanji character TODO
+    //kanji character
     public void setNotification(final NotificationWrapper 通知) {
         this.notificationWrapper = 通知;
         titleTextView.setVisibility(View.VISIBLE);
