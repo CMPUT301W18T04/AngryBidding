@@ -8,17 +8,17 @@ import org.json.JSONObject;
 public class SearchRequest extends ElasticSearchRequest {
 
     /**
-     * @param index ElasticSearch Index
+     * @param index       ElasticSearch Index
      * @param searchQuery Query submits to the server
-     * @param listener Listener to call on response
+     * @param listener    Listener to call on response
      */
     public SearchRequest(String index, SearchQuery searchQuery, SearchResponseListener listener) {
         this(index, searchQuery.getRoot(), listener);
     }
 
     /**
-     * @param index ElasticSearch Index
-     * @param body Json query body
+     * @param index    ElasticSearch Index
+     * @param body     Json query body
      * @param listener Listener to call on response
      */
     public SearchRequest(String index, JSONObject body, SearchResponseListener listener) {
@@ -26,19 +26,19 @@ public class SearchRequest extends ElasticSearchRequest {
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param index ElasticSearch Index
+     * @param url         ElasticSearch Server URL
+     * @param index       ElasticSearch Index
      * @param searchQuery Query submits to the server
-     * @param listener Listener to call on response
+     * @param listener    Listener to call on response
      */
     public SearchRequest(String url, String index, SearchQuery searchQuery, SearchResponseListener listener) {
         this(url, index, searchQuery.getRoot(), listener);
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param index ElasticSearch Index
-     * @param body Json query body
+     * @param url      ElasticSearch Server URL
+     * @param index    ElasticSearch Index
+     * @param body     Json query body
      * @param listener Listener to call on response
      */
     public SearchRequest(String url, String index, JSONObject body, SearchResponseListener listener) {
@@ -47,6 +47,7 @@ public class SearchRequest extends ElasticSearchRequest {
 
     /**
      * Return URL with appended /_search to the end of url
+     *
      * @return URL with appended /_search
      */
     @Override

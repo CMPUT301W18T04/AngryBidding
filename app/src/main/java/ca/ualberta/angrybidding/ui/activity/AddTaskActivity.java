@@ -33,6 +33,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
     /**
      * Color for ActionBar and status bar
+     *
      * @return Color resource ID
      */
     @Override

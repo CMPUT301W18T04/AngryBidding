@@ -30,9 +30,8 @@ public class ElasticSearchUser extends User {
     private String passwordHash;
 
     /**
-     *
-     * @param id ElasticSearch object id of the user
-     * @param username Username of the user
+     * @param id           ElasticSearch object id of the user
+     * @param username     Username of the user
      * @param passwordHash Password Hash generated for this user
      * @param emailAddress Email address of the user
      */
@@ -58,6 +57,7 @@ public class ElasticSearchUser extends User {
 
     /**
      * Removes user from SharePreferences which is same as logging out.
+     *
      * @param context Context
      */
     public static void removeMainUser(Context context) {
@@ -69,8 +69,9 @@ public class ElasticSearchUser extends User {
 
     /**
      * Set a new logged in user
+     *
      * @param context Context
-     * @param user User who logged in
+     * @param user    User who logged in
      */
     public static void setMainUser(Context context, ElasticSearchUser user) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, 0);
@@ -81,6 +82,7 @@ public class ElasticSearchUser extends User {
 
     /**
      * Get the logged in User
+     *
      * @param context Context
      * @return Currently logged in User
      */
@@ -102,7 +104,8 @@ public class ElasticSearchUser extends User {
 
     /**
      * Find full User object from username
-     * @param context Context
+     *
+     * @param context  Context
      * @param username Username of the user
      * @param listener Listener to call when user is found
      */
@@ -151,7 +154,8 @@ public class ElasticSearchUser extends User {
 
     /**
      * Login using username and password
-     * @param context Context
+     *
+     * @param context  Context
      * @param username Username of the user
      * @param password Password of the user
      * @param listener Listener to call on response
@@ -189,6 +193,7 @@ public class ElasticSearchUser extends User {
     public interface UserLoginListener {
         /**
          * User has successfully logged in
+         *
          * @param user User object of the successfully logged in user
          */
         void onSuccess(ElasticSearchUser user);
@@ -200,6 +205,7 @@ public class ElasticSearchUser extends User {
 
         /**
          * On other error such as network
+         *
          * @param error
          */
         void onError(VolleyError error);
@@ -208,11 +214,12 @@ public class ElasticSearchUser extends User {
     /**
      * Sign Up using username, password and email address
      * Username and email address will be checked for uniqueness
-     * @param context Context
-     * @param username Username of the user
-     * @param password Password of the user
+     *
+     * @param context      Context
+     * @param username     Username of the user
+     * @param password     Password of the user
      * @param emailAddress Email address of the user
-     * @param listener Listener to call on response
+     * @param listener     Listener to call on response
      */
     public static void signUp(final Context context, String username, String password, String emailAddress, final UserSignUpListener listener) {
         try {
@@ -271,6 +278,7 @@ public class ElasticSearchUser extends User {
     public interface UserSignUpListener {
         /**
          * User has successfully signed up
+         *
          * @param user User object of the successfully sign up user
          */
         void onSuccess(ElasticSearchUser user);
@@ -282,6 +290,7 @@ public class ElasticSearchUser extends User {
 
         /**
          * Other errors such as network
+         *
          * @param error
          */
         void onError(VolleyError error);

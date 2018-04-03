@@ -12,6 +12,7 @@ public abstract class ElasticSearchResponseListener implements Response.Listener
 
     /**
      * Called when a response is returned from the server.
+     *
      * @param response Returned json response from server
      */
     @Override
@@ -19,6 +20,7 @@ public abstract class ElasticSearchResponseListener implements Response.Listener
 
     /**
      * Called when there is an error regarding to sending the request
+     *
      * @param error VolleyError
      */
     @Override

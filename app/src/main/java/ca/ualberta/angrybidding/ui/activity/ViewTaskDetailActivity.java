@@ -4,6 +4,7 @@ package ca.ualberta.angrybidding.ui.activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;*/
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-//noti
 import com.slouple.android.notification.Notification;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
@@ -24,6 +24,8 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.ui.view.BidView;
+
+//noti
 
 public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ElasticSearchTask elasticSearchTask;
@@ -108,45 +110,28 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         }
     }
 
-    /**Removes or Declines selected bid
+    /**
+     * Removes or Declines selected bid
      *
      * @param bid The selected bid
      */
-    public void onDecline (Bid bid) {
+    public void onDecline(Bid bid) {
         elasticSearchTask.getBids().remove(bid);
         elasticSearchTask.updateStatus();
         updateFinish();
 
     }
 
-    /**Removes bids from bid list except Accepted(chosen) bid
+    /**
+     * Removes bids from bid list except Accepted(chosen) bid
      *
      * @param bid The selected bid
      */
-    public void onAccept (Bid bid) {
+    public void onAccept(Bid bid) {
         elasticSearchTask.setChosenBid(bid);
-        //Notification noti = new Notification(user , "Accept", null);
-        //noti.getNotificationID();
-        //sendNotification(bid.getUser().getUsername());
-        /*NotificationCompat.Builder notification =
-                new NotificationCompat.Builder(this, bid.getUser().getUsername())
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("Notification")
-                        .setContentText("Accepted Bids")
-                        .setTicker("Ticker")
-                        .setDefaults(Notification.PRIORITY_MAX);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(bid.getUser().getUsername(),
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            mNotificationManager.createNotificationChannel(channel);
-        }
-        mNotificationManager.notify(0, notification.build());*/
-
         updateFinish();
     }
+
     /**
      * Updates the change
      */

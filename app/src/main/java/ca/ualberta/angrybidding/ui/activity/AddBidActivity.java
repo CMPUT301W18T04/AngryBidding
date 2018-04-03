@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -12,13 +13,17 @@ import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 import ca.ualberta.angrybidding.Bid;
+import ca.ualberta.angrybidding.ElasticSearchNotification;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.notification.Notification;
 
 public class AddBidActivity extends AngryBiddingActivity {
     public static final int REQUEST_CODE = 1003;
@@ -39,7 +44,7 @@ public class AddBidActivity extends AngryBiddingActivity {
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
         user = ElasticSearchUser.getMainUser(this);
 
-        // Add textwatcher
+        // Add text watcher
         priceEditText = findViewById(R.id.addBidPrice);
         priceEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -116,13 +121,37 @@ public class AddBidActivity extends AngryBiddingActivity {
 
             @Override
             public void onUpdated(int version) {
+                final User taskUser = elasticSearchTask.getUser();
+                final String type = "BidAdded";
+                final HashMap parameter = new HashMap();
+                //parameter.put(key, value);
+                parameter.put("BidUser", user.getUsername());
+                parameter.put("TaskId", id);
+                ElasticSearchNotification.addNotification(AddBidActivity.this, new Notification(taskUser, type, parameter, false), new AddResponseListener() {
+                    @Override
+                    public void onCreated(String id) {
+                        /**
+                         * Create new notification
+                         */
+                        Intent intent = new Intent();
+                        ElasticSearchNotification notification = new ElasticSearchNotification(id, taskUser, type, parameter, false);
+                        intent.putExtra("notification", new Gson().toJson(notification));
+                        AddBidActivity.this.setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("AddBidActivityNoti", error.getMessage(), error);
+                    }
+                });
                 setResult(RESULT_OK);
                 finish();
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.e("AddBidActivity", error.getMessage(), error);
             }
         });
     }

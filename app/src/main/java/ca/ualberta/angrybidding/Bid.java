@@ -8,7 +8,7 @@ public class Bid {
     private BigDecimal price;
 
     /**
-     * @param user User who placed the bid
+     * @param user  User who placed the bid
      * @param price Price of the bid
      */
     public Bid(User user, BigDecimal price) {
@@ -17,7 +17,7 @@ public class Bid {
     }
 
     /**
-     * @param user User who placed the bid
+     * @param user  User who placed the bid
      * @param price Price of the bid
      */
     public Bid(User user, double price) {

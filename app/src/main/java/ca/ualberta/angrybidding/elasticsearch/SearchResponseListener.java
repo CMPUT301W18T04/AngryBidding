@@ -12,6 +12,7 @@ public abstract class SearchResponseListener extends ElasticSearchResponseListen
 
     /**
      * Unpacks response into SearchResult
+     *
      * @param response Returned json response from server
      */
     @Override
@@ -25,6 +26,7 @@ public abstract class SearchResponseListener extends ElasticSearchResponseListen
 
     /**
      * Calls when search result is returned from the server
+     *
      * @param searchResult SearchResult object that contains all the info from the server
      */
     public abstract void onResult(SearchResult searchResult);

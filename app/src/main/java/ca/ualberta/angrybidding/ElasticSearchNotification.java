@@ -21,12 +21,20 @@ import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.TermCondition;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.notification.Notification;
 
-public class ElasticSearchNotification extends Notification{
+public class ElasticSearchNotification extends Notification {
     public static final String ELASTIC_SEARCH_INDEX = "notification";
 
     private transient String id;
 
+    /**
+     * @param id               ElasticSearch object id of the notification
+     * @param user             User of who created the task that was bidded
+     * @param notificationType Notification Type
+     * @param parameters       Parameter containing Bidded user username and Task ID
+     * @param seen             Boolean if the notification was seen or not
+     */
     public ElasticSearchNotification(String id, User user, String notificationType, HashMap<String, String> parameters, boolean seen) {
         super(user, notificationType, parameters, false);
         this.id = id;
@@ -34,6 +42,7 @@ public class ElasticSearchNotification extends Notification{
 
     /**
      * Set ElasticSearch object ID
+     *
      * @param id ElasticSearch object ID
      */
     private void setID(String id) {
@@ -47,7 +56,14 @@ public class ElasticSearchNotification extends Notification{
         return this.id;
     }
 
-    public static void addNotification(Context context, Notification notification, AddResponseListener listener){
+    /**
+     * Adds new notification
+     *
+     * @param context      Context
+     * @param notification Notification
+     * @param listener     Listener to call when new notification re made
+     */
+    public static void addNotification(Context context, Notification notification, AddResponseListener listener) {
         try {
             JSONObject jsonObject = new JSONObject(new Gson().toJson(notification));
             AddRequest request = new AddRequest(ELASTIC_SEARCH_INDEX, jsonObject, listener);
@@ -57,6 +73,13 @@ public class ElasticSearchNotification extends Notification{
         }
     }
 
+    /**
+     * lists all the notification
+     *
+     * @param context  Context
+     * @param username Username of who created the task that was bidded
+     * @param listener Listener to call on response
+     */
     public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener){
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("user.username", username));
@@ -74,10 +97,25 @@ public class ElasticSearchNotification extends Notification{
         request.submit(context);
     }
 
+    /**
+     * lists all the notification not seen
+     *
+     * @param context  Context
+     * @param username Username of who created the task that was bidded
+     * @param listener Listener to call on response
+     */
     public static void listNotSeenNotificationByUsername(final Context context, String username, final ListNotificationListener listener) {
         listNotSeenNotificationByUsername(context, username, true, listener);
     }
 
+    /**
+     * lists all the notification not seen
+     *
+     * @param context   Context
+     * @param username  Username of who created the task that was bidded
+     * @param setToSeen Boolean set to seen
+     * @param listener  Listener to call on response
+     */
     public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener){
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("user.username", username));
@@ -86,7 +124,7 @@ public class ElasticSearchNotification extends Notification{
             @Override
             public void onResult(SearchResult searchResult) {
                 ArrayList<ElasticSearchNotification> notifications = parseNotifications(searchResult);
-                if(setToSeen) {
+                if (setToSeen) {
                     for (ElasticSearchNotification notification : notifications) {
                         notification.setSeen(true);
                         updateNotification(context, notification.getID(), notification, new UpdateResponseListener() {
@@ -118,7 +156,15 @@ public class ElasticSearchNotification extends Notification{
         request.submit(context);
     }
 
-    public static void updateNotification(Context context, String id, Notification notification, UpdateResponseListener listener){
+    /**
+     * Updates the notification
+     *
+     * @param context      Context
+     * @param id           Id of the notification
+     * @param notification Notification
+     * @param listener     Listener to call on response
+     */
+    public static void updateNotification(Context context, String id, Notification notification, UpdateResponseListener listener) {
         try {
             UpdateRequest updateRequest = new UpdateRequest(ELASTIC_SEARCH_INDEX, id, new JSONObject(new Gson().toJson(notification)), listener);
             updateRequest.submit(context);
@@ -139,7 +185,10 @@ public class ElasticSearchNotification extends Notification{
         return notifications;
     }
 
-    public interface ListNotificationListener{
+    /**
+     * Listener for listing notification requests
+     */
+    public interface ListNotificationListener {
         void onResult(ArrayList<ElasticSearchNotification> notifications);
         void onError(VolleyError error);
     }

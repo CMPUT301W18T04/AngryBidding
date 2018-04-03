@@ -1,5 +1,6 @@
-package ca.ualberta.angrybidding;
+package ca.ualberta.angrybidding.notification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -7,6 +8,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,20 +19,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-/**
- * Created by SarahS on 2018/03/29.
- */
+import ca.ualberta.angrybidding.ElasticSearchNotification;
+import ca.ualberta.angrybidding.ElasticSearchUser;
+import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.User;
 
-/*public class NotificationService extends Service {
+public class NotificationService extends Service {
     private NotificationLoadingThread notificationLoadingThread = new NotificationLoadingThread();
-    private NotificationLoader loader;
+    private ElasticSearchNotification.ListNotificationListener listener;
     private long lastHeadsUpNotificationTime;
 
-    private ArrayList<Messenger> clients = new ArrayList<Messenger>();
+    private ArrayList<Messenger> clients = new ArrayList<>();
 
     private final Messenger messenger = new Messenger(new IncomingHandler());
 
@@ -41,6 +45,9 @@ import java.util.ArrayList;
     public static final long HEADS_UP_NOTIFICATION_COOLDOWN = 5 * 60 * 1000;
 
     class IncomingHandler extends Handler {
+        /**
+         * @param message Message
+         */
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
@@ -56,10 +63,16 @@ import java.util.ArrayList;
         }
     }
 
-    private void sendNotificationToAllClients(Notification notification){
+    /**
+     * Sends notification
+     *
+     * @param 알림 NotificationWrapper
+     */
+    //Korea
+    private void sendNotificationToAllClients(NotificationWrapper 알림) {
         Gson gson = new Gson();
-        String className = notification.getClass().getName();
-        String notificationString = gson.toJson(notification);
+        String className = 알림.getClass().getName();
+        String notificationString = gson.toJson(알림);
         for (int i = clients.size() - 1; i >= 0; i--) {
             try {
                 Bundle bundle = new Bundle();
@@ -78,45 +91,54 @@ import java.util.ArrayList;
     }
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
     }
 
+    /**
+     * Starts service background activity
+     *
+     * @param intent  Intent
+     * @param flags   Flags
+     * @param startID StartID
+     * @return START_STICKY
+     */
     @Override
-    public int onStartCommand(Intent intent, int flags, int startID){
+    public int onStartCommand(Intent intent, int flags, int startID) {
         super.onStartCommand(intent, flags, startID);
         // onStartCommand can be called multiple times, check if it is already called
-        if(loader != null){
+        if (listener != null) {
             return START_STICKY;
         }
-        loader = new NotificationLoader(this, "GetNewNotification", new NotificationResponseListener() {
+        listener = new ElasticSearchNotification.ListNotificationListener() {
+
             @Override
-            public void onSuccess(ArrayList<Notification> notifications) {
-                for(final Notification notification: notifications){
+            public void onResult(ArrayList<ElasticSearchNotification> notifications) {
+                //Create
+                ArrayList<NotificationWrapper> notificationWrappers = new NotificationFactory().parseNotifications(notifications);
+                for (final NotificationWrapper notificationWrapper : notificationWrappers) {
                     try {
-                        notification.onReceived(NewNotificationService.this, new NotificationCallback() {
+                        notificationWrapper.onReceived(NotificationService.this, new NotificationCallback() {
                             @Override
                             public void callBack() {
-                                if(clients.size() > 0){
-                                    sendNotificationToAllClients(notification);
-                                }else{
-                                    createNotification(notification);
+                                if (clients.size() > 0) {
+                                    sendNotificationToAllClients(notificationWrapper);
+                                } else {
+                                    createNotification(notificationWrapper);
                                 }
                             }
                         });
-                    }catch (Throwable t){
-                        Log.e("NewNotificationService", t.getMessage(), t);
+                    } catch (Throwable t) {
+                        Log.e("NotificationService", t.getMessage(), t);
                     }
                 }
             }
 
             @Override
-            public void onError(String error) {
-                if(error != null) {
-                    Log.e("NewNotificationService", error);
-                }
+            public void onError(VolleyError error) {
+                Log.e("NotificationService", error.getMessage(), error);
             }
-        });
+        };
         notificationLoadingThread.start();
         return START_STICKY;
     }
@@ -128,48 +150,64 @@ import java.util.ArrayList;
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         notificationLoadingThread.interrupt();
     }
 
-    protected void createNotification(Notification notification){
+    /**
+     * Create notification
+     *
+     * Notification Channel needed for API 26 and above
+     *
+     * @param 通知 NotificationWrapper
+     */
+    //Kanji Character
+    protected void createNotification(NotificationWrapper 通知) {
         int priority = NotificationCompat.PRIORITY_DEFAULT;
         long currentTime = System.currentTimeMillis();
-        if(currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN){
+        if (currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN) {
             priority = NotificationCompat.PRIORITY_HIGH;
             lastHeadsUpNotificationTime = currentTime;
         }
-
-        //Build Intent
+        //Build Int
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(notification.getParentStack());
-        stackBuilder.addNextIntent(notification.getIntent(this));
+        stackBuilder.addParentStack(通知.getParentStack());
+        stackBuilder.addNextIntent(通知.getIntent(this));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         //Build Notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "GeneralNotification")
                 .setDefaults(android.app.Notification.DEFAULT_VIBRATE)
                 .setLights(0xff1bccf1, 500, 100)
-                .setSmallIcon(R.drawable.logo_circle_128)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(resultPendingIntent)
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.logo_circle_128))
-                .setContentTitle(notification.getTitle(this))
-                .setContentText(notification.getContent(this))
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher_round))
+                .setContentTitle(通知.getTitle(this))
+                .setContentText(通知.getContent(this))
                 .setAutoCancel(true)
                 .setPriority(priority);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notification.getNotificationID(), builder.build());
+
+        //Notification Channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("GeneralNotification",
+                    "General Notification",
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+        notificationManager.notify(通知.getNotificationID(), builder.build());
     }
 
-    private class NotificationLoadingThread extends Thread{
-        public void run(){
+    private class NotificationLoadingThread extends Thread {
+        public void run() {
             try {
                 while (!isInterrupted()) {
                     Log.d("NewNotificationService", "run()");
-                    User user = User.getMainUserSession(NewNotificationService.this);
-                    if (user != null && user.getSession() != null) {
-                        loader.setUser(user);
-                        loader.load();
+                    User user = ElasticSearchUser.getMainUser(NotificationService.this);
+                    if (user != null) {
+                        //load() の代わり
+                        ElasticSearchNotification.listNotSeenNotificationByUsername(NotificationService.this, user.getUsername(), listener);
                     }
                     try {
                         Thread.sleep(3000);
@@ -177,9 +215,9 @@ import java.util.ArrayList;
                         break;
                     }
                 }
-            }catch(Throwable t){
-                Log.e("NewNotificationService", t.getMessage(), t);
+            } catch (Throwable t) {
+                Log.e("NotificationService", t.getMessage(), t);
             }
         }
     }
-}*/
+}
