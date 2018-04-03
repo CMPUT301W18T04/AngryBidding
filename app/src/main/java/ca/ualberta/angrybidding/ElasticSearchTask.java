@@ -13,17 +13,19 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.BooleanSearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.GetRequest;
 import ca.ualberta.angrybidding.elasticsearch.GetResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
-import ca.ualberta.angrybidding.elasticsearch.MatchAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.MatchCondition;
+import ca.ualberta.angrybidding.elasticsearch.NestedCondition;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.SearchSort;
-import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.TermCondition;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
@@ -133,10 +135,12 @@ public class ElasticSearchTask extends Task {
      * @param listener Listener to call on response
      */
     public static void searchTaskByKeywords(Context context, String[] keywords, final ListTaskListener listener) {
-        MatchAndQuery query = new MatchAndQuery();
+        BooleanSearchQuery query = new BooleanSearchQuery();
+
         for (String keyword : keywords) {
-            query.addMatch("description", keyword);
+            query.getBoolCondition().addMust(new MatchCondition("description", keyword));
         }
+
         SearchSort searchSort = new SearchSort();
         searchSort.addField("_score", SearchSort.Order.DESC);
         query.addSearchSort(searchSort);
@@ -193,10 +197,10 @@ public class ElasticSearchTask extends Task {
      * @param listener Listener to call on response
      */
     public static void listTaskByUser(Context context, String username, Status status, final ListTaskListener listener) {
-        TermAndQuery query = new TermAndQuery();
-        query.addTerm("user.username", username.toLowerCase().trim());
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        query.getBoolCondition().addMust(new TermCondition("user.username", username.toLowerCase().trim()));
         if (status != null) {
-            query.addTerm("status", status.toString());
+            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
         }
         SearchSort searchSort = new SearchSort();
         searchSort.addField("dateTime", SearchSort.Order.DESC);
@@ -221,10 +225,10 @@ public class ElasticSearchTask extends Task {
     }
 
     public static void listTaskByChosenUser(Context context, String username, Status status, final ListTaskListener listener) {
-        TermAndQuery query = new TermAndQuery();
-        query.addTerm("chosenBid.user.username", username.toLowerCase().trim());
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        query.getBoolCondition().addMust(new TermCondition("chosenBid.user.username", username.toLowerCase().trim()));
         if (status != null) {
-            query.addTerm("status", status.toString());
+            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
         }
         SearchSort searchSort = new SearchSort();
         searchSort.addField("dateTime", SearchSort.Order.DESC);
@@ -249,14 +253,15 @@ public class ElasticSearchTask extends Task {
     }
 
     public static void listTaskByBiddedUser(Context context, String username, Status status, final ListTaskListener listener) {
-        TermAndQuery query = new TermAndQuery();
+        BooleanSearchQuery query = new BooleanSearchQuery();
 
-        TermAndQuery nestedQuery = new TermAndQuery();
-        nestedQuery.addTerm("bids.user.username", username.toLowerCase().trim());
-        query.addNestedQuery("bids", nestedQuery);
+        BooleanSearchQuery nestedQuery = new BooleanSearchQuery();
+
+        nestedQuery.getBoolCondition().addMust(new TermCondition("bids.user.username", username.toLowerCase().trim()));
+        query.getBoolCondition().addMust(new NestedCondition("bids", nestedQuery));
 
         if (status != null) {
-            query.addTerm("status", status.toString());
+            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
         }
 
         SearchSort searchSort = new SearchSort();

@@ -13,10 +13,11 @@ import org.json.JSONObject;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.BooleanSearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
-import ca.ualberta.angrybidding.elasticsearch.TermOrQuery;
+import ca.ualberta.angrybidding.elasticsearch.TermCondition;
 
 public class ElasticSearchUser extends User {
     public static final String ELASTIC_SEARCH_INDEX = "user";
@@ -108,8 +109,8 @@ public class ElasticSearchUser extends User {
     public static void getUserByUsername(final Context context, String username, final GetUserListener listener) {
         final String lowerUsername = username.toLowerCase().trim();
 
-        TermOrQuery query = new TermOrQuery();
-        query.addTerm("username", lowerUsername);
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        query.getBoolCondition().addMust(new TermCondition("username", lowerUsername));
 
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
@@ -224,9 +225,9 @@ public class ElasticSearchUser extends User {
             final ElasticSearchUser user = new ElasticSearchUser(null, lowerUsername, passwordHash, lowerEmailAddress);
             final JSONObject userJson = new JSONObject(new Gson().toJson(user));
 
-            TermOrQuery query = new TermOrQuery();
-            query.addTerm("username", lowerUsername);
-            query.addTerm("emailAddress", lowerEmailAddress);
+            BooleanSearchQuery query = new BooleanSearchQuery();
+            query.getBoolCondition().addShould(new TermCondition("username", lowerUsername));
+            query.getBoolCondition().addShould(new TermCondition("emailAddress", lowerEmailAddress));
 
             // Add New User
             final AddRequest addRequest = new AddRequest(ELASTIC_SEARCH_INDEX, userJson, new AddResponseListener() {

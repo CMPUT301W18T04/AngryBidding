@@ -13,10 +13,12 @@ import java.util.HashMap;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.BooleanSearchQuery;
+import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
-import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
+import ca.ualberta.angrybidding.elasticsearch.TermCondition;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
@@ -56,8 +58,8 @@ public class ElasticSearchNotification extends Notification{
     }
 
     public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener){
-        TermAndQuery query = new TermAndQuery();
-        query.addTerm("user.username", username);
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        query.getBoolCondition().addMust(new TermCondition("user.username", username));
         SearchRequest request = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
@@ -77,9 +79,9 @@ public class ElasticSearchNotification extends Notification{
     }
 
     public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener){
-        TermAndQuery query = new TermAndQuery();
-        query.addTerm("user.username", username);
-        query.addTerm("seen", "false");
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        query.getBoolCondition().addMust(new TermCondition("user.username", username));
+        query.getBoolCondition().addMust(new TermCondition("seen", "false"));
         final SearchRequest request = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
             public void onResult(SearchResult searchResult) {
