@@ -30,6 +30,7 @@
     <string name="searchKeywords">Search Keywords</string>
     <string name="Accept">Accept Bid</string>
     <string name="Decline">Decline Bid</string>
+    <string name="Notification">Notification</string>
     <string name="requestGPSPermission">Please grant GPS permission to the app.</string>
     <string name="requestGPSEnable">Please make sure GPS is turned on.</string>
     <string name="waitForLocation">Searching for GPS. Please wait&#8230;</string>

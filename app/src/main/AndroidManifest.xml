@@ -36,6 +36,9 @@
         <activity android:name=".ui.activity.AddBidActivity" />
         <activity android:name=".ui.activity.PickLocationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <service android:name="ca.ualberta.angrybidding.notification.NotificationService"
+            android:process="ca.ualberta.angrybidding.NotificationService"/>
+
     </application>
 
 </manifest>

@@ -97,6 +97,7 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
 
     /**
      * Creates new TaskView with margin
+     *
      * @return TaskView with margin
      */
     @Override

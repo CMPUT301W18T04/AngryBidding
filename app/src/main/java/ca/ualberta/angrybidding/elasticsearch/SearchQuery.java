@@ -65,16 +65,5 @@ public class SearchQuery {
         }
     }
 
-    public void addNestedQuery(String path, SearchQuery searchQuery){
-        try {
-            JSONObject nested = new JSONObject();
-            nested.put("path", path);
-            nested.put("query", searchQuery.getQuery());
-            getQuery().put("nested", nested);
-        } catch (JSONException e) {
-            Log.e("SearchQuery", e.getMessage(), e);
-        }
-    }
-
 
 }

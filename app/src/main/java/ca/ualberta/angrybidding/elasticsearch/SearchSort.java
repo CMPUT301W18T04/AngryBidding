@@ -13,7 +13,7 @@ public class SearchSort {
         sort = new JSONArray();
     }
 
-    public void addField(String fieldName, Order order){
+    public void addField(String fieldName, Order order) {
         try {
             JSONObject field = new JSONObject();
             JSONObject orderJson = new JSONObject();
@@ -32,7 +32,7 @@ public class SearchSort {
         return this.sort;
     }
 
-    public enum Order{
+    public enum Order {
         ASC,
         DESC
     }

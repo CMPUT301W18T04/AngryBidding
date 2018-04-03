@@ -1,5 +1,10 @@
 package ca.ualberta.angrybidding.ui.activity;
 
+/*import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;*/
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,22 +14,24 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.slouple.android.AdvancedActivity;
+import com.slouple.android.notification.Notification;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.ui.view.BidView;
+
+//noti
 
 public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ElasticSearchTask elasticSearchTask;
     private User user;
     private String id;
+    private Notification notification;
 
     private TextView titleTextView;
     private TextView ownerTextView;
@@ -77,7 +84,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                  * @param bid The bid in bid list
                  */
                 @Override
-                public void onBindView(BidView bidView, final Bid bid) {
+                public void onBindView(final BidView bidView, final Bid bid) {
                     bidView.setBid(bid);
                     if (elasticSearchTask.getUser().equals(user)) {
                         bidView.useBidPopupMenu(bid, new BidView.OnBidActionListener() {
@@ -103,22 +110,24 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         }
     }
 
-    /**Removes or Declines selected bid
+    /**
+     * Removes or Declines selected bid
      *
      * @param bid The selected bid
      */
-    public void onDecline (Bid bid) {
+    public void onDecline(Bid bid) {
         elasticSearchTask.getBids().remove(bid);
         elasticSearchTask.updateStatus();
         updateFinish();
 
     }
 
-    /**Removes bids from bid list except Accepted(chosen) bid
+    /**
+     * Removes bids from bid list except Accepted(chosen) bid
      *
      * @param bid The selected bid
      */
-    public void onAccept (Bid bid) {
+    public void onAccept(Bid bid) {
         elasticSearchTask.setChosenBid(bid);
         updateFinish();
     }

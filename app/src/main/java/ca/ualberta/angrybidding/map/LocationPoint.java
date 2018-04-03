@@ -17,6 +17,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert android.location.Location to LocationPoint
+     *
      * @param location Location object
      */
     public LocationPoint(Location location) {
@@ -24,7 +25,7 @@ public class LocationPoint implements Parcelable{
     }
 
     /**
-     * @param latitude Latitude
+     * @param latitude  Latitude
      * @param longitude Longitude
      */
     public LocationPoint(double latitude, double longitude) {
@@ -47,6 +48,7 @@ public class LocationPoint implements Parcelable{
     /**
      * Set Longitude
      * X will also be updated
+     *
      * @param longitude Longitude
      */
     public void setLongitude(double longitude) {
@@ -57,6 +59,7 @@ public class LocationPoint implements Parcelable{
     /**
      * Set Latitude
      * Y will also be updated
+     *
      * @param latitude Latitude
      */
     public void setLatitude(double latitude) {
@@ -67,6 +70,7 @@ public class LocationPoint implements Parcelable{
     /**
      * Set X
      * Longitude will also be updated
+     *
      * @param x X cord on map
      */
     public void setX(double x) {
@@ -77,6 +81,7 @@ public class LocationPoint implements Parcelable{
     /**
      * Set Y
      * Latitude will also be updated
+     *
      * @param y Y cord on map
      */
     public void setY(double y) {
@@ -87,6 +92,7 @@ public class LocationPoint implements Parcelable{
     /**
      * Set Z, Zoom
      * X and Y will both be updated
+     *
      * @param z Zoom
      */
     public void setZ(int z) {
@@ -115,6 +121,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Get X
+     *
      * @return X cord on map
      */
     public double getX() {
@@ -123,6 +130,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Get Y
+     *
      * @return Y cord on map
      */
     public double getY() {
@@ -131,6 +139,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Get zoom
+     *
      * @return Zoom
      */
     public int getZ() {
@@ -182,6 +191,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert LocationPoint string to object
+     *
      * @param string LocationPoint string
      * @return Converted LocationPoint
      */
@@ -195,8 +205,9 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert Longitude to X
+     *
      * @param longitude Longitude
-     * @param z Zoom level
+     * @param z         Zoom level
      * @return X cord on map
      */
     public static double longitudeToX(double longitude, int z) {
@@ -206,8 +217,9 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert Latitude to Y
+     *
      * @param latitude Latitude
-     * @param z Zoom level
+     * @param z        Zoom level
      * @return Y cord on map
      */
     public static double latitudeToY(double latitude, int z) {
@@ -218,6 +230,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert X to Longitude
+     *
      * @param x X cord on map
      * @param z Zoom level
      * @return Longitude
@@ -229,6 +242,7 @@ public class LocationPoint implements Parcelable{
 
     /**
      * Convert Y to Latitude
+     *
      * @param y Y cord on map
      * @param z Zoom level
      * @return Latitude

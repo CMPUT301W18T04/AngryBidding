@@ -23,15 +23,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 
@@ -121,6 +116,8 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             addFragment(R.id.nav_nearby, new NearbyFragment(), true);
             addFragment(R.id.nav_all_task, new AllTaskFragment(), true);
             addFragment(R.id.nav_settings, new SettingsFragment(), true);
+            addFragment(R.id.nav_notification, new NotificationFragment(), true);
+
             setCurrentFragment(R.id.nav_history);
         }
         Log.d("MainActivity", "Finished onCreate");
@@ -202,6 +199,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     /**
      * Color of the status bar
      * Override from AdvancedActivity
+     *
      * @return color of the status bar
      */
     @Override
@@ -211,6 +209,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
 
     /**
      * Add fragment to the activity
+     *
      * @param drawerID The drawer ID links to the fragment. This is also used to distinguish between different fragments.
      * @param fragment The fragment to add
      * @param preserve Should the fragment be preserved when switched to other fragments
@@ -231,6 +230,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
 
     /**
      * Remove a fragment
+     *
      * @param drawerID DrawerID of the fragment
      */
     public void removeFragment(int drawerID) {
@@ -249,6 +249,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
     /**
      * Use setCurrentFragment instead
      * Does not handle drawer
+     *
      * @param drawerID
      */
     private void switchFragment(int drawerID) {
@@ -286,6 +287,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
 
     /**
      * Set AppBarLayout to the one from fragment
+     *
      * @param fragment
      */
     private void setFragmentAppBarLayout(final IMainFragment fragment) {
@@ -349,6 +351,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
 
     /**
      * Switch current fragment by triggering drawer
+     *
      * @param id drawerID of the fragment
      */
     public void setCurrentFragment(int id) {
