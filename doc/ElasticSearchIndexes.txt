@@ -26,8 +26,34 @@
         "bids":     { "type": "nested"  },
         "price":      { "type": "double" },
         "status":     { "type": "keyword" },
-        "dateTime":     { "type": "date" }
+        "dateTime":     { "type": "date", "format": "epoch_millis"}
       }
+    }
+  }
+}
+
+#PUT http://cosh.em.slouple.com:19200/notification
+{
+	"mappings": {
+    "_doc": {
+      "properties": {
+        "user":      { "type": "object" },
+        "username":    { "type": "keyword"  },
+        "notificationType":      { "type": "keyword" },
+        "parameters":      { "type": "object" },
+        "seen":      { "type": "boolean" }
+      },
+      "dynamic_templates": [
+          {
+            "parameter_string": {
+              "path_match":   "parameters.*",
+              "match_mapping_type": "string",
+              "mapping": {
+                "type":       "keyword"
+              }
+            }
+          }
+        ]
     }
   }
 }

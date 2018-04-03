@@ -19,7 +19,7 @@ public class Task {
     private Bid chosenBid;
     private ArrayList<Bid> bids;
     private Status status;
-    private Date dateTime;
+    private long dateTimeMillis;
 
     /**
      * @param user User who created the task
@@ -29,7 +29,7 @@ public class Task {
         this.user = user;
         this.title = title;
         this.status = Status.REQUESTED;
-        this.dateTime = new Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
+        this.dateTimeMillis = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis();
     }
 
     /**
@@ -179,8 +179,12 @@ public class Task {
         }
     }
 
+    public long getDateTimeMillis(){
+        return  this.dateTimeMillis;
+    }
+
     public Date getDateTime(){
-        return this.dateTime;
+        return new Date(dateTimeMillis);
     }
 
     public enum Status{

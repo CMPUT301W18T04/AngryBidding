@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.map.LocationPoint;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

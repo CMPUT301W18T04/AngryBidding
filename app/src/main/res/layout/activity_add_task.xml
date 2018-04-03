@@ -62,7 +62,8 @@
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textIsSelectable="false"
-                    android:text="@string/pickLocation"/>
+                    android:text="@string/pickLocation"
+                    android:background="@color/colorBackground"/>
 
                 <com.slouple.android.widget.button.SubmitButton
                     android:id="@+id/addTaskSubmitButton"

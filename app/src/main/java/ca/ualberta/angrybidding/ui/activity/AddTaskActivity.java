@@ -32,6 +32,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
     private EditText titleEditText;
     private EditText descriptionEditText;
     private TextView pickLocationTextView;
+    private LocationPoint locationPoint;
     private SubmitButton submitButton;
 
 
@@ -83,6 +84,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
             public void onResult(Intent intent) {
                 LocationPoint locationPoint = new Gson().fromJson(intent.getStringExtra("locationPoint"), LocationPoint.class);
                 pickLocationTextView.setText(locationPoint.getLatitude() + " " + locationPoint.getLongitude());
+                AddTaskActivity.this.locationPoint = locationPoint;
             }
 
             @Override
@@ -146,7 +148,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
         final String title = titleEditText.getText().toString();
         final String description = descriptionEditText.getText().toString();
         final User user = new User(getElasticSearchUser().getUsername());
-        ElasticSearchTask.addTask(this, new Task(user, title, description), new AddResponseListener() {
+        ElasticSearchTask.addTask(this, new Task(user, title, description, locationPoint), new AddResponseListener() {
             @Override
             public void onCreated(String id) {
                 submitButton.onSuccess();

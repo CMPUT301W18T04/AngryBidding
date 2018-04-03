@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 import com.slouple.android.AdvancedFragment;
 
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.map.MapObjectContainer;
+import ca.ualberta.angrybidding.map.TouchableMapView;
 
 /**
  * Fragment to display all tasks on a map around user
@@ -20,6 +22,9 @@ import ca.ualberta.angrybidding.R;
 public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
+
+    private TouchableMapView mapView;
+    private MapObjectContainer mapObjectContainer;
 
     @Override
     public AppBarLayout getAppBarLayout(ViewGroup rootView, LayoutInflater inflater) {
@@ -66,6 +71,8 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.fragment_nearby, container, false);
+        mapView = layout.findViewById(R.id.nearbyMapView);
+        mapObjectContainer = layout.findViewById(R.id.nearbyMapObjectContainer);
         return layout;
     }
 
