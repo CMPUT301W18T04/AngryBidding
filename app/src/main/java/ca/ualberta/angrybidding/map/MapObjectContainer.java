@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.slouple.android.ViewHelper;
-import com.slouple.postphere.R;
+
+import ca.ualberta.angrybidding.R;
 
 public class MapObjectContainer extends RelativeLayout {
 

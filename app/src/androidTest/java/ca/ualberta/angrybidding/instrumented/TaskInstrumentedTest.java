@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.Bid;
-import ca.ualberta.angrybidding.LocationPoint;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 

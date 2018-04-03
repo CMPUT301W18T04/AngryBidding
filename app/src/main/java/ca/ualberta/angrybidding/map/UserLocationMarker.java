@@ -39,7 +39,7 @@ public class UserLocationMarker extends MapObject {
         locationNotSetError = context.getString(R.string.waitForLocation);
 
 
-        setBackgroundResource(R.mipmap.ic_user_location_marker);
+        setBackgroundResource(R.drawable.ic_user_location_marker);
         setVisibility(INVISIBLE);
         final FusedLocationManagerListener selfLocationPointListener = new FusedLocationManagerListener() {
             @Override

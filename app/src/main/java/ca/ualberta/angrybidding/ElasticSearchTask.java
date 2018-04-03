@@ -24,6 +24,7 @@ import ca.ualberta.angrybidding.elasticsearch.SearchSort;
 import ca.ualberta.angrybidding.elasticsearch.TermAndQuery;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.map.LocationPoint;
 
 public class ElasticSearchTask extends Task {
     public static final String ELASTIC_SEARCH_INDEX = "task";

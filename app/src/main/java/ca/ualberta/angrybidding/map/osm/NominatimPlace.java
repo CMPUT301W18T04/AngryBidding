@@ -6,13 +6,14 @@ import android.net.Uri;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.postphere.map.LocationArea;
-import com.postphere.map.LocationPoint;
 import com.slouple.lib.JsonRequest;
 import com.slouple.lib.JsonResponseListener;
 import com.slouple.util.Listener;
 
 import java.util.ArrayList;
+
+import ca.ualberta.angrybidding.map.LocationArea;
+import ca.ualberta.angrybidding.map.LocationPoint;
 
 public class NominatimPlace {
     private long placeID;

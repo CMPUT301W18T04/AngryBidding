@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,6 +54,15 @@
                     android:minLines="5"
                     android:maxLength="300"
                     android:inputType="textMultiLine" />
+
+                <TextView
+                    android:id="@+id/addTaskPickLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:textIsSelectable="false"
+                    android:text="@string/pickLocation"/>
 
                 <com.slouple.android.widget.button.SubmitButton
                     android:id="@+id/addTaskSubmitButton"

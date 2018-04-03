@@ -72,7 +72,7 @@ public class MapView extends View {
             if(mapURL != null){
                 int mapTileSize = ta.getInt(R.styleable.MapView_mapTileSize, 256);
                 int mapMaxZ = ta.getInt(R.styleable.MapView_mapMaxZ, 18);
-                map = new Map("Map", mapURL, mapTileSize, mapMaxZ);
+                map = new Map("ic_map", mapURL, mapTileSize, mapMaxZ);
             }else{
                 map = defaultMap;
             }

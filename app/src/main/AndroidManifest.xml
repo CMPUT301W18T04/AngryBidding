@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.angrybidding">
 
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
     <application
+        android:name=".AngryBiddingApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,7 +34,8 @@
         <activity android:name=".ui.activity.EditTaskActivity" />
         <activity android:name=".ui.activity.ViewTaskDetailActivity" />
         <activity android:name=".ui.activity.AddBidActivity" />
-
+        <activity android:name=".ui.activity.PickLocationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.LocationPoint;
 import ca.ualberta.angrybidding.User;
 
 import static org.hamcrest.core.Is.is;

@@ -66,7 +66,7 @@ public class SettingsFragment extends AdvancedPreferenceFragment implements IMai
         addSharedPreferenceChangeListener(new SharedPreferenceChangeListener<Boolean>("testSwitch") {
             @Override
             public void onChange(Boolean value) {
-                Log.d("Settings Fragment", "Switched!");
+                Log.d("ic_settings Fragment", "Switched!");
             }
         });
         triggerSharedPreferenceChangeListener("testSwitch", false);

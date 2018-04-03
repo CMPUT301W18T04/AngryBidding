@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import ca.ualberta.angrybidding.map.LocationPoint;
+
 /**
  * Task model class
  * Contains all information for a task
