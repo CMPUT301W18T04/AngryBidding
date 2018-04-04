@@ -17,6 +17,9 @@ import com.google.gson.Gson;
 import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
+import com.slouple.android.widget.image.CameraSelectorModule;
+import com.slouple.android.widget.image.GallerySelectorModule;
+import com.slouple.android.widget.image.ImageSelector;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
@@ -33,6 +36,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
     private EditText descriptionEditText;
     private TextView pickLocationTextView;
     private LocationPoint locationPoint;
+    private ImageSelector imageSelector;
     private SubmitButton submitButton;
 
 
@@ -102,6 +106,14 @@ public class AddTaskActivity extends AngryBiddingActivity {
                 startActivityForResult(intent, PickLocationActivity.REQUEST_CODE);
             }
         });
+
+        imageSelector = findViewById(R.id.addTaskImageSelector);
+
+        CameraSelectorModule cameraSelectorModule = new CameraSelectorModule();
+        imageSelector.addModule(cameraSelectorModule);
+
+        GallerySelectorModule gallerySelectorModule = new GallerySelectorModule();
+        imageSelector.addModule(gallerySelectorModule);
 
         submitButton = findViewById(R.id.addTaskSubmitButton);
         submitButton.setButtonListener(new SubmitButtonListener() {

@@ -25,6 +25,18 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:authorities="ca.ualberta.angrybidding.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
+
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:label="@string/app_name"
