@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground">
 
     <LinearLayout
@@ -37,6 +38,23 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             tools:text="Something something something something" />
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/taskDetailMapContainer">
+
+
+            <ca.ualberta.angrybidding.map.ScalableMapView
+                android:id="@+id/taskDetailMapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ca.ualberta.angrybidding.map.MapObjectContainer
+                android:id="@+id/taskDetailMapObjectContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mapViewID="@id/taskDetailMapView"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/taskDetailBidsLabel"

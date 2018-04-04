@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -23,6 +24,11 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.map.LocationMarker;
+import ca.ualberta.angrybidding.map.LocationPoint;
+import ca.ualberta.angrybidding.map.MapObjectContainer;
+import ca.ualberta.angrybidding.map.MapView;
+import ca.ualberta.angrybidding.map.ScalableMapView;
 import ca.ualberta.angrybidding.ui.view.BidView;
 
 //noti
@@ -36,6 +42,11 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private TextView titleTextView;
     private TextView ownerTextView;
     private TextView descriptionTextView;
+
+    private FrameLayout mapCotainer;
+    private MapObjectContainer mapObjectContainer;
+    private ScalableMapView mapView;
+
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
 
@@ -60,12 +71,26 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
         descriptionTextView = findViewById(R.id.taskDetailDescription);
+
+        mapCotainer = findViewById(R.id.taskDetailMapContainer);
+        mapObjectContainer = findViewById(R.id.taskDetailMapObjectContainer);
+        mapView = findViewById(R.id.taskDetailMapView);
+
         bidsLable = findViewById(R.id.taskDetailBidsLabel);
         bidRecyclerView = findViewById(R.id.taskDetailBids);
 
         titleTextView.setText(elasticSearchTask.getTitle());
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
+
+        if(elasticSearchTask.getLocationPoint() == null){
+            mapView.setVisibility(View.GONE);
+        }else{
+            LocationPoint locationPoint = new LocationPoint(elasticSearchTask.getLocationPoint().getLatitude(), elasticSearchTask.getLocationPoint().getLongitude());
+            locationPoint.setZ(13);
+            mapView.setLocation(locationPoint);
+            mapObjectContainer.addView(new LocationMarker(this, locationPoint, false));
+        }
 
         if (elasticSearchTask.getBids().size() < 1) {
             bidsLable.setVisibility(View.GONE);
