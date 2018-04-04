@@ -37,6 +37,8 @@
     <string name="pickLocation">Pick Location</string>
     <string name="searchLocation">Search Location</string>
     <string name="noLocationSelected">No Location Selected</string>
+    <string name="currentLocationNeedPermission">Location Permission is required to find current location.</string>
+    <string name="currentLocation">Current Location</string>
 
     <string-array name="taskStatusArray">
         <item>Requested</item>

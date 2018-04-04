@@ -6,11 +6,16 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.slouple.android.AdvancedActivity;
 import com.slouple.android.PermissionRequest;
 import com.slouple.android.PermissionRequestListener;
+import com.slouple.android.Pointer;
+import com.slouple.android.Units;
+import com.slouple.android.input.TapDetector;
 
 import java.util.ArrayList;
 
@@ -38,8 +43,8 @@ public class UserLocationMarker extends MapObject {
         providerError = context.getString(R.string.requestGPSEnable);
         locationNotSetError = context.getString(R.string.waitForLocation);
 
-
-        setBackgroundResource(R.drawable.ic_user_location_marker);
+        FrameLayout layout = (FrameLayout) LayoutInflater.from(context).inflate(R.layout.view_user_location_marker, this, false);
+        addView(layout);
         setVisibility(INVISIBLE);
         final FusedLocationManagerListener selfLocationPointListener = new FusedLocationManagerListener() {
             @Override
@@ -129,10 +134,13 @@ public class UserLocationMarker extends MapObject {
     public void onMapViewPost() {
         super.onMapViewPost();
         updateLayout();
+        requestLayout();
+        invalidate();
     }
 
     @Override
     public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         setOffset(new Point(getWidth() / 2, (int) (getHeight() * 0.85)));
         setScaleX(1);
         setScaleY(1);
