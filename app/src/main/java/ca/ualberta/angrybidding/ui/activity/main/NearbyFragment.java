@@ -77,7 +77,6 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
 
     @Override
     public void onVisible() {
-
     }
 
     @Override
@@ -139,8 +138,17 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         });
 
         loadingThread = new NearbyTaskLoadingThread();
+        loadingThread.paused = true;
         loadingThread.start();
         return layout;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden){
+        super.onHiddenChanged(hidden);
+        if(loadingThread != null) {
+            loadingThread.paused = hidden;
+        }
     }
 
     private void zoomOnCurrentLocation(boolean showError, int z) {
@@ -161,6 +169,7 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         super.onPause();
         Log.d("PostFragment", "onPause");
         getUserLocationMarker().removeLocationListener();
+        loadingThread.paused = true;
     }
 
     @Override
@@ -169,6 +178,9 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         Log.d("PostFragment", "onResume");
         if (getUserLocationMarker().hasPermission()) {
             getUserLocationMarker().addLocationListener();
+        }
+        if(!isHidden()) {
+            loadingThread.paused = true;
         }
     }
 
@@ -185,9 +197,17 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     }
 
     private class NearbyTaskLoadingThread extends Thread {
+        private volatile boolean paused = false;
         @Override
         public void run() {
             while (!interrupted()) {
+                while(paused){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
                 ElasticSearchTask.listTaskByLocationArea(getContext(), mapView.getScreenBound(), new Task.Status[]{Task.Status.REQUESTED, Task.Status.BIDDED}, new ElasticSearchTask.ListTaskListener() {
                     @Override
                     public void onResult(ArrayList<ElasticSearchTask> tasks) {

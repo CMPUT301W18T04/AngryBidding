@@ -76,7 +76,7 @@ public class TaskMapObjectContainer extends MapObjectContainer {
                 if (!child.isDying()) {
                     child.animate()
                             .alpha(0f)
-                            .setDuration(500)
+                            .setDuration(2000)
                             .setListener(new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
