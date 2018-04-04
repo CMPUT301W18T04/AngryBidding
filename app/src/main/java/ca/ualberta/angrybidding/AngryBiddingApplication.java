@@ -20,13 +20,13 @@ import ca.ualberta.angrybidding.map.MapView;
 
 public class AngryBiddingApplication extends Application {
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         BitmapLoaderFactory.addBitmapLoader(MapView.DEFAULT_BITMAP_LOADER_NAME,
                 new BitmapLoader(8, true, 128 * 1024 * 1024, new File(getCacheDir(), MapView.DEFAULT_BITMAP_LOADER_NAME), false, -1, 10000)
         );
 
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             try {
                 TrustManager[] victimizedManager = new TrustManager[]{
 

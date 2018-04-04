@@ -10,16 +10,16 @@ public abstract class LocationPointListener implements LocationListener {
     private boolean providerEnabled = false;
     private String providerName;
 
-    public LocationPointListener(String providerName){
+    public LocationPointListener(String providerName) {
         this.providerName = providerName;
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if(location == null){
+        if (location == null) {
             return;
         }
-        if(!isProviderEnabled()){
+        if (!isProviderEnabled()) {
             onProviderEnabled(providerName);
         }
         LocationPoint locationPoint = new LocationPoint(location);
@@ -28,7 +28,7 @@ public abstract class LocationPointListener implements LocationListener {
 
     public abstract void onLocationChanged(Location location, LocationPoint locationPoint);
 
-    public String getProviderName(){
+    public String getProviderName() {
         return providerName;
     }
 
@@ -56,7 +56,7 @@ public abstract class LocationPointListener implements LocationListener {
         providerEnabled = false;
     }
 
-    public boolean isProviderEnabled(){
-        return  providerEnabled;
+    public boolean isProviderEnabled() {
+        return providerEnabled;
     }
 }

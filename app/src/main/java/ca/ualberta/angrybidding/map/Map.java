@@ -3,7 +3,7 @@ package ca.ualberta.angrybidding.map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Map implements Parcelable{
+public class Map implements Parcelable {
     private String name;
     private String url;
     private int tileSize;
@@ -33,18 +33,18 @@ public class Map implements Parcelable{
     }
 
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (other instanceof Map) {
-            return getName().equals(((Map)other).getName()) &&
-                    getTileSize() == ((Map)other).getTileSize() &&
-                    getMaxZ() == ((Map)other).getMaxZ() &&
-                    getURL().equals(((Map)other).getURL());
+            return getName().equals(((Map) other).getName()) &&
+                    getTileSize() == ((Map) other).getTileSize() &&
+                    getMaxZ() == ((Map) other).getMaxZ() &&
+                    getURL().equals(((Map) other).getURL());
         }
         return false;
     }
 
     // Parcelable
-    public Map(Parcel in){
+    public Map(Parcel in) {
         name = in.readString();
         url = in.readString();
         tileSize = in.readInt();
@@ -58,6 +58,7 @@ public class Map implements Parcelable{
         dest.writeInt(tileSize);
         dest.writeInt(maxZ);
     }
+
     public static final Creator CREATOR = new Creator() {
         public Map createFromParcel(Parcel in) {
             return new Map(in);

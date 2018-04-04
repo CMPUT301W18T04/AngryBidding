@@ -38,7 +38,7 @@ public class MapObject extends RelativeLayout {
             location = bundle.getParcelable("location");
             offset = bundle.getParcelable("offset");
             super.onRestoreInstanceState(bundle.getParcelable("super"));
-        }else{
+        } else {
             super.onRestoreInstanceState(state);
         }
     }
@@ -80,9 +80,9 @@ public class MapObject extends RelativeLayout {
         x *= (getMapView().getMap().getTileSize());
         y *= (getMapView().getMap().getTileSize());
 
-        if(getMapView() instanceof ScalableMapView){
-            x *= ((ScalableMapView)getMapView()).getTotalScale();
-            y *= ((ScalableMapView)getMapView()).getTotalScale();
+        if (getMapView() instanceof ScalableMapView) {
+            x *= ((ScalableMapView) getMapView()).getTotalScale();
+            y *= ((ScalableMapView) getMapView()).getTotalScale();
         }
 
         //Center
@@ -107,11 +107,11 @@ public class MapObject extends RelativeLayout {
     }
 
     public MapObjectContainer getContainer() {
-        return (MapObjectContainer)getParent();
+        return (MapObjectContainer) getParent();
     }
 
     public MapView getMapView() {
-        if(getContainer() == null){
+        if (getContainer() == null) {
             return null;
         }
         return getContainer().getMapView();
@@ -125,9 +125,9 @@ public class MapObject extends RelativeLayout {
         return location;
     }
 
-    public void setLocation(LocationPoint location){
+    public void setLocation(LocationPoint location) {
         this.location = location;
-        if(getMapView() != null) {
+        if (getMapView() != null) {
             onMapViewLocationChange();
         }
     }

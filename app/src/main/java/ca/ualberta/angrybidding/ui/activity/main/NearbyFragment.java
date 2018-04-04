@@ -28,7 +28,6 @@ import ca.ualberta.angrybidding.map.LocationPoint;
 import ca.ualberta.angrybidding.map.MapObjectContainer;
 import ca.ualberta.angrybidding.map.TouchableMapView;
 import ca.ualberta.angrybidding.map.UserLocationMarker;
-import ca.ualberta.angrybidding.ui.view.TaskMapObject;
 import ca.ualberta.angrybidding.ui.view.TaskMapObjectContainer;
 
 /**
@@ -131,9 +130,9 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!userLocationMarker.hasPermission()){
+                if (!userLocationMarker.hasPermission()) {
                     getContext().submitPermissionRequest(currentLocationPermissionRequestCode);
-                }else{
+                } else {
                     zoomOnCurrentLocation(true, 14);
                 }
             }
@@ -144,7 +143,7 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         return layout;
     }
 
-    private void zoomOnCurrentLocation(boolean showError, int z){
+    private void zoomOnCurrentLocation(boolean showError, int z) {
         if (userLocationMarker.isAvailable(showError)) {
             LocationPoint lastLocationPoint = userLocationMarker.getLastLocationPoint();
             lastLocationPoint.setZ(z);
@@ -168,31 +167,31 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     public void onResume() {
         super.onResume();
         Log.d("PostFragment", "onResume");
-        if(getUserLocationMarker().hasPermission()){
+        if (getUserLocationMarker().hasPermission()) {
             getUserLocationMarker().addLocationListener();
         }
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         Log.d("MapFragment", "onDestroyView");
         loadingThread.interrupt();
         getUserLocationMarker().stop();
         super.onDestroyView();
     }
 
-    public UserLocationMarker getUserLocationMarker(){
+    public UserLocationMarker getUserLocationMarker() {
         return userLocationMarker;
     }
 
-    private class NearbyTaskLoadingThread extends Thread{
+    private class NearbyTaskLoadingThread extends Thread {
         @Override
-        public void run(){
-            while(!interrupted()){
+        public void run() {
+            while (!interrupted()) {
                 ElasticSearchTask.listTaskByLocationArea(getContext(), mapView.getScreenBound(), new Task.Status[]{Task.Status.REQUESTED, Task.Status.BIDDED}, new ElasticSearchTask.ListTaskListener() {
                     @Override
                     public void onResult(ArrayList<ElasticSearchTask> tasks) {
-                        for(ElasticSearchTask task: tasks){
+                        for (ElasticSearchTask task : tasks) {
                             taskMapObjectContainer.addTask(task);
                         }
                     }

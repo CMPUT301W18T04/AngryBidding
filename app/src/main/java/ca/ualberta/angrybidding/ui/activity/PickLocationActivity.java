@@ -115,7 +115,7 @@ public class PickLocationActivity extends AngryBiddingActivity {
 
         searchRecycler = (RecyclerView) findViewById(R.id.pickLocationSearchRecycler);
         searchRecycler.setLayoutManager(new LinearLayoutManager(this));
-        searchRecycler.setAdapter(new DummyAdapter<NominatimPlace, TextView>(searchPlaces){
+        searchRecycler.setAdapter(new DummyAdapter<NominatimPlace, TextView>(searchPlaces) {
             @Override
             public TextView createView(int viewType) {
                 TextView textView = new TextView(PickLocationActivity.this);
@@ -156,9 +156,9 @@ public class PickLocationActivity extends AngryBiddingActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(searchLocationMarker == null){
+                if (searchLocationMarker == null) {
                     Snackbar.make(v, R.string.noLocationSelected, Snackbar.LENGTH_LONG).show();
-                }else{
+                } else {
                     Intent intent = new Intent();
                     intent.putExtra("locationPoint", new Gson().toJson(searchLocationMarker.getLocation()));
                     setResult(RESULT_OK, intent);
@@ -170,11 +170,11 @@ public class PickLocationActivity extends AngryBiddingActivity {
 
     }
 
-    public void setLocationMarker(LocationPoint locationPoint, boolean moveToLocation){
-        if(moveToLocation) {
+    public void setLocationMarker(LocationPoint locationPoint, boolean moveToLocation) {
+        if (moveToLocation) {
             mapView.setLocation(locationPoint);
         }
-        if(searchLocationMarker != null){
+        if (searchLocationMarker != null) {
             mapObjectContainer.removeView(searchLocationMarker);
         }
         searchLocationMarker = new LocationMarker(PickLocationActivity.this, locationPoint, false);
@@ -204,11 +204,11 @@ public class PickLocationActivity extends AngryBiddingActivity {
                     searchRecycler.getAdapter().notifyDataSetChanged();
                     InputMethodManager inputManager = (InputMethodManager) PickLocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     View focused = PickLocationActivity.this.getCurrentFocus();
-                    if(focused != null) {
+                    if (focused != null) {
                         inputManager.hideSoftInputFromWindow(focused.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
 
-                    if(query.length() == 0){
+                    if (query.length() == 0) {
                         hideSearch();
                         return true;
                     }
@@ -235,12 +235,12 @@ public class PickLocationActivity extends AngryBiddingActivity {
         return toolbar;
     }
 
-    public void showSearch(){
+    public void showSearch() {
         searchRecycler.setVisibility(View.VISIBLE);
         searchCover.setVisibility(View.VISIBLE);
     }
 
-    public void hideSearch(){
+    public void hideSearch() {
         searchEditText.clearFocus();
         searchRecycler.setVisibility(View.GONE);
         searchCover.setVisibility(View.GONE);

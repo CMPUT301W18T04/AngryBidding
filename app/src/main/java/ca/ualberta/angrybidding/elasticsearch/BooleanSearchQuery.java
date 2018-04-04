@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /**
  * Basic ElasticSearch Search Query
  */
-public class BooleanSearchQuery extends SearchQuery{
+public class BooleanSearchQuery extends SearchQuery {
     private JSONObject constantScore;
     private JSONObject filter;
     private BoolCondition boolCondition;
@@ -22,7 +22,7 @@ public class BooleanSearchQuery extends SearchQuery{
             boolCondition = new BoolCondition();
             filter.put("bool", boolCondition.getBool());
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

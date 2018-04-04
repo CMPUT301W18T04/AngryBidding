@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.slouple.android.AdvancedActivity;
 import com.slouple.android.PermissionRequest;
 import com.slouple.android.PermissionRequestListener;
-import com.slouple.android.Pointer;
-import com.slouple.android.Units;
-import com.slouple.android.input.TapDetector;
 
 import java.util.ArrayList;
 
@@ -30,13 +27,13 @@ public class UserLocationMarker extends MapObject {
     private String providerError;
     private String locationNotSetError;
 
-    public UserLocationMarker(Context context){
+    public UserLocationMarker(Context context) {
         this(context, null);
     }
 
     public UserLocationMarker(Context context, final FusedLocationManagerListener onLocationChangeListener) {
         super(context, new LocationPoint(0, 0));
-        if(onLocationChangeListener != null) {
+        if (onLocationChangeListener != null) {
             onLocationChangeListeners.add(onLocationChangeListener);
         }
         permissionError = context.getString(R.string.requestGPSPermission);
@@ -53,7 +50,7 @@ public class UserLocationMarker extends MapObject {
                     @Override
                     public void run() {
                         UserLocationMarker.this.onLocationChange(locationPoint);
-                        for(FusedLocationManagerListener listener: onLocationChangeListeners){
+                        for (FusedLocationManagerListener listener : onLocationChangeListeners) {
                             listener.onLocationChanged(location, locationPoint);
                         }
                     }
@@ -63,10 +60,10 @@ public class UserLocationMarker extends MapObject {
             @Override
             public void onProviderEnabled() {
                 Log.d("UserLocationMarker", "onProviderEnabled");
-                if(getLastLocationPoint() != null) {
+                if (getLastLocationPoint() != null) {
                     UserLocationMarker.this.setVisibility(VISIBLE);
                 }
-                for(FusedLocationManagerListener listener: onLocationChangeListeners){
+                for (FusedLocationManagerListener listener : onLocationChangeListeners) {
                     listener.onProviderEnabled();
                 }
             }
@@ -75,7 +72,7 @@ public class UserLocationMarker extends MapObject {
             public void onProviderDisabled() {
                 Log.d("UserLocationMarker", "onProviderDisabled");
                 UserLocationMarker.this.setVisibility(INVISIBLE);
-                for(FusedLocationManagerListener listener: onLocationChangeListeners){
+                for (FusedLocationManagerListener listener : onLocationChangeListeners) {
                     listener.onProviderDisabled();
                 }
             }
@@ -95,7 +92,7 @@ public class UserLocationMarker extends MapObject {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             super.onRestoreInstanceState(bundle.getParcelable("super"));
-        }else{
+        } else {
             super.onRestoreInstanceState(state);
         }
     }
@@ -104,20 +101,20 @@ public class UserLocationMarker extends MapObject {
         fusedLocationManager.addListeners();
     }
 
-    public void removeLocationListener(){
+    public void removeLocationListener() {
         fusedLocationManager.removeListeners();
         setVisibility(INVISIBLE);
     }
 
-    public void addOnLocationChangeListener(FusedLocationManagerListener onLocationChangeListener){
+    public void addOnLocationChangeListener(FusedLocationManagerListener onLocationChangeListener) {
         onLocationChangeListeners.add(onLocationChangeListener);
     }
 
-    public void removeOnLocationChangeListener(FusedLocationManagerListener onLocationChangeListener){
+    public void removeOnLocationChangeListener(FusedLocationManagerListener onLocationChangeListener) {
         onLocationChangeListeners.remove(onLocationChangeListener);
     }
 
-    public void clearOnLocationChangeListener(){
+    public void clearOnLocationChangeListener() {
         onLocationChangeListeners.clear();
     }
 
@@ -154,11 +151,11 @@ public class UserLocationMarker extends MapObject {
         this.setLocation(locationPoint);
     }
 
-    public PermissionRequest getPermissionRequest(PermissionRequestListener listener){
+    public PermissionRequest getPermissionRequest(PermissionRequestListener listener) {
         return fusedLocationManager.getPermissionRequest(listener);
     }
 
-    public boolean hasPermission(){
+    public boolean hasPermission() {
         return fusedLocationManager.hasPermission();
     }
 
@@ -167,16 +164,16 @@ public class UserLocationMarker extends MapObject {
     }
 
     public LocationPoint getLastLocationPoint() {
-        if(!isProviderEnabled()){
+        if (!isProviderEnabled()) {
             return null;
         }
         return fusedLocationManager.getBestGuessLocationPoint();
     }
 
-    public boolean isAvailable(boolean showAlert){
+    public boolean isAvailable(boolean showAlert) {
         //Permission
         if (!hasPermission()) {
-            if(showAlert) {
+            if (showAlert) {
                 Toast.makeText(getContext(), permissionError,
                         Toast.LENGTH_LONG).show();
             }
@@ -184,7 +181,7 @@ public class UserLocationMarker extends MapObject {
         }
         //Provider
         if (!isProviderEnabled()) {
-            if(showAlert) {
+            if (showAlert) {
                 Toast.makeText(getContext(), providerError,
                         Toast.LENGTH_LONG).show();
             }
@@ -193,7 +190,7 @@ public class UserLocationMarker extends MapObject {
         //Last Location
         LocationPoint lastLocationPoint = getLastLocationPoint();
         if (lastLocationPoint == null) {
-            if(showAlert) {
+            if (showAlert) {
                 Toast.makeText(getContext(), locationNotSetError,
                         Toast.LENGTH_LONG).show();
             }

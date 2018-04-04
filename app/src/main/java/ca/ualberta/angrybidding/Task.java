@@ -183,11 +183,11 @@ public class Task {
         }
     }
 
-    public long getDateTimeMillis(){
-        return  this.dateTimeMillis;
+    public long getDateTimeMillis() {
+        return this.dateTimeMillis;
     }
 
-    public Date getDateTime(){
+    public Date getDateTime() {
         return new Date(dateTimeMillis);
     }
 

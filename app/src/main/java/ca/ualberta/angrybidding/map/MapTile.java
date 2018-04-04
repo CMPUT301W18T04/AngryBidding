@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Calendar;
 
 public class MapTile {
-    public enum LoadState{Initialized, Loading, Loaded, Destroyed}
+    public enum LoadState {Initialized, Loading, Loaded, Destroyed}
 
     private static final Bitmap DEFAULT_TILE_BITMAP = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
 
@@ -70,11 +70,11 @@ public class MapTile {
         state = LoadState.Initialized;
     }
 
-    public void load(){
-        if(state != LoadState.Initialized){
+    public void load() {
+        if (state != LoadState.Initialized) {
             return;
         }
-        if(entry == null) {
+        if (entry == null) {
             Calendar expireTime = Calendar.getInstance();
             expireTime.add(Calendar.HOUR, 24);
             entry = new BitmapQueueEntry(url.toString(), expireTime, true, null, Bitmap.Config.RGB_565, null) {
@@ -117,7 +117,7 @@ public class MapTile {
         return this.coordinate.getZ();
     }
 
-    public MapTileCoordinate getCoordinate(){
+    public MapTileCoordinate getCoordinate() {
         return coordinate;
     }
 
@@ -134,8 +134,8 @@ public class MapTile {
         state = LoadState.Destroyed;
     }
 
-    public void cancelLoad(){
-        if(state == LoadState.Loading) {
+    public void cancelLoad() {
+        if (state == LoadState.Loading) {
             state = LoadState.Initialized;
             bitmapLoader.removeFromQueue(entry);
         }
@@ -147,14 +147,14 @@ public class MapTile {
         onLoad();
     }
 
-    public Bitmap getBitmap(){
+    public Bitmap getBitmap() {
         return bitmap;
     }
 
     public void onLoad() {
     }
 
-    public LoadState getState(){
+    public LoadState getState() {
         return state;
     }
 

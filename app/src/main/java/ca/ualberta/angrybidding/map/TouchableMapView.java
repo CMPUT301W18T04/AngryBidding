@@ -58,9 +58,9 @@ public class TouchableMapView extends ScalableMapView {
 
     public TouchableMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if(attrs == null){
+        if (attrs == null) {
             init(true);
-        }else{
+        } else {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.TouchableMapView, defStyle, 0);
             boolean touchable = ta.getBoolean(R.styleable.TouchableMapView_touchable, true);
             ta.recycle();
@@ -110,11 +110,11 @@ public class TouchableMapView extends ScalableMapView {
         return touchable;
     }
 
-    public void setZoomInCenter(boolean zoomInCenter){
+    public void setZoomInCenter(boolean zoomInCenter) {
         this.zoomInCenter = zoomInCenter;
     }
 
-    public boolean isZoomInCenter(){
+    public boolean isZoomInCenter() {
         return zoomInCenter;
     }
 
@@ -130,7 +130,7 @@ public class TouchableMapView extends ScalableMapView {
         canvas.drawText("Pointer Size: " + touchListener.getPointers().size(), getWidth() / 2, getHeight() / 2 + 400, debugPaint);
 
         int offset = 0;
-        for(Pointer pointer: touchListener.getPointers()){
+        for (Pointer pointer : touchListener.getPointers()) {
             canvas.drawText("Pointer ID: " + pointer.getPointerID(), getWidth() / 2, getHeight() / 2 - offset, debugPaint);
             offset += 25;
             canvas.drawText("Pointer Distance: " + pointer.getDistance().x + " " + pointer.getDistance().y, getWidth() / 2, getHeight() / 2 - offset, debugPaint);
@@ -160,15 +160,15 @@ public class TouchableMapView extends ScalableMapView {
 
     protected TapDetector tapDetector = new TapDetector(touchListener) {
         @Override
-        public void onSingleTap(Pointer pointer){
+        public void onSingleTap(Pointer pointer) {
             Log.d("TouchableMapView", "SingleTap x: " + pointer.getX() + " y: " + pointer.getY());
             setZoom(getZoom() - 2);
         }
 
         @Override
-        public void onDoubleTap(Pointer pointer){
+        public void onDoubleTap(Pointer pointer) {
             Log.d("TouchableMapView", "DoubleTap x: " + pointer.getX() + " y: " + pointer.getY());
-            if(!isZoomInCenter()){
+            if (!isZoomInCenter()) {
                 Point difference = new Point(getWidth() / 2 - pointer.getX(), getHeight() / 2 - pointer.getY());
                 updateMovement(difference);
             }
@@ -176,7 +176,7 @@ public class TouchableMapView extends ScalableMapView {
         }
 
         @Override
-        public void onHold(Pointer pointer){
+        public void onHold(Pointer pointer) {
             Log.d("TouchableMapView", "Hold x: " + pointer.getX() + " y: " + pointer.getY());
             onHoldListener.onHold(pointer);
         }
@@ -207,7 +207,7 @@ public class TouchableMapView extends ScalableMapView {
     };
 
     @Override
-    public void setZoom(double zoom){
+    public void setZoom(double zoom) {
         super.setZoom(zoom);
         //scaleMomentum.endMomentum();
     }
@@ -221,11 +221,11 @@ public class TouchableMapView extends ScalableMapView {
         }
     }
 
-    public void setOnHoldListener(OnHoldListener onHoldListener){
+    public void setOnHoldListener(OnHoldListener onHoldListener) {
         this.onHoldListener = onHoldListener;
     }
 
-    public interface OnHoldListener{
+    public interface OnHoldListener {
         void onHold(Pointer pointer);
     }
 }

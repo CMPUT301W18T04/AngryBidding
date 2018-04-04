@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Data type for a point of location on an Mercator map
  * Supports z / zoom
  */
-public class LocationPoint implements Parcelable{
+public class LocationPoint implements Parcelable {
     private double longitude;
     private double latitude;
     private transient double x;
@@ -252,7 +252,7 @@ public class LocationPoint implements Parcelable{
         return Math.atan(Math.sinh(Math.PI - y / n * 2 * Math.PI)) * 180 / Math.PI;
     }
 
-    public LocationPoint(Parcel in){
+    public LocationPoint(Parcel in) {
         this.z = in.readInt();
         setLongitude(in.readDouble());
         setLatitude(in.readDouble());

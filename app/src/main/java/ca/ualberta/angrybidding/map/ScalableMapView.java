@@ -12,7 +12,6 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -37,9 +36,9 @@ public class ScalableMapView extends MapView {
 
     public ScalableMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if(attrs == null){
+        if (attrs == null) {
             init(1, 1.75f);
-        }else{
+        } else {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.ScalableMapView, defStyle, 0);
             int minZoom = ta.getInt(R.styleable.ScalableMapView_minZoom, 1);
             float baseScale = ta.getFloat(R.styleable.ScalableMapView_baseScale, 1.75f);
@@ -86,12 +85,12 @@ public class ScalableMapView extends MapView {
     protected void onDraw(Canvas canvas) {
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
-        canvas.scale((float)getTotalScale(), (float)getTotalScale(), centerX, centerY);
+        canvas.scale((float) getTotalScale(), (float) getTotalScale(), centerX, centerY);
         super.onDraw(canvas);
     }
 
     @Override
-    protected Rect getTileDrawLocation(MapTile tile){
+    protected Rect getTileDrawLocation(MapTile tile) {
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
         double factor = Math.pow(2, getZoomInt() - tile.getZ());
@@ -113,15 +112,15 @@ public class ScalableMapView extends MapView {
         debugPaint.setColor(Color.argb(50, 0, 0, 0));
         for (MapTile tile : mapTiles) {
             Rect mapTileRect = getTileDrawLocation(tile);
-            if(tile.getState() == MapTile.LoadState.Initialized){
+            if (tile.getState() == MapTile.LoadState.Initialized) {
                 debugPaint.setColor(Color.RED);
-            }else if(tile.getState() == MapTile.LoadState.Loading){
+            } else if (tile.getState() == MapTile.LoadState.Loading) {
                 debugPaint.setColor(Color.YELLOW);
-            }else if(tile.getState() == MapTile.LoadState.Loaded){
+            } else if (tile.getState() == MapTile.LoadState.Loaded) {
                 debugPaint.setColor(Color.GREEN);
-            }else if(tile.getState() == MapTile.LoadState.Destroyed){
+            } else if (tile.getState() == MapTile.LoadState.Destroyed) {
                 debugPaint.setColor(Color.BLACK);
-            }else{
+            } else {
                 debugPaint.setColor(Color.WHITE);
             }
             canvas.drawText(String.valueOf(tile.getZ()), mapTileRect.left, mapTileRect.top + 15, debugPaint);
@@ -181,15 +180,15 @@ public class ScalableMapView extends MapView {
                 mapTiles.add(newTile);
             }
         }
-        for(MapTile tile: mapTiles){
-            if(newMapTiles.contains(tile)){
+        for (MapTile tile : mapTiles) {
+            if (newMapTiles.contains(tile)) {
                 tile.load();
             }
         }
     }
 
     protected boolean canMapTileBeRemoved(MapTile inputTile) {
-        if(!isTileInsideCanvas(inputTile)){
+        if (!isTileInsideCanvas(inputTile)) {
             return true;
         } else if (inputTile.getZ() > getZoomInt()) {
             return hasParentMapTile(inputTile);
@@ -200,7 +199,7 @@ public class ScalableMapView extends MapView {
         }
     }
 
-    protected boolean isTileInsideCanvas(MapTile inputTile){
+    protected boolean isTileInsideCanvas(MapTile inputTile) {
         Rect mapTileRect = getTileDrawLocation(inputTile);
         int paddingSize = tilePadding * getMap().getTileSize();
         Rect canvasRect = new Rect(-paddingSize, -paddingSize, getWidth() + paddingSize, getHeight() + paddingSize);
@@ -213,9 +212,9 @@ public class ScalableMapView extends MapView {
             if (tile.getZ() - 1 != inputTile.getZ() || tile.getState() != MapTile.LoadState.Loaded) {
                 continue;
             }
-            if(tile.getCoordinate().isParent(inputTile.getCoordinate())){
+            if (tile.getCoordinate().isParent(inputTile.getCoordinate())) {
                 childCount++;
-                if(childCount == 4){
+                if (childCount == 4) {
                     return true;
                 }
             }
@@ -236,7 +235,7 @@ public class ScalableMapView extends MapView {
     }
 
     public void setLocation(LocationPoint location) {
-        if(location.getZ() < minZoom){
+        if (location.getZ() < minZoom) {
             location.setZ(minZoom);
         }
         super.setLocation(location);
@@ -251,7 +250,7 @@ public class ScalableMapView extends MapView {
         return zoom;
     }
 
-    public int getMinZoom(){
+    public int getMinZoom() {
         return minZoom;
     }
 
@@ -269,7 +268,7 @@ public class ScalableMapView extends MapView {
 
     public void setZoom(double zoom) {
         zoom = Math.max(minZoom, Math.min(zoom, map.getMaxZ()));
-        if(zoom != getZoom()){
+        if (zoom != getZoom()) {
             this.zoom = zoom;
             if (getZoomInt() != location.getZ()) {
                 LocationPoint newLocationPoint = this.location.copy();
@@ -278,18 +277,18 @@ public class ScalableMapView extends MapView {
             }
             updateTileNum();
             invalidate();
-            for(OnMapZoomChangeListener listener: onMapLocationChangeListeners){
+            for (OnMapZoomChangeListener listener : onMapLocationChangeListeners) {
                 listener.onZoomChange(this.zoom);
             }
         }
     }
 
-    public void setMinZoom(int minZoom){
+    public void setMinZoom(int minZoom) {
         this.minZoom = Math.max(minZoom, 1);
         if (this.location.getZ() < minZoom) {
             this.location.setZ(minZoom);
         }
-        if(zoom < minZoom){
+        if (zoom < minZoom) {
             setZoom(minZoom);
         }
     }
@@ -298,25 +297,26 @@ public class ScalableMapView extends MapView {
         this.baseScale = baseScale;
         updateTileNum();
         invalidate();
-        for(OnMapZoomChangeListener listener: onMapLocationChangeListeners){
+        for (OnMapZoomChangeListener listener : onMapLocationChangeListeners) {
             listener.onBaseScaleChange(this.baseScale);
         }
     }
 
-    public double getTotalScale(){
+    public double getTotalScale() {
         return getZoomScale() * getBaseScale();
     }
 
-    public void addOnMapZoomChangeListener(OnMapZoomChangeListener listener){
+    public void addOnMapZoomChangeListener(OnMapZoomChangeListener listener) {
         onMapLocationChangeListeners.add(listener);
     }
 
-    public void removeOnMapZoomChangeListener(OnMapZoomChangeListener listener){
+    public void removeOnMapZoomChangeListener(OnMapZoomChangeListener listener) {
         onMapLocationChangeListeners.remove(listener);
     }
 
-    interface OnMapZoomChangeListener{
+    interface OnMapZoomChangeListener {
         void onZoomChange(double zoom);
+
         void onBaseScaleChange(double baseScale);
     }
 }

@@ -52,9 +52,9 @@ public class MapObjectContainer extends RelativeLayout {
     }
 
     @Override
-    protected void onAttachedToWindow(){
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mapView = (MapView) ((ViewGroup)getParent()).findViewById(mapViewID);
+        mapView = (MapView) ((ViewGroup) getParent()).findViewById(mapViewID);
         mapView.post(new Runnable() {
             @Override
             public void run() {
@@ -75,8 +75,8 @@ public class MapObjectContainer extends RelativeLayout {
             }
         });
 
-        if(mapView instanceof ScalableMapView){
-            ((ScalableMapView)mapView).addOnMapZoomChangeListener(new ScalableMapView.OnMapZoomChangeListener() {
+        if (mapView instanceof ScalableMapView) {
+            ((ScalableMapView) mapView).addOnMapZoomChangeListener(new ScalableMapView.OnMapZoomChangeListener() {
                 @Override
                 public void onZoomChange(double zoom) {
                     MapObjectContainer.this.onMapViewLocationChange();
@@ -104,9 +104,9 @@ public class MapObjectContainer extends RelativeLayout {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             scale = bundle.getDouble("scale");
-            mapView = (MapView) ((Activity)getContext()).findViewById(bundle.getInt("mapViewID"));
+            mapView = (MapView) ((Activity) getContext()).findViewById(bundle.getInt("mapViewID"));
             super.onRestoreInstanceState(bundle.getParcelable("super"));
-        }else{
+        } else {
             super.onRestoreInstanceState(state);
         }
     }
@@ -137,7 +137,7 @@ public class MapObjectContainer extends RelativeLayout {
 
     @Deprecated
     @Override
-    public void addView(View view){
+    public void addView(View view) {
         if (view instanceof MapObject) {
             addView((MapObject) view);
         }
@@ -145,14 +145,14 @@ public class MapObjectContainer extends RelativeLayout {
 
     public void addView(MapObject mapObject) {
         super.addView(mapObject);
-        if(postMapView){
+        if (postMapView) {
             mapObject.onMapViewPost();
         }
     }
 
     @Deprecated
     @Override
-    public void removeView(View view){
+    public void removeView(View view) {
         if (view instanceof MapObject) {
             removeView((MapObject) view);
         }
@@ -170,7 +170,7 @@ public class MapObjectContainer extends RelativeLayout {
         return scale;
     }
 
-    public boolean isPostMapView(){
+    public boolean isPostMapView() {
         return postMapView;
     }
 

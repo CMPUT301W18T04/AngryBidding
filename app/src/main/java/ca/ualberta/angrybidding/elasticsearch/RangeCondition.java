@@ -1,15 +1,13 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RangeCondition extends Condition{
+public class RangeCondition extends Condition {
     private JSONObject range;
     private JSONObject conditions;
 
-    public RangeCondition(String fieldName, String from, String to){
+    public RangeCondition(String fieldName, String from, String to) {
         range = new JSONObject();
         conditions = new JSONObject();
         try {

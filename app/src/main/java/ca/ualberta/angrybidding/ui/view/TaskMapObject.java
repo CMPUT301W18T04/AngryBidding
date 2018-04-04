@@ -78,14 +78,14 @@ public class TaskMapObject extends MapObject {
         this.setVisibility(VISIBLE);
     }
 
-    public void viewTaskDetail(){
+    public void viewTaskDetail() {
         Intent intent = new Intent(getContext(), ViewTaskDetailActivity.class);
         intent.putExtra("id", task.getID());
         intent.putExtra("task", new Gson().toJson(task));
         getContext().startActivity(intent);
     }
 
-    public void hideTaskMapObject(){
+    public void hideTaskMapObject() {
         setVisibility(INVISIBLE);
     }
 

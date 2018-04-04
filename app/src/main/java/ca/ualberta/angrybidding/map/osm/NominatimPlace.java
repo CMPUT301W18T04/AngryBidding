@@ -23,7 +23,7 @@ public class NominatimPlace {
     private double importance;
     private LocationArea boundingBox;
 
-    public NominatimPlace(JsonObject jsonObject){
+    public NominatimPlace(JsonObject jsonObject) {
         placeID = jsonObject.get("place_id").getAsLong();
         double lat = jsonObject.get("lat").getAsDouble();
         double lon = jsonObject.get("lon").getAsDouble();
@@ -39,31 +39,31 @@ public class NominatimPlace {
         boundingBox = new LocationArea(new LocationPoint(lat1, lon1), new LocationPoint(lat2, lon2));
     }
 
-    public long getPlaceID(){
+    public long getPlaceID() {
         return placeID;
     }
 
-    public LocationPoint getLocationPoint(){
+    public LocationPoint getLocationPoint() {
         return locationPoint;
     }
 
-    public String getDisplayName(){
+    public String getDisplayName() {
         return displayName;
     }
 
-    public int getPlaceRank(){
+    public int getPlaceRank() {
         return placeRank;
     }
 
-    public double getImportance(){
+    public double getImportance() {
         return importance;
     }
 
-    public LocationArea getBoundingBox(){
+    public LocationArea getBoundingBox() {
         return boundingBox;
     }
 
-    public int getZ(int w, int h, int minZ, int maxZ){
+    public int getZ(int w, int h, int minZ, int maxZ) {
         LocationPoint minPoint = getBoundingBox().getMin();
         LocationPoint maxPoint = getBoundingBox().getMax();
         minPoint.setZ(maxZ);
@@ -76,12 +76,12 @@ public class NominatimPlace {
         return (int) Math.floor(maxZ - n);
     }
 
-    public static void search(String query, Context context, final Listener<ArrayList<NominatimPlace>> listener){
+    public static void search(String query, Context context, final Listener<ArrayList<NominatimPlace>> listener) {
         search(query, null, context, listener);
     }
 
 
-    public static void search(String query, LocationArea area, Context context, final Listener<ArrayList<NominatimPlace>> listener){
+    public static void search(String query, LocationArea area, Context context, final Listener<ArrayList<NominatimPlace>> listener) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");
         builder.authority("nominatim.openstreetmap.org");
@@ -89,13 +89,13 @@ public class NominatimPlace {
         builder.appendQueryParameter("q", query);
         builder.appendQueryParameter("format", "jsonv2");
         builder.appendQueryParameter("accept-language", "*");
-        if(area != null){
+        if (area != null) {
             builder.appendQueryParameter("viewbox",
                     area.getMin().getLongitude() + "," +
-                    area.getMin().getLatitude() + "," +
-                    area.getMax().getLongitude() + "," +
-                    area.getMax().getLatitude()
-                    );
+                            area.getMin().getLatitude() + "," +
+                            area.getMax().getLongitude() + "," +
+                            area.getMax().getLatitude()
+            );
         }
         JsonRequest request = new JsonRequest(builder.build().toString(), new JsonResponseListener() {
 
@@ -103,7 +103,7 @@ public class NominatimPlace {
             public void onSuccess(JsonElement element) {
                 ArrayList<NominatimPlace> places = new ArrayList<>();
                 JsonArray jsonArray = element.getAsJsonArray();
-                for(int i = 0; i < jsonArray.size(); i++){
+                for (int i = 0; i < jsonArray.size(); i++) {
                     places.add(new NominatimPlace(jsonArray.get(i).getAsJsonObject()));
                 }
                 listener.onSuccess(places);

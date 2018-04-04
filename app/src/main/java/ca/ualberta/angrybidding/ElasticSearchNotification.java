@@ -14,7 +14,6 @@ import java.util.HashMap;
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.BooleanSearchQuery;
-import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -80,7 +79,7 @@ public class ElasticSearchNotification extends Notification {
      * @param username Username of who created the task that was bidded
      * @param listener Listener to call on response
      */
-    public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener){
+    public static void listNotificationByUsername(Context context, String username, final ListNotificationListener listener) {
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("user.username", username));
         SearchRequest request = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
@@ -116,7 +115,7 @@ public class ElasticSearchNotification extends Notification {
      * @param setToSeen Boolean set to seen
      * @param listener  Listener to call on response
      */
-    public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener){
+    public static void listNotSeenNotificationByUsername(final Context context, String username, final boolean setToSeen, final ListNotificationListener listener) {
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("user.username", username));
         query.getBoolCondition().addMust(new TermCondition("seen", "false"));
@@ -190,6 +189,7 @@ public class ElasticSearchNotification extends Notification {
      */
     public interface ListNotificationListener {
         void onResult(ArrayList<ElasticSearchNotification> notifications);
+
         void onError(VolleyError error);
     }
 

@@ -7,16 +7,16 @@ public class LocationArea implements Parcelable {
     private LocationPoint min;
     private LocationPoint max;
 
-    public LocationArea(LocationPoint min, LocationPoint max){
+    public LocationArea(LocationPoint min, LocationPoint max) {
         this.min = min;
         this.max = max;
     }
 
-    public LocationPoint getMin(){
+    public LocationPoint getMin() {
         return min;
     }
 
-    public LocationPoint getMax(){
+    public LocationPoint getMax() {
         return max;
     }
 
@@ -30,7 +30,7 @@ public class LocationArea implements Parcelable {
     }
 
     // Parcelable
-    public LocationArea(Parcel in){
+    public LocationArea(Parcel in) {
         min = in.readParcelable(LocationPoint.class.getClassLoader());
         max = in.readParcelable(LocationPoint.class.getClassLoader());
     }
@@ -40,6 +40,7 @@ public class LocationArea implements Parcelable {
         dest.writeParcelable(min, flags);
         dest.writeParcelable(max, flags);
     }
+
     public static final Creator CREATOR = new Creator() {
         public LocationArea createFromParcel(Parcel in) {
             return new LocationArea(in);

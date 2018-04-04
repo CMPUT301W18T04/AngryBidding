@@ -278,16 +278,16 @@ public class ElasticSearchTask extends Task {
         BooleanSearchQuery query = new BooleanSearchQuery();
         LocationPoint min = new LocationPoint(locationArea.getMax().getLatitude(), locationArea.getMin().getLongitude());
         LocationPoint max = new LocationPoint(locationArea.getMin().getLatitude(), locationArea.getMax().getLongitude());
-        if(min.getLatitude() < max.getLatitude()){
+        if (min.getLatitude() < max.getLatitude()) {
             query.getBoolCondition().addMust(new RangeCondition("locationPoint.latitude", String.valueOf(min.getLatitude()), String.valueOf(max.getLatitude())));
-        }else{
+        } else {
             query.getBoolCondition().addShould(new RangeCondition("locationPoint.latitude", String.valueOf(min.getLatitude()), "90"));
             query.getBoolCondition().addShould(new RangeCondition("locationPoint.latitude", "-90", String.valueOf(max.getLatitude())));
         }
 
-        if(min.getLongitude() < max.getLongitude()){
+        if (min.getLongitude() < max.getLongitude()) {
             query.getBoolCondition().addMust(new RangeCondition("locationPoint.longitude", String.valueOf(min.getLongitude()), String.valueOf(max.getLongitude())));
-        }else{
+        } else {
             query.getBoolCondition().addShould(new RangeCondition("locationPoint.longitude", String.valueOf(min.getLongitude()), "180"));
             query.getBoolCondition().addShould(new RangeCondition("locationPoint.longitude", "-180", String.valueOf(max.getLongitude())));
         }
@@ -309,18 +309,18 @@ public class ElasticSearchTask extends Task {
         searchRequest.submit(context);
     }
 
-    private static void addStatusSearch(BooleanSearchQuery query, Status[] statuses){
-        if(statuses == null || statuses.length == 0){
+    private static void addStatusSearch(BooleanSearchQuery query, Status[] statuses) {
+        if (statuses == null || statuses.length == 0) {
             return;
         }
         BoolCondition nestedBool = new BoolCondition();
-        for(Status status : statuses){
+        for (Status status : statuses) {
             nestedBool.addShould(new TermCondition("status", status.toString()));
         }
         query.getBoolCondition().addMust(nestedBool);
     }
 
-    private static void addDateTimeSort(SearchQuery query){
+    private static void addDateTimeSort(SearchQuery query) {
         SearchSort searchSort = new SearchSort();
         searchSort.addField("dateTimeMillis", SearchSort.Order.DESC);
         query.addSearchSort(searchSort);

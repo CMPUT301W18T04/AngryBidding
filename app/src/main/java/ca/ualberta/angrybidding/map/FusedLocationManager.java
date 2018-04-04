@@ -46,7 +46,7 @@ public class FusedLocationManager {
         if (locationListeners.containsKey(name)) {
             return;
         }
-        if(!hasPermission()){
+        if (!hasPermission()) {
             throw new MissingPermissionException(PERMISSION_STRING);
         }
 
@@ -93,7 +93,7 @@ public class FusedLocationManager {
     public void addGpsListener() {
         try {
             addListener(LocationManager.GPS_PROVIDER);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("FusedLocationManager", e.getMessage(), e);
         }
     }
@@ -110,39 +110,39 @@ public class FusedLocationManager {
         }
     }
 
-    public Location getBestGuessLocation(){
+    public Location getBestGuessLocation() {
         return bestGuessLocation;
     }
 
-    public LocationPoint getBestGuessLocationPoint(){
-        if(getBestGuessLocation() != null){
+    public LocationPoint getBestGuessLocationPoint() {
+        if (getBestGuessLocation() != null) {
             return new LocationPoint(getBestGuessLocation());
-        }else{
+        } else {
             return null;
         }
     }
 
-    public boolean hasPermission(){
+    public boolean hasPermission() {
         return activity.hasPermission(PERMISSION_STRING);
     }
 
     public void removeListeners() {
-        for(LocationPointListener listener : locationListeners.values()){
+        for (LocationPointListener listener : locationListeners.values()) {
             locationManager.removeUpdates(listener);
         }
         locationListeners.clear();
     }
 
-    public boolean isProviderEnabled(String providerName){
+    public boolean isProviderEnabled(String providerName) {
         if (!locationListeners.containsKey(providerName)) {
             return false;
         }
         return locationListeners.get(providerName).isProviderEnabled();
     }
 
-    public boolean hasEnabledProvider(){
-        for(LocationPointListener listener : locationListeners.values()){
-            if(listener.isProviderEnabled()){
+    public boolean hasEnabledProvider() {
+        for (LocationPointListener listener : locationListeners.values()) {
+            if (listener.isProviderEnabled()) {
                 return true;
             }
         }
@@ -151,9 +151,11 @@ public class FusedLocationManager {
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
-    /** Determines whether one Location reading is better than the current Location fix
-     * @param location  The new Location that you want to evaluate
-     * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+    /**
+     * Determines whether one Location reading is better than the current Location fix
+     *
+     * @param location            The new Location that you want to evaluate
+     * @param currentBestLocation The current Location fix, to which you want to compare the new one
      */
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
         if (currentBestLocation == null) {
@@ -197,7 +199,9 @@ public class FusedLocationManager {
         return false;
     }
 
-    /** Checks whether two providers are the same */
+    /**
+     * Checks whether two providers are the same
+     */
     private boolean isSameProvider(String provider1, String provider2) {
         if (provider1 == null) {
             return provider2 == null;

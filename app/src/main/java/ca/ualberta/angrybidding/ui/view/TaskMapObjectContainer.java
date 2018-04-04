@@ -57,7 +57,7 @@ public class TaskMapObjectContainer extends MapObjectContainer {
 
     public void addView(final TaskMapObject taskMapObject) {
         //Check if in finished posts
-        if(finishedPosts.contains(taskMapObject.getTask().getID())){
+        if (finishedPosts.contains(taskMapObject.getTask().getID())) {
             return;
         }
         //Check for the same entry
@@ -115,13 +115,13 @@ public class TaskMapObjectContainer extends MapObjectContainer {
         super.removeView(taskMapObject);
     }
 
-    public void addTask(final ElasticSearchTask task){
-        ((Activity)getContext()).runOnUiThread(new Runnable() {
+    public void addTask(final ElasticSearchTask task) {
+        ((Activity) getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TaskMapObject view = new TaskMapObject(getContext(), task){
+                TaskMapObject view = new TaskMapObject(getContext(), task) {
                     @Override
-                    public void hideTaskMapObject(){
+                    public void hideTaskMapObject() {
                         super.hideTaskMapObject();
                         finishedPosts.add(getTask().getID());
                     }
@@ -131,7 +131,7 @@ public class TaskMapObjectContainer extends MapObjectContainer {
         });
     }
 
-    public ArrayList<String> getFinishedPosts(){
+    public ArrayList<String> getFinishedPosts() {
         return finishedPosts;
     }
 }

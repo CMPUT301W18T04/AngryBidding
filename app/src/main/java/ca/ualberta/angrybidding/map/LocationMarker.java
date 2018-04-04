@@ -26,7 +26,7 @@ public class LocationMarker extends MapObject {
 
         setOffset(new Point(Units.dpToPX(25, getContext()), Units.dpToPX(50, getContext())));
 
-        if(touchable) {
+        if (touchable) {
             final MapObjectTouchListener iconListener = new MapObjectTouchListener(getContext(), this, icon);
             new TapDetector(iconListener) {
                 @Override

@@ -16,35 +16,35 @@ public class MapObjectTouchListener extends MultiTouchListener {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-        if(mapObject.getMapView() instanceof TouchableMapView){
-            ((TouchableMapView)mapObject.getMapView()).touchListener.setReferenceView(view);
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mapObject.getMapView() instanceof TouchableMapView) {
+            ((TouchableMapView) mapObject.getMapView()).touchListener.setReferenceView(view);
             super.onTouchEvent(event);
             mapObject.getMapView().dispatchTouchEvent(event);
-            ((TouchableMapView)mapObject.getMapView()).touchListener.setReferenceView(null);
+            ((TouchableMapView) mapObject.getMapView()).touchListener.setReferenceView(null);
             return true;
-        }else{
+        } else {
             return super.onTouchEvent(event);
         }
     }
 
-    public MapObject getMapObject(){
+    public MapObject getMapObject() {
         return mapObject;
     }
 
     @Override
-    public boolean onPointerAdded(Pointer pointer){
+    public boolean onPointerAdded(Pointer pointer) {
 
         return super.onPointerAdded(pointer);
     }
 
     @Override
-    public boolean onPointerRemoved(Pointer pointer){
+    public boolean onPointerRemoved(Pointer pointer) {
         return super.onPointerRemoved(pointer);
     }
 
     @Override
-    public boolean onPointerMoved(Pointer pointer){
+    public boolean onPointerMoved(Pointer pointer) {
         return super.onPointerMoved(pointer);
     }
 }

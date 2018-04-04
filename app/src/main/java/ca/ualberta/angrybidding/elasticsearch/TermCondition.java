@@ -1,13 +1,12 @@
 package ca.ualberta.angrybidding.elasticsearch;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TermCondition extends Condition{
+public class TermCondition extends Condition {
     private JSONObject term;
 
-    public TermCondition(String fieldName, String fieldValue){
+    public TermCondition(String fieldName, String fieldValue) {
         term = new JSONObject();
 
         try {

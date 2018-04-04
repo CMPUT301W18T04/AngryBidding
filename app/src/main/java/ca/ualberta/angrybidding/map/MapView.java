@@ -57,11 +57,11 @@ public class MapView extends View {
 
     public MapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        if(attrs == null){
+        if (attrs == null) {
             LocationPoint locationPoint = new LocationPoint(0, 0);
             locationPoint.setZ(3);
             init(defaultMap, locationPoint, DEFAULT_BITMAP_LOADER_NAME, false);
-        }else{
+        } else {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.MapView, defStyle, 0);
             //bitmapLoaderName
             String bitmapLoaderName = ta.getString(R.styleable.MapView_bitmapLoaderName);
@@ -69,11 +69,11 @@ public class MapView extends View {
             //map
             String mapURL = ta.getString(R.styleable.MapView_mapURL);
             Map map;
-            if(mapURL != null){
+            if (mapURL != null) {
                 int mapTileSize = ta.getInt(R.styleable.MapView_mapTileSize, 256);
                 int mapMaxZ = ta.getInt(R.styleable.MapView_mapMaxZ, 18);
                 map = new Map("ic_map", mapURL, mapTileSize, mapMaxZ);
-            }else{
+            } else {
                 map = defaultMap;
             }
             //location
@@ -88,6 +88,7 @@ public class MapView extends View {
             init(map, locationPoint, bitmapLoaderName, debugView);
         }
     }
+
     public MapView(Context context, Map map, LocationPoint location, String bitmapLoaderName, boolean debugView) {
         super(context);
         init(map, location, bitmapLoaderName, debugView);
@@ -96,7 +97,7 @@ public class MapView extends View {
     private void init(Map map, LocationPoint location, String bitmapLoaderName, boolean debugView) {
         this.map = map;
         this.location = location;
-        if(bitmapLoaderName == null){
+        if (bitmapLoaderName == null) {
             bitmapLoaderName = DEFAULT_BITMAP_LOADER_NAME;
         }
         this.bitmapLoader = BitmapLoaderFactory.getBitmapLoader(bitmapLoaderName);
@@ -129,7 +130,7 @@ public class MapView extends View {
             super.onRestoreInstanceState(bundle.getParcelable("super"));
             updateTileNum();
             updateTiles();
-        }else{
+        } else {
             super.onRestoreInstanceState(state);
         }
     }
@@ -150,7 +151,7 @@ public class MapView extends View {
     @Override
     protected void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-        if(isInEditMode()){
+        if (isInEditMode()) {
             return;
         }
         updateTileNum();
@@ -158,9 +159,9 @@ public class MapView extends View {
     }
 
     @Override
-    public void onSizeChanged(int w, int h, int oldw, int oldh){
+    public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(isInEditMode()){
+        if (isInEditMode()) {
             return;
         }
         updateTileNum();
@@ -175,7 +176,7 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(isInEditMode()){
+        if (isInEditMode()) {
             return;
         }
         for (MapTile tile : mapTiles) {
@@ -183,12 +184,12 @@ public class MapView extends View {
             canvas.drawBitmap(tile.getBitmap(), null, mapTileRect, null);
         }
 
-        if(debugView){
+        if (debugView) {
             drawDebug(canvas);
         }
     }
 
-    protected Rect getTileDrawLocation(MapTile tile){
+    protected Rect getTileDrawLocation(MapTile tile) {
         int left;
         left = (int) (getWidth() / 2 - (location.getX() - tile.getX()) * map.getTileSize());
         int top;
@@ -234,16 +235,16 @@ public class MapView extends View {
                 this.location.getZ() != location.getZ()) {
             this.location = location; //Set new location has to be before updateTiles
             queueUpdateTile();
-        }else{
+        } else {
             this.location = location;
         }
         invalidate();
-        for(OnMapLocationChangeListener listener : onMapLocationChangeListeners){
+        for (OnMapLocationChangeListener listener : onMapLocationChangeListeners) {
             listener.onLocationChange(this.location.copy());
         }
     }
 
-    public void setTilePadding(int tilePadding){
+    public void setTilePadding(int tilePadding) {
         this.tilePadding = tilePadding;
         updateTileNum();
     }
@@ -270,8 +271,8 @@ public class MapView extends View {
         }
     }
 
-    public void queueUpdateTile(){
-        if(updateTileRunnable == null){
+    public void queueUpdateTile() {
+        if (updateTileRunnable == null) {
             updateTileRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -318,39 +319,39 @@ public class MapView extends View {
         }
     }
 
-    public LocationArea getBound(){
+    public LocationArea getBound() {
         LocationPoint min = new LocationPoint(location.getRelativeX() - tileCount.x / 2, location.getRelativeY() - tileCount.y / 2, location.getZ());
         LocationPoint max = new LocationPoint(location.getRelativeX() + tileCount.x / 2, location.getRelativeY() + tileCount.y / 2, location.getZ());
         return new LocationArea(min, max);
     }
 
-    public LocationArea getScreenBound(){
+    public LocationArea getScreenBound() {
         LocationPoint min = new LocationPoint(location.getRelativeX() - (tileCount.x - tilePadding) / 2, location.getRelativeY() - (tileCount.y - tilePadding) / 2, location.getZ());
         LocationPoint max = new LocationPoint(location.getRelativeX() + (tileCount.x - tilePadding) / 2, location.getRelativeY() + (tileCount.y - tilePadding) / 2, location.getZ());
         return new LocationArea(min, max);
     }
 
-    public Point getTileCount(){
+    public Point getTileCount() {
         return tileCount;
     }
 
-    public Point getScreenTileCount(){
+    public Point getScreenTileCount() {
         return new Point(tileCount.x - tilePadding * 2, tileCount.y - tilePadding * 2);
     }
 
-    public void clearCache(){
+    public void clearCache() {
         bitmapLoader.clearCache();
     }
 
-    public void addOnMapLocationChangeListener(OnMapLocationChangeListener listener){
+    public void addOnMapLocationChangeListener(OnMapLocationChangeListener listener) {
         onMapLocationChangeListeners.add(listener);
     }
 
-    public void removeOnMapLocationChangeListener(OnMapLocationChangeListener listener){
+    public void removeOnMapLocationChangeListener(OnMapLocationChangeListener listener) {
         onMapLocationChangeListeners.remove(listener);
     }
 
-    interface OnMapLocationChangeListener{
+    interface OnMapLocationChangeListener {
         void onLocationChange(LocationPoint newLocation);
     }
 
