@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
+import ca.ualberta.angrybidding.map.LocationPoint;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -97,14 +98,5 @@ public class TaskInstrumentedTest {
         LocationPoint locationPoint = new LocationPoint(50.5, 20.2);
         newTask.setLocationPoint(locationPoint);
         assertThat(newTask.getLocationPoint(), is(locationPoint));
-    }
-
-    @Test
-    public void taskSetCompleted() {
-        ArrayList<Bid> bids = new ArrayList<Bid>();
-        bids.add(new Bid(new User("John"), 80.32));
-        Task newTask = new Task(USERNAME, TITLE, DESCRIPTION, LOCATION_POINT, bids);
-        newTask.setCompleted(true);
-        assertThat(newTask.isCompleted(), is(true));
     }
 }
