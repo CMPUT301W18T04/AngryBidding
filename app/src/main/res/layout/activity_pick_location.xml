@@ -50,6 +50,7 @@
         android:layout_margin="13dp"
         android:gravity="bottom|end"
         android:src="@drawable/ic_add_white_24dp"
+        android:visibility="gone"
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentDark"
         fab:fab_colorRipple="@color/colorAccentLight"

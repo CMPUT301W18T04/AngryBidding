@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.elasticsearch.AddRequest;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
+import ca.ualberta.angrybidding.elasticsearch.BoolCondition;
 import ca.ualberta.angrybidding.elasticsearch.BooleanSearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
@@ -20,6 +21,8 @@ import ca.ualberta.angrybidding.elasticsearch.GetResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.MatchAllQuery;
 import ca.ualberta.angrybidding.elasticsearch.MatchCondition;
 import ca.ualberta.angrybidding.elasticsearch.NestedCondition;
+import ca.ualberta.angrybidding.elasticsearch.RangeCondition;
+import ca.ualberta.angrybidding.elasticsearch.SearchQuery;
 import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
@@ -27,6 +30,7 @@ import ca.ualberta.angrybidding.elasticsearch.SearchSort;
 import ca.ualberta.angrybidding.elasticsearch.TermCondition;
 import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.map.LocationArea;
 import ca.ualberta.angrybidding.map.LocationPoint;
 
 public class ElasticSearchTask extends Task {
@@ -167,9 +171,8 @@ public class ElasticSearchTask extends Task {
      */
     public static void listTask(Context context, final ListTaskListener listener) {
         MatchAllQuery query = new MatchAllQuery();
-        SearchSort searchSort = new SearchSort();
-        searchSort.addField("dateTime", SearchSort.Order.DESC);
-        query.addSearchSort(searchSort);
+
+        addDateTimeSort(query);
 
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
@@ -196,15 +199,12 @@ public class ElasticSearchTask extends Task {
      * @param username Username of the user to list
      * @param listener Listener to call on response
      */
-    public static void listTaskByUser(Context context, String username, Status status, final ListTaskListener listener) {
+    public static void listTaskByUser(Context context, String username, Status[] statuses, final ListTaskListener listener) {
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("user.username", username.toLowerCase().trim()));
-        if (status != null) {
-            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
-        }
-        SearchSort searchSort = new SearchSort();
-        searchSort.addField("dateTime", SearchSort.Order.DESC);
-        query.addSearchSort(searchSort);
+
+        addStatusSearch(query, statuses);
+        addDateTimeSort(query);
 
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
@@ -224,15 +224,12 @@ public class ElasticSearchTask extends Task {
         listTaskByChosenUser(context, username, null, listener);
     }
 
-    public static void listTaskByChosenUser(Context context, String username, Status status, final ListTaskListener listener) {
+    public static void listTaskByChosenUser(Context context, String username, Status[] statuses, final ListTaskListener listener) {
         BooleanSearchQuery query = new BooleanSearchQuery();
         query.getBoolCondition().addMust(new TermCondition("chosenBid.user.username", username.toLowerCase().trim()));
-        if (status != null) {
-            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
-        }
-        SearchSort searchSort = new SearchSort();
-        searchSort.addField("dateTime", SearchSort.Order.DESC);
-        query.addSearchSort(searchSort);
+
+        addStatusSearch(query, statuses);
+        addDateTimeSort(query);
 
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
@@ -252,7 +249,7 @@ public class ElasticSearchTask extends Task {
         listTaskByBiddedUser(context, username, null, listener);
     }
 
-    public static void listTaskByBiddedUser(Context context, String username, Status status, final ListTaskListener listener) {
+    public static void listTaskByBiddedUser(Context context, String username, Status[] statuses, final ListTaskListener listener) {
         BooleanSearchQuery query = new BooleanSearchQuery();
 
         BooleanSearchQuery nestedQuery = new BooleanSearchQuery();
@@ -260,13 +257,8 @@ public class ElasticSearchTask extends Task {
         nestedQuery.getBoolCondition().addMust(new TermCondition("bids.user.username", username.toLowerCase().trim()));
         query.getBoolCondition().addMust(new NestedCondition("bids", nestedQuery));
 
-        if (status != null) {
-            query.getBoolCondition().addMust(new TermCondition("status", status.toString()));
-        }
-
-        SearchSort searchSort = new SearchSort();
-        searchSort.addField("dateTime", SearchSort.Order.DESC);
-        query.addSearchSort(searchSort);
+        addStatusSearch(query, statuses);
+        addDateTimeSort(query);
 
         SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
             @Override
@@ -280,6 +272,58 @@ public class ElasticSearchTask extends Task {
             }
         });
         searchRequest.submit(context);
+    }
+
+    public static void listTaskByLocationArea(Context context, LocationArea locationArea, Status[] statuses, final ListTaskListener listener) {
+        BooleanSearchQuery query = new BooleanSearchQuery();
+        LocationPoint min = new LocationPoint(locationArea.getMax().getLatitude(), locationArea.getMin().getLongitude());
+        LocationPoint max = new LocationPoint(locationArea.getMin().getLatitude(), locationArea.getMax().getLongitude());
+        if(min.getLatitude() < max.getLatitude()){
+            query.getBoolCondition().addMust(new RangeCondition("locationPoint.latitude", String.valueOf(min.getLatitude()), String.valueOf(max.getLatitude())));
+        }else{
+            query.getBoolCondition().addShould(new RangeCondition("locationPoint.latitude", String.valueOf(min.getLatitude()), "90"));
+            query.getBoolCondition().addShould(new RangeCondition("locationPoint.latitude", "-90", String.valueOf(max.getLatitude())));
+        }
+
+        if(min.getLongitude() < max.getLongitude()){
+            query.getBoolCondition().addMust(new RangeCondition("locationPoint.longitude", String.valueOf(min.getLongitude()), String.valueOf(max.getLongitude())));
+        }else{
+            query.getBoolCondition().addShould(new RangeCondition("locationPoint.longitude", String.valueOf(min.getLongitude()), "180"));
+            query.getBoolCondition().addShould(new RangeCondition("locationPoint.longitude", "-180", String.valueOf(max.getLongitude())));
+        }
+
+        addStatusSearch(query, statuses);
+        addDateTimeSort(query);
+
+        SearchRequest searchRequest = new SearchRequest(ELASTIC_SEARCH_INDEX, query, new SearchResponseListener() {
+            @Override
+            public void onResult(SearchResult searchResult) {
+                listener.onResult(parseTasks(searchResult));
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError(error);
+            }
+        });
+        searchRequest.submit(context);
+    }
+
+    private static void addStatusSearch(BooleanSearchQuery query, Status[] statuses){
+        if(statuses == null || statuses.length == 0){
+            return;
+        }
+        BoolCondition nestedBool = new BoolCondition();
+        for(Status status : statuses){
+            nestedBool.addShould(new TermCondition("status", status.toString()));
+        }
+        query.getBoolCondition().addMust(nestedBool);
+    }
+
+    private static void addDateTimeSort(SearchQuery query){
+        SearchSort searchSort = new SearchSort();
+        searchSort.addField("dateTimeMillis", SearchSort.Order.DESC);
+        query.addSearchSort(searchSort);
     }
 
     /**

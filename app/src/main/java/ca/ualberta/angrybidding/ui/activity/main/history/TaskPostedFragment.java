@@ -34,7 +34,7 @@ public class TaskPostedFragment extends TaskStatusListFragment {
     public void onRefresh() {
         super.onRefresh();
         String spinnerStatus = super.getSelectedSpinnerItem();
-        ElasticSearchTask.listTaskByUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), Task.Status.getStatus(spinnerStatus), new ElasticSearchTask.ListTaskListener() {
+        ElasticSearchTask.listTaskByUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new Task.Status[]{Task.Status.getStatus(spinnerStatus)}, new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> newTasks) {
                 tasks.addAll(newTasks);

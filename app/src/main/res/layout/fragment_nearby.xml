@@ -8,12 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nearbyMapView"
-        app:debug="true"
+        app:debug="false"
         app:minZoom="3"/>
-    <ca.ualberta.angrybidding.map.MapObjectContainer
+    <ca.ualberta.angrybidding.ui.view.TaskMapObjectContainer
         android:id="@+id/nearbyMapObjectContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapViewID="@id/nearbyMapView"/>
+        app:mapViewID="@id/nearbyMapView"
+        app:maxTaskMapObjectCount="30"/>
 
 </FrameLayout>

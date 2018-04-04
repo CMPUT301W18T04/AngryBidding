@@ -179,6 +179,7 @@ public class PickLocationActivity extends AngryBiddingActivity {
         }
         searchLocationMarker = new LocationMarker(PickLocationActivity.this, locationPoint, false);
         mapObjectContainer.addView(searchLocationMarker);
+        floatingActionButton.setVisibility(View.VISIBLE);
     }
 
     public Toolbar getToolbar(ViewGroup rootView, LayoutInflater inflater) {

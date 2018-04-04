@@ -59,9 +59,9 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
             }
         };
         if (spinnerStatus == Task.Status.BIDDED) {
-            ElasticSearchTask.listTaskByBiddedUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
+            ElasticSearchTask.listTaskByBiddedUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new Task.Status[]{spinnerStatus}, listener);
         } else {
-            ElasticSearchTask.listTaskByChosenUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), spinnerStatus, listener);
+            ElasticSearchTask.listTaskByChosenUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new Task.Status[]{spinnerStatus}, listener);
         }
 
     }
