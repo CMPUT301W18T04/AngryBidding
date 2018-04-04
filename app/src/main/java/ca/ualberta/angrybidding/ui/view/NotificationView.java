@@ -52,14 +52,14 @@ public class NotificationView extends LinearLayout {
     /**
      * Extracts the task object into the view
      *
-     * @param 通知 NotificationWrapper
+     * @param notification NotificationWrapper
      */
     //kanji character
-    public void setNotification(final NotificationWrapper 通知) {
-        this.notificationWrapper = 通知;
+    public void setNotification(final NotificationWrapper notification) {
+        this.notificationWrapper = notification;
         titleTextView.setVisibility(View.VISIBLE);
-        titleTextView.setText(通知.getTitle(getContext()));
-        messageTextView.setText(通知.getContent(getContext()));
+        titleTextView.setText(notification.getTitle(getContext()));
+        messageTextView.setText(notification.getContent(getContext()));
     }
 
     public LinearLayout getContainer() {

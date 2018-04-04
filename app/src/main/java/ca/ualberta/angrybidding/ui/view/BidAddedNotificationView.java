@@ -30,12 +30,12 @@ public class BidAddedNotificationView extends NotificationView {
     /**
      * Set Notification message and Title
      *
-     * @param 通知 NotificationWrapper
+     * @param notification NotificationWrapper
      */
     @Override
-    public void setNotification(final NotificationWrapper 通知) {
-        super.setNotification(通知);
-        task = ((BidAddedNotification) 通知).getTask();
+    public void setNotification(final NotificationWrapper notification) {
+        super.setNotification(notification);
+        task = ((BidAddedNotification) notification).getTask();
         //Notification onclick
         setOnClickListener(new OnClickListener() {
             @Override
