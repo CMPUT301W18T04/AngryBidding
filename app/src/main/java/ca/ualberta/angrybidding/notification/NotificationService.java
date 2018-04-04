@@ -66,13 +66,13 @@ public class NotificationService extends Service {
     /**
      * Sends notification
      *
-     * @param 알림 NotificationWrapper
+     * @param notificationWrapper NotificationWrapper
      */
     //Korea
-    private void sendNotificationToAllClients(NotificationWrapper 알림) {
+    private void sendNotificationToAllClients(NotificationWrapper notificationWrapper) {
         Gson gson = new Gson();
-        String className = 알림.getClass().getName();
-        String notificationString = gson.toJson(알림);
+        String className = notificationWrapper.getClass().getName();
+        String notificationString = gson.toJson(notificationWrapper);
         for (int i = clients.size() - 1; i >= 0; i--) {
             try {
                 Bundle bundle = new Bundle();
@@ -160,10 +160,10 @@ public class NotificationService extends Service {
      * <p>
      * Notification Channel needed for API 26 and above
      *
-     * @param 通知 NotificationWrapper
+     * @param notificationWrapper NotificationWrapper
      */
     //Kanji Character
-    protected void createNotification(NotificationWrapper 通知) {
+    protected void createNotification(NotificationWrapper notificationWrapper) {
         int priority = NotificationCompat.PRIORITY_DEFAULT;
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastHeadsUpNotificationTime > HEADS_UP_NOTIFICATION_COOLDOWN) {
@@ -172,8 +172,8 @@ public class NotificationService extends Service {
         }
         //Build Int
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(通知.getParentStack());
-        stackBuilder.addNextIntent(通知.getIntent(this));
+        stackBuilder.addParentStack(notificationWrapper.getParentStack());
+        stackBuilder.addNextIntent(notificationWrapper.getIntent(this));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Build Notification
@@ -183,8 +183,8 @@ public class NotificationService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(resultPendingIntent)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher_round))
-                .setContentTitle(通知.getTitle(this))
-                .setContentText(通知.getContent(this))
+                .setContentTitle(notificationWrapper.getTitle(this))
+                .setContentText(notificationWrapper.getContent(this))
                 .setAutoCancel(true)
                 .setPriority(priority);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -196,7 +196,7 @@ public class NotificationService extends Service {
                     NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(通知.getNotificationID(), builder.build());
+        notificationManager.notify(notificationWrapper.getNotificationID(), builder.build());
     }
 
     private class NotificationLoadingThread extends Thread {
@@ -206,7 +206,6 @@ public class NotificationService extends Service {
                     Log.d("NewNotificationService", "run()");
                     User user = ElasticSearchUser.getMainUser(NotificationService.this);
                     if (user != null) {
-                        //load() の代わり
                         ElasticSearchNotification.listNotSeenNotificationByUsername(NotificationService.this, user.getUsername(), listener);
                     }
                     try {
