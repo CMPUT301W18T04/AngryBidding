@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -17,11 +18,19 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.notification.Notification;
 import com.slouple.android.widget.adapter.DummyAdapter;
+import com.slouple.android.widget.image.ImageSlider;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.map.LocationMarker;
@@ -45,6 +54,8 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private FrameLayout mapCotainer;
     private MapObjectContainer mapObjectContainer;
     private ScalableMapView mapView;
+
+    private ImageSlider imageSlider;
 
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
@@ -71,6 +82,8 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         ownerTextView = findViewById(R.id.taskDetailOwner);
         descriptionTextView = findViewById(R.id.taskDetailDescription);
 
+        imageSlider = findViewById(R.id.taskDetailImageSlider);
+
         mapCotainer = findViewById(R.id.taskDetailMapContainer);
         mapObjectContainer = findViewById(R.id.taskDetailMapObjectContainer);
         mapView = findViewById(R.id.taskDetailMapView);
@@ -81,6 +94,10 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         titleTextView.setText(elasticSearchTask.getTitle());
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
+
+        for (String string: elasticSearchTask.getPhotos()) {
+            imageSlider.addSlide(string);
+        }
 
         if (elasticSearchTask.getLocationPoint() == null) {
             mapView.setVisibility(View.GONE);

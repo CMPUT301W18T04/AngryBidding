@@ -42,7 +42,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'com.slouple:SLouple Library-release:release@aar'
+    compile 'com.slouple:SLouple Library-release:release@aar'
 
     testImplementation 'junit:junit:4.12'
 

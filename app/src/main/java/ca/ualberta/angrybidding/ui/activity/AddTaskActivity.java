@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +21,13 @@ import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
 import com.slouple.android.widget.image.GallerySelectorModule;
 import com.slouple.android.widget.image.ImageSelector;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
@@ -109,7 +117,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
         imageSelector = findViewById(R.id.addTaskImageSelector);
 
-        CameraSelectorModule cameraSelectorModule = new CameraSelectorModule();
+        CameraSelectorModule cameraSelectorModule = new CameraSelectorModule("ca.ualberta.angrybidding.fileprovider");
         imageSelector.addModule(cameraSelectorModule);
 
         GallerySelectorModule gallerySelectorModule = new GallerySelectorModule();
@@ -161,7 +169,20 @@ public class AddTaskActivity extends AngryBiddingActivity {
         final String title = titleEditText.getText().toString();
         final String description = descriptionEditText.getText().toString();
         final User user = new User(getElasticSearchUser().getUsername());
-        ElasticSearchTask.addTask(this, new Task(user, title, description, locationPoint), new AddResponseListener() {
+
+        Task task = new Task(user, title, description, locationPoint);
+        ArrayList<File> files = imageSelector.getCacheFiles();
+        for (File file: files) {
+            try {
+                FileInputStream stream = new FileInputStream(file);
+                byte[] byteArray = IOUtils.toByteArray(stream);
+                String string = "data:image/jpg;base64,"+Base64.encodeToString(byteArray, Base64.DEFAULT);
+                task.getPhotos().add(string);
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ElasticSearchTask.addTask(this, task, new AddResponseListener() {
             @Override
             public void onCreated(String id) {
                 submitButton.onSuccess();
