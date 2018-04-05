@@ -235,5 +235,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
     public void enableInputs(boolean enabled) {
         titleEditText.setEnabled(enabled);
         descriptionEditText.setEnabled(enabled);
+        pickLocationTextView.setEnabled(false);
+        imageSelector.setEnabled(false);
     }
 }

@@ -20,6 +20,7 @@ import com.slouple.android.widget.button.PopupMenuButton;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
 import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
@@ -30,7 +31,7 @@ import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
  * Part of a list
  */
 public class TaskView extends LinearLayout {
-    protected ElasticSearchTask elasticSearchTask;
+    protected ElasticSearchTask task;
 
     protected LinearLayout container;
     protected TextView titleTextView;
@@ -77,7 +78,7 @@ public class TaskView extends LinearLayout {
      * @param task The task object
      */
     public void setTask(ElasticSearchTask task) {
-        this.elasticSearchTask = task;
+        this.task = task;
         if (task.getTitle() == null) {
             titleTextView.setText("Missing Title");
         } else {
@@ -108,7 +109,7 @@ public class TaskView extends LinearLayout {
     }
 
     public ElasticSearchTask getElasticSearchTask() {
-        return elasticSearchTask;
+        return task;
     }
 
     public TextView getTitleTextView() {
@@ -133,8 +134,12 @@ public class TaskView extends LinearLayout {
      */
     public void usePopupMenu(final ElasticSearchUser user, final OnTaskChangeListener listener) {
         getPopupMenuButton().getPopupMenu().getMenu().clear();
-        if (elasticSearchTask.getUser().equals(user)) {
-            getPopupMenuButton().setMenuRes(R.menu.task_popup_self);
+        if (task.getUser().equals(user)) {
+            if(task.getStatus() == Task.Status.REQUESTED){
+                getPopupMenuButton().setMenuRes(R.menu.task_popup_self_requested);
+            }else{
+                getPopupMenuButton().setMenuRes(R.menu.task_popup_self);
+            }
         } else {
             getPopupMenuButton().setMenuRes(R.menu.task_popup_other);
         }
@@ -150,7 +155,7 @@ public class TaskView extends LinearLayout {
                         openEditTaskActivity(listener);
                         break;
                     case R.id.taskPopupDeleteTask:
-                        ElasticSearchTask.deleteTask(getContext(), elasticSearchTask.getID(), new DeleteResponseListener() {
+                        ElasticSearchTask.deleteTask(getContext(), task.getID(), new DeleteResponseListener() {
                             @Override
                             public void onDeleted(String id) {
                                 listener.onDelete();
@@ -197,8 +202,8 @@ public class TaskView extends LinearLayout {
             }
         });
         Intent bidIntent = new Intent(getContext(), AddBidActivity.class);
-        bidIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
-        bidIntent.putExtra("id", elasticSearchTask.getID());
+        bidIntent.putExtra("task", new Gson().toJson(task));
+        bidIntent.putExtra("id", task.getID());
         ((AdvancedActivity) getContext()).startActivityForResult(bidIntent, AddBidActivity.REQUEST_CODE);
     }
 
@@ -207,8 +212,8 @@ public class TaskView extends LinearLayout {
      */
     public void openViewDetailActivity() {
         Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
-        detailIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
-        detailIntent.putExtra("id", elasticSearchTask.getID());
+        detailIntent.putExtra("task", new Gson().toJson(task));
+        detailIntent.putExtra("id", task.getID());
         getContext().startActivity(detailIntent);
     }
 
@@ -219,8 +224,8 @@ public class TaskView extends LinearLayout {
      */
     public void openEditTaskActivity(final OnTaskChangeListener listener) {
         Intent editIntent = new Intent(getContext(), EditTaskActivity.class);
-        editIntent.putExtra("task", new Gson().toJson(elasticSearchTask));
-        editIntent.putExtra("id", elasticSearchTask.getID());
+        editIntent.putExtra("task", new Gson().toJson(task));
+        editIntent.putExtra("id", task.getID());
         ((AdvancedActivity) getContext()).startActivityForResult(editIntent, EditTaskActivity.REQUEST_CODE);
     }
 

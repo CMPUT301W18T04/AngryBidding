@@ -39,6 +39,8 @@
     <string name="noLocationSelected">No Location Selected</string>
     <string name="currentLocationNeedPermission">Location Permission is required to find current location.</string>
     <string name="currentLocation">Current Location</string>
+    <string name="removeLocation">Remove Location</string>
+    <string name="confirmRemoveLocation">Do you really want to remove location?</string>
 
     <string-array name="taskStatusArray">
         <item>Requested</item>

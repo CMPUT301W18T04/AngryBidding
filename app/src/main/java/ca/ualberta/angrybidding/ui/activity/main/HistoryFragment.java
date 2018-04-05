@@ -18,7 +18,9 @@ import com.slouple.android.AdvancedFragment;
 import com.slouple.android.ResultRequest;
 
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
 import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
+import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
 import ca.ualberta.angrybidding.ui.activity.main.history.HistoryPageAdapter;
 
 /**
@@ -101,6 +103,28 @@ public class HistoryFragment extends AdvancedFragment implements IMainFragment {
             @Override
             public void onResult(Intent intent) {
                 pageAdapter.getTaskPostedFragment().refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(EditTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                pageAdapter.getTaskPostedFragment().refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                pageAdapter.getTaskProvidedFragment().refresh();
             }
 
             @Override

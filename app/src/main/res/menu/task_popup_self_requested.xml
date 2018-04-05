@@ -6,6 +6,10 @@
         android:title="@string/viewDetails" />
 
     <item
+        android:id="@+id/taskPopupEditTask"
+        android:title="@string/editTask" />
+
+    <item
         android:id="@+id/taskPopupDeleteTask"
         android:title="@string/deleteTask" />
 

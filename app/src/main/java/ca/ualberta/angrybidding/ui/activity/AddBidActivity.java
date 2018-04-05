@@ -111,6 +111,12 @@ public class AddBidActivity extends AngryBiddingActivity {
      */
     public void onSubmit() {
         BigDecimal price = getPrice();
+        for(Bid bid: elasticSearchTask.getBids()){
+            if(bid.getUser().equals(user)){
+                elasticSearchTask.getBids().remove(bid);
+                break;
+            }
+        }
         elasticSearchTask.getBids().add(new Bid(user, price));
         elasticSearchTask.updateStatus();
         ElasticSearchTask.updateTask(this, id, elasticSearchTask, new UpdateResponseListener() {

@@ -1,16 +1,21 @@
 package ca.ualberta.angrybidding.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.ImageHelper;
+import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
@@ -27,20 +32,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
+import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
+import ca.ualberta.angrybidding.map.LocationPoint;
+import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 /**
  * EditTask a task passed from intent
  */
 public class EditTaskActivity extends AngryBiddingActivity {
     public final static int REQUEST_CODE = 1004;
-    private ElasticSearchTask currentTask;
+    private ElasticSearchTask task;
     private String currentID;
     private EditText titleEditText;
     private EditText descriptionEditText;
     private ImageSelector imageSelector;
     private SubmitButton editSaveButton;
+    private TextView pickLocationTextView;
+    private LocationPoint locationPoint;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,17 +62,66 @@ public class EditTaskActivity extends AngryBiddingActivity {
         Intent pack = getIntent();
         String taskJson = pack.getStringExtra("task");
         currentID = pack.getStringExtra("id");
-        currentTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
+        task = new Gson().fromJson(taskJson, ElasticSearchTask.class);
 
         titleEditText = findViewById(R.id.editTaskTitle);
         descriptionEditText = findViewById(R.id.editTaskDescription);
         imageSelector = findViewById(R.id.editTaskImageSelector);
         editSaveButton = findViewById(R.id.editTaskSubmitButton);
 
-        titleEditText.setText(currentTask.getTitle());
-        descriptionEditText.setText(currentTask.getDescription());
+        titleEditText.setText(task.getTitle());
+        descriptionEditText.setText(task.getDescription());
 
-        ArrayList<String> photos = currentTask.getPhotos();
+        addResultRequest(new ResultRequest(PickLocationActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                LocationPoint locationPoint = new Gson().fromJson(intent.getStringExtra("locationPoint"), LocationPoint.class);
+                pickLocationTextView.setText(locationPoint.getLatitude() + " " + locationPoint.getLongitude());
+                EditTaskActivity.this.locationPoint = locationPoint;
+                checkSubmit();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+
+            }
+        });
+
+        pickLocationTextView = findViewById(R.id.editTaskPickLocation);
+        pickLocationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditTaskActivity.this, PickLocationActivity.class);
+                startActivityForResult(intent, PickLocationActivity.REQUEST_CODE);
+            }
+        });
+        pickLocationTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(EditTaskActivity.this)
+                        .setTitle(R.string.removeLocation)
+                        .setMessage(R.string.confirmRemoveLocation)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                pickLocationTextView.setText(R.string.pickLocation);
+                                task.setLocationPoint(null);
+                                locationPoint = null;
+                                checkSubmit();
+                            }
+
+                        })
+                        .setNegativeButton(R.string.no, null)
+                        .show();
+                return true;
+            }
+        });
+
+        if(task.getLocationPoint() != null){
+            pickLocationTextView.setText(task.getLocationPoint().getLatitude() + " " + task.getLocationPoint().getLongitude());
+        }
+
+        ArrayList<String> photos = task.getPhotos();
         for (String string: photos) {
             imageSelector.addSlide(string);
         }
@@ -81,8 +140,8 @@ public class EditTaskActivity extends AngryBiddingActivity {
 
             @Override
             public void onRemove(ImageSlide imageSlide) {
-                editSaveButton.enable();
-                currentTask.getPhotos().remove(imageSlide.getUrl());
+                checkSubmit();
+                task.getPhotos().remove(imageSlide.getUrl());
             }
         });
 
@@ -100,11 +159,7 @@ public class EditTaskActivity extends AngryBiddingActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (canSubmit()) {
-                    editSaveButton.enable();
-                } else {
-                    editSaveButton.disable();
-                }
+                checkSubmit();
             }
         };
         titleEditText.addTextChangedListener(textWatcher);
@@ -132,6 +187,14 @@ public class EditTaskActivity extends AngryBiddingActivity {
         });
     }
 
+    public void checkSubmit(){
+        if (canSubmit()) {
+            editSaveButton.enable();
+        } else {
+            editSaveButton.disable();
+        }
+    }
+
     /**
      * @return Title from EditText
      */
@@ -156,13 +219,24 @@ public class EditTaskActivity extends AngryBiddingActivity {
         return title.length() >= 1;
     }
 
+    public void enableInputs(boolean enable){
+        titleEditText.setEnabled(enable);
+        descriptionEditText.setEnabled(enable);
+        pickLocationTextView.setEnabled(enable);
+        imageSelector.setEnabled(enable);
+    }
+
     /**
      * Handles submit for edit task button
      */
     public void onSubmit() {
-        currentTask.setTitle(getEditTitle());
-        currentTask.setDescription(getEditDescription());
+        enableInputs(false);
 
+        task.setTitle(getEditTitle());
+        task.setDescription(getEditDescription());
+        if(locationPoint != null){
+            task.setLocationPoint(this.locationPoint);
+        }
         ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
         ArrayList<File> imageFiles = new ArrayList<>();
         File imageFilesDir = new File(getCacheDir(), "EditImage");
@@ -192,14 +266,14 @@ public class EditTaskActivity extends AngryBiddingActivity {
                     FileInputStream stream = new FileInputStream(file);
                     byte[] byteArray = IOUtils.toByteArray(stream);
                     String string = "data:image/jpg;base64,"+ Base64.encodeToString(byteArray, Base64.DEFAULT);
-                    currentTask.getPhotos().add(string);
+                    task.getPhotos().add(string);
                 } catch (java.io.IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        ElasticSearchTask.updateTask(EditTaskActivity.this, currentID, currentTask, new UpdateResponseListener() {
+        ElasticSearchTask.updateTask(EditTaskActivity.this, currentID, task, new UpdateResponseListener() {
             @Override
             public void onCreated(String id) {
 
@@ -214,6 +288,7 @@ public class EditTaskActivity extends AngryBiddingActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 editSaveButton.onError(R.string.errorOccurred);
+                enableInputs(true);
             }
         });
 
