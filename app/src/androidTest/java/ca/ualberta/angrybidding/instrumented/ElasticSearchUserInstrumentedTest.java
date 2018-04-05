@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**

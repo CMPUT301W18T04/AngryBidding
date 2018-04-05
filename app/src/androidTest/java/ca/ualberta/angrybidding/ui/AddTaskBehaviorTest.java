@@ -2,9 +2,6 @@ package ca.ualberta.angrybidding.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,9 +19,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
-import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
-import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -36,7 +31,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -74,13 +68,13 @@ public class AddTaskBehaviorTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         final Context context = getInstrumentation().getTargetContext();
         ElasticSearchUser.setMainUser(context, new ElasticSearchUser("abc", username, "", ""));
         ElasticSearchTask.listTaskByUser(context, username, new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> tasks) {
-                for(ElasticSearchTask task : tasks){
+                for (ElasticSearchTask task : tasks) {
                     ElasticSearchTask.deleteTask(context, task.getID(), new DeleteResponseListener() {
                         @Override
                         public void onDeleted(String id) {
@@ -114,12 +108,12 @@ public class AddTaskBehaviorTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         final Context context = activityTestRule.getActivity();
         ElasticSearchTask.listTaskByUser(context, username, new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> tasks) {
-                for(ElasticSearchTask task : tasks){
+                for (ElasticSearchTask task : tasks) {
                     ElasticSearchTask.deleteTask(context, task.getID(), new DeleteResponseListener() {
                         @Override
                         public void onDeleted(String id) {

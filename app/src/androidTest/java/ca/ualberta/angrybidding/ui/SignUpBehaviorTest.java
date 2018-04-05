@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.android.volley.VolleyError;
 
@@ -20,7 +19,6 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
-import ca.ualberta.angrybidding.ui.activity.SignUpActivity;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
@@ -62,7 +60,7 @@ public class SignUpBehaviorTest {
     }
 
     @Test
-    public void validSignUp(){
+    public void validSignUp() {
         onView(withId(R.id.createAccountTextView)).perform(click());
         onView(withId(R.id.signUpUsername))
                 .perform(typeText(username), closeSoftKeyboard());
@@ -81,7 +79,7 @@ public class SignUpBehaviorTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         final Context context = getInstrumentation().getTargetContext();
         ElasticSearchUser.removeMainUser(context);
         activityTestRule.launchActivity(new Intent());
@@ -120,7 +118,7 @@ public class SignUpBehaviorTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         final Context context = getInstrumentation().getTargetContext();
         ElasticSearchUser.removeMainUser(context);
         ElasticSearchUser.getUserByUsername(context, username, new ElasticSearchUser.GetUserListener() {
