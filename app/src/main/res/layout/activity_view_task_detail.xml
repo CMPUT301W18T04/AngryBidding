@@ -42,7 +42,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:id="@+id/taskDetailMapContainer">
+            android:id="@+id/taskDetailMapContainer"
+            android:layout_marginBottom="10dp">
 
 
             <ca.ualberta.angrybidding.map.ScalableMapView
@@ -59,7 +60,7 @@
         <com.slouple.android.widget.image.ImageSlider
             android:id="@+id/taskDetailImageSlider"
             android:layout_width="match_parent"
-            android:layout_height="350dp">
+            android:layout_height="200dp">
         </com.slouple.android.widget.image.ImageSlider>
 
         <me.relex.circleindicator.CircleIndicator

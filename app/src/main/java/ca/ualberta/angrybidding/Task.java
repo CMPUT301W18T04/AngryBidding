@@ -124,7 +124,10 @@ public class Task {
      */
     public void setChosenBid(Bid chosenBid) {
         this.chosenBid = chosenBid;
-        this.getBids().clear();
+        getBids().remove(chosenBid);
+        for(Bid bid: getBids()){
+            bid.setDeclined(true);
+        }
         updateStatus();
     }
 

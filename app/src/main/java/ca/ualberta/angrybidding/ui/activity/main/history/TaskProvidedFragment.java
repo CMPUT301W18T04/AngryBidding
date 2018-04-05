@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
+import com.slouple.android.Units;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
 import ca.ualberta.angrybidding.ui.fragment.TaskStatusListFragment;
+import ca.ualberta.angrybidding.ui.view.TaskView;
 
 /**
  * The TaskPostedFragment in HistoryFragment, and it will deal with the provided tasks.
@@ -34,6 +37,7 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
                 R.array.taskProvidedStatusArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        onRefresh();
         return view;
     }
 
@@ -64,5 +68,19 @@ public class TaskProvidedFragment extends TaskStatusListFragment {
             ElasticSearchTask.listTaskByChosenUser(getContext(), ElasticSearchUser.getMainUser(getContext()).getUsername(), new Task.Status[]{spinnerStatus}, listener);
         }
 
+    }
+
+    /**
+     * Creates new TaskView with margin
+     *
+     * @return TaskView with margin
+     */
+    @Override
+    protected TaskView createTaskView() {
+        TaskView taskView = super.createTaskView();
+        LinearLayout.LayoutParams bottomMargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        bottomMargin.setMargins(0, 0, 0, Units.dpToPX(20, getContext()));
+        taskView.setLayoutParams(bottomMargin);
+        return taskView;
     }
 }

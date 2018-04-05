@@ -42,7 +42,7 @@ public class AddBidActivity extends AngryBiddingActivity {
         String taskJson = i.getStringExtra("task");
         id = i.getStringExtra("id");
         elasticSearchTask = new Gson().fromJson(taskJson, ElasticSearchTask.class);
-        user = ElasticSearchUser.getMainUser(this);
+        user = new User(ElasticSearchUser.getMainUser(this).getUsername());
 
         // Add text watcher
         priceEditText = findViewById(R.id.addBidPrice);

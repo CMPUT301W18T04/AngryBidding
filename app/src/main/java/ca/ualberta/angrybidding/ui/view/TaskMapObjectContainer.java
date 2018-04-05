@@ -64,8 +64,8 @@ public class TaskMapObjectContainer extends MapObjectContainer {
         for (int i = 0; i < getChildCount(); i++) {
             TaskMapObject child = (TaskMapObject) getChildAt(i);
             if (child.getTask().getID().equals(taskMapObject.getTask().getID())) {
+                removeView(child);
                 super.addView(taskMapObject);   //Removes memory leak
-                removeView(taskMapObject);
                 return;
             }
         }

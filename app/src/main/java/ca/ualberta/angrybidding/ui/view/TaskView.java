@@ -141,7 +141,11 @@ public class TaskView extends LinearLayout {
                 getPopupMenuButton().setMenuRes(R.menu.task_popup_self);
             }
         } else {
-            getPopupMenuButton().setMenuRes(R.menu.task_popup_other);
+            if(task.getStatus() == Task.Status.REQUESTED || task.getStatus() == Task.Status.BIDDED){
+                getPopupMenuButton().setMenuRes(R.menu.task_popup_other_requested);
+            }else{
+                getPopupMenuButton().setMenuRes(R.menu.task_popup_other);
+            }
         }
 
         getPopupMenuButton().getPopupMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -214,7 +218,7 @@ public class TaskView extends LinearLayout {
         Intent detailIntent = new Intent(TaskView.this.getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(task));
         detailIntent.putExtra("id", task.getID());
-        getContext().startActivity(detailIntent);
+        ((AdvancedActivity)getContext()).startActivityForResult(detailIntent, ViewTaskDetailActivity.REQUEST_CODE);
     }
 
     /**

@@ -23,6 +23,7 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
 import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
 import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
@@ -101,6 +102,17 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
         });
 
         getContext().addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(ViewTaskDetailActivity.REQUEST_CODE) {
             @Override
             public void onResult(Intent intent) {
                 refresh();

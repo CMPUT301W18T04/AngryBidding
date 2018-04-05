@@ -15,10 +15,11 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.slouple.android.notification.Notification;
+import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.adapter.DummyAdapter;
 import com.slouple.android.widget.image.ImageSlider;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -38,10 +39,11 @@ import me.relex.circleindicator.CircleIndicator;
 //noti
 
 public class ViewTaskDetailActivity extends AngryBiddingActivity {
+    public static final int REQUEST_CODE = 1006;
+
     private ElasticSearchTask task;
     private User user;
     private String id;
-    private Notification notification;
 
     private TextView titleTextView;
     private TextView ownerTextView;
@@ -113,7 +115,13 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
             mapObjectContainer.addView(new LocationMarker(this, locationPoint, false));
         }
 
-        if (task.getBids().size() < 1) {
+        ArrayList<Bid> nonDeclinedBids = new ArrayList<>();
+        for (Bid bid : task.getBids()) {
+            if (!bid.isDeclined()) {
+                nonDeclinedBids.add(bid);
+            }
+        }
+        if (nonDeclinedBids.size() == 0) {
             bidsLable.setVisibility(View.GONE);
             bidRecyclerView.setVisibility(View.GONE);
         } else {
@@ -123,7 +131,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                     return bid1.getPrice().compareTo(bid2.getPrice());
                 }
             });
-            bidRecyclerView.setAdapter(new DummyAdapter<Bid, BidView>(task.getBids()) {
+            bidRecyclerView.setAdapter(new DummyAdapter<Bid, BidView>(nonDeclinedBids) {
                 @Override
                 public BidView createView(int i) {
                     return new BidView(ViewTaskDetailActivity.this);
@@ -138,6 +146,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                  */
                 @Override
                 public void onBindView(final BidView bidView, final Bid bid) {
+                    bidView.setVisibility(View.VISIBLE);
                     bidView.setBid(bid);
                     if (task.getUser().equals(user)) {
                         bidView.useBidPopupMenu(bid, new BidView.OnBidActionListener() {
@@ -152,6 +161,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                             }
                         });
                     }
+
                 }
 
                 @Override
@@ -161,6 +171,42 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
             });
             bidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
+
+        addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        addResultRequest(new ResultRequest(EditTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
     }
 
     /**
@@ -169,7 +215,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
      * @param bid The selected bid
      */
     public void onDecline(Bid bid) {
-        task.getBids().remove(bid);
+        bid.setDeclined(true);
         task.updateStatus();
         updateFinish();
 
