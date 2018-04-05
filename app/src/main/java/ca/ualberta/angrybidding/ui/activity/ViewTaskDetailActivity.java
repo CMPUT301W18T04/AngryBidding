@@ -38,6 +38,7 @@ import ca.ualberta.angrybidding.map.LocationPoint;
 import ca.ualberta.angrybidding.map.MapObjectContainer;
 import ca.ualberta.angrybidding.map.ScalableMapView;
 import ca.ualberta.angrybidding.ui.view.BidView;
+import me.relex.circleindicator.CircleIndicator;
 
 //noti
 
@@ -56,6 +57,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ScalableMapView mapView;
 
     private ImageSlider imageSlider;
+    private CircleIndicator circleIndicator;
 
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
@@ -83,6 +85,9 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         descriptionTextView = findViewById(R.id.taskDetailDescription);
 
         imageSlider = findViewById(R.id.taskDetailImageSlider);
+        circleIndicator = findViewById(R.id.taskDetailCircleIndicator);
+        circleIndicator.setViewPager(imageSlider);
+        imageSlider.getAdapter().registerDataSetObserver(circleIndicator.getDataSetObserver());
 
         mapCotainer = findViewById(R.id.taskDetailMapContainer);
         mapObjectContainer = findViewById(R.id.taskDetailMapObjectContainer);
@@ -95,8 +100,13 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         ownerTextView.setText(elasticSearchTask.getUser().getUsername());
         descriptionTextView.setText(elasticSearchTask.getDescription());
 
-        for (String string: elasticSearchTask.getPhotos()) {
-            imageSlider.addSlide(string);
+        if (elasticSearchTask.getPhotos().size() == 0) {
+            imageSlider.setVisibility(View.GONE);
+            circleIndicator.setVisibility(View.GONE);
+        } else {
+            for (String string: elasticSearchTask.getPhotos()) {
+                imageSlider.addSlide(string);
+            }
         }
 
         if (elasticSearchTask.getLocationPoint() == null) {
