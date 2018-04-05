@@ -110,7 +110,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         }
 
         if (elasticSearchTask.getLocationPoint() == null) {
-            mapView.setVisibility(View.GONE);
+            mapCotainer.setVisibility(View.GONE);
         } else {
             LocationPoint locationPoint = new LocationPoint(elasticSearchTask.getLocationPoint().getLatitude(), elasticSearchTask.getLocationPoint().getLongitude());
             locationPoint.setZ(13);

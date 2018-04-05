@@ -75,13 +75,13 @@ public class AddBidBehaviorTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         final Context context = getInstrumentation().getTargetContext();
         ElasticSearchUser.setMainUser(context, new ElasticSearchUser("abcde", bidderUsername, "", ""));
         ElasticSearchTask.listTaskByUser(context, username, new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> tasks) {
-                for(ElasticSearchTask task : tasks){
+                for (ElasticSearchTask task : tasks) {
                     ElasticSearchTask.deleteTask(context, task.getID(), new DeleteResponseListener() {
                         @Override
                         public void onDeleted(String id) {
@@ -126,12 +126,12 @@ public class AddBidBehaviorTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         final Context context = activityTestRule.getActivity();
         ElasticSearchTask.listTaskByUser(context, username, new ElasticSearchTask.ListTaskListener() {
             @Override
             public void onResult(ArrayList<ElasticSearchTask> tasks) {
-                for(ElasticSearchTask task : tasks){
+                for (ElasticSearchTask task : tasks) {
                     ElasticSearchTask.deleteTask(context, task.getID(), new DeleteResponseListener() {
                         @Override
                         public void onDeleted(String id) {
