@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.slouple.android.ImageHelper;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
@@ -21,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
@@ -160,8 +163,30 @@ public class EditTaskActivity extends AngryBiddingActivity {
         currentTask.setTitle(getEditTitle());
         currentTask.setDescription(getEditDescription());
 
-        ArrayList<File> files = imageSelector.getCacheFiles();
-        for (File file: files) {
+        ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
+        ArrayList<File> imageFiles = new ArrayList<>();
+        File imageFilesDir = new File(getCacheDir(), "EditImage");
+        imageFilesDir.mkdirs();
+
+        for (int i = 0; i < cacheFiles.size(); i++) {
+            File cacheFile = cacheFiles.get(i);
+            if (cacheFile == null) {
+                continue;
+            }
+            String mimeType = ImageHelper.getMimeType(cacheFile);
+            if (mimeType != null) {
+                String fileName = String.valueOf(i) + "." + ImageHelper.getFileExtensionFromMimeType(mimeType);
+                File imageFile = new File(imageFilesDir, fileName);
+                try {
+                    ImageHelper.limitBitmapFile(cacheFile, imageFile, new Point(140, 140));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                imageFiles.add(imageFile);
+            }
+        }
+
+        for (File file: imageFiles) {
             if (file != null) {
                 try {
                     FileInputStream stream = new FileInputStream(file);

@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.slouple.android.ImageHelper;
 import com.slouple.android.ResultRequest;
+import com.slouple.android.widget.button.PopupMenuButton;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
@@ -27,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
@@ -171,8 +175,24 @@ public class AddTaskActivity extends AngryBiddingActivity {
         final User user = new User(getElasticSearchUser().getUsername());
 
         Task task = new Task(user, title, description, locationPoint);
-        ArrayList<File> files = imageSelector.getCacheFiles();
-        for (File file: files) {
+        ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
+        ArrayList<File> imageFiles = new ArrayList<>();
+        File imageFilesDir = new File(getCacheDir(), "AddImage");
+        imageFilesDir.mkdirs();
+
+        for (int i = 0; i < cacheFiles.size(); i++) {
+            File cacheFile = cacheFiles.get(i);
+            String fileName = String.valueOf(i) + "." + ImageHelper.getFileExtensionFromMimeType(ImageHelper.getMimeType(cacheFile));
+            File imageFile = new File(imageFilesDir, fileName);
+            try {
+                ImageHelper.limitBitmapFile(cacheFile, imageFile, new Point(140, 140));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageFiles.add(imageFile);
+        }
+
+        for (File file: imageFiles) {
             try {
                 FileInputStream stream = new FileInputStream(file);
                 byte[] byteArray = IOUtils.toByteArray(stream);
@@ -182,6 +202,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
                 e.printStackTrace();
             }
         }
+
         ElasticSearchTask.addTask(this, task, new AddResponseListener() {
             @Override
             public void onCreated(String id) {

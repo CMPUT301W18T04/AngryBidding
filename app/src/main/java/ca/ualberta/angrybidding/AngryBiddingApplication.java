@@ -28,7 +28,7 @@ public class AngryBiddingApplication extends Application {
         );
 
         BitmapLoaderFactory.addBitmapLoader(ImageSlider.DEFAULT_BITMAP_LOADER_NAME,
-                new BitmapLoader(8, true, 128 * 1024 * 1024, new File(getCacheDir(), ImageSlider.DEFAULT_BITMAP_LOADER_NAME), false, -1, 5000));
+                new BitmapLoader(8, false, 128 * 1024 * 1024, new File(getCacheDir(), ImageSlider.DEFAULT_BITMAP_LOADER_NAME), false, -1, 000));
 
         if (BuildConfig.DEBUG) {
             try {
