@@ -20,6 +20,7 @@ public class Task {
     private ArrayList<Bid> bids;
     private Status status;
     private long dateTimeMillis;
+    private ArrayList<String> photos;
 
     /**
      * @param user  User who created the task
@@ -142,6 +143,16 @@ public class Task {
             this.bids = new ArrayList<>();
         }
         return this.bids;
+    }
+
+    /**
+     * @return ArrayList of strings that represent photos
+     */
+    public ArrayList<String> getPhotos() {
+        if (this.photos == null) {
+            this.photos = new ArrayList<>();
+        }
+        return this.photos;
     }
 
     /**

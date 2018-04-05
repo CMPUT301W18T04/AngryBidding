@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.slouple.android.BitmapLoader;
 import com.slouple.android.BitmapLoaderFactory;
+import com.slouple.android.widget.image.ImageSlider;
 
 import java.io.File;
 import java.security.SecureRandom;
@@ -25,6 +26,9 @@ public class AngryBiddingApplication extends Application {
         BitmapLoaderFactory.addBitmapLoader(MapView.DEFAULT_BITMAP_LOADER_NAME,
                 new BitmapLoader(8, true, 128 * 1024 * 1024, new File(getCacheDir(), MapView.DEFAULT_BITMAP_LOADER_NAME), false, -1, 10000)
         );
+
+        BitmapLoaderFactory.addBitmapLoader(ImageSlider.DEFAULT_BITMAP_LOADER_NAME,
+                new BitmapLoader(8, false, 128 * 1024 * 1024, new File(getCacheDir(), ImageSlider.DEFAULT_BITMAP_LOADER_NAME), false, -1, 000));
 
         if (BuildConfig.DEBUG) {
             try {

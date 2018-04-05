@@ -54,6 +54,12 @@
                     android:maxLength="300"
                     android:inputType="textMultiLine" />
 
+                <com.slouple.android.widget.image.ImageSelector
+                    android:id="@+id/editTaskImageSelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    slouple:addImageButtonBackground="@drawable/ic_menu_camera"/>
+
                 <com.slouple.android.widget.button.SubmitButton
                     android:id="@+id/editTaskSubmitButton"
                     android:layout_width="match_parent"
