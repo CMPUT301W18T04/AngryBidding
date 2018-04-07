@@ -23,6 +23,7 @@ import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
 import com.slouple.android.widget.image.GallerySelectorModule;
 import com.slouple.android.widget.image.ImageSelector;
+import com.slouple.util.Hash;
 
 import org.apache.commons.io.IOUtils;
 
@@ -30,10 +31,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
+import ca.ualberta.angrybidding.TaskCache;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.map.LocationPoint;
@@ -172,7 +175,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
         final String description = descriptionEditText.getText().toString();
         final User user = new User(getElasticSearchUser().getUsername());
 
-        Task task = new Task(user, title, description, locationPoint);
+        final Task task = new Task(user, title, description, locationPoint);
         ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
         ArrayList<File> imageFiles = new ArrayList<>();
         File imageFilesDir = new File(getCacheDir(), "AddImage");
@@ -214,9 +217,23 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                submitButton.onError(R.string.errorOccurred);
-                enableInputs(true);
                 Log.e("AddTaskActivity", error.getMessage(), error);
+                ArrayList<ElasticSearchTask> tasks = TaskCache.readFromFile(AddTaskActivity.this);
+                if (tasks == null) {
+                    tasks = new ArrayList<>();
+                }
+
+                String id = Hash.getHash(String.valueOf(Calendar.getInstance().getTimeInMillis()).getBytes(), Hash.SHA_256).substring(0, 40);
+                ElasticSearchTask newTask = new ElasticSearchTask(id, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
+                newTask.getPhotos().addAll(task.getPhotos());
+                tasks.add(newTask);
+                TaskCache.saveToFile(AddTaskActivity.this, tasks);
+
+                Intent intent = new Intent();
+                intent.putExtra("task", new Gson().toJson(newTask));
+                intent.putExtra("offline", true);
+                AddTaskActivity.this.setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
