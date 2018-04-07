@@ -294,7 +294,15 @@ public class EditTaskActivity extends AngryBiddingActivity {
                 ArrayList<ElasticSearchTask> tasks = TaskCache.readFromFile(EditTaskActivity.this);
                 ElasticSearchTask newTask = new ElasticSearchTask(currentID, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
                 newTask.getPhotos().addAll(task.getPhotos());
+
+                for (ElasticSearchTask task : tasks) {
+                    if (task.getID().equals(currentID)) {
+                        tasks.remove(task);
+                        break;
+                    }
+                }
                 tasks.add(newTask);
+
                 TaskCache.saveToFile(EditTaskActivity.this, tasks);
 
                 Intent intent = new Intent();

@@ -24,6 +24,7 @@ import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
 import com.slouple.android.widget.image.GallerySelectorModule;
 import com.slouple.android.widget.image.ImageSelector;
+import com.slouple.util.Hash;
 
 import org.apache.commons.io.IOUtils;
 
@@ -32,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
@@ -219,7 +221,12 @@ public class AddTaskActivity extends AngryBiddingActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("AddTaskActivity", error.getMessage(), error);
                 ArrayList<ElasticSearchTask> tasks = TaskCache.readFromFile(AddTaskActivity.this);
-                ElasticSearchTask newTask = new ElasticSearchTask(null, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
+                if (tasks == null) {
+                    tasks = new ArrayList<>();
+                }
+
+                String id = Hash.getHash(String.valueOf(Calendar.getInstance().getTimeInMillis()).getBytes(), Hash.SHA_256).substring(0, 40);
+                ElasticSearchTask newTask = new ElasticSearchTask(id, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
                 newTask.getPhotos().addAll(task.getPhotos());
                 tasks.add(newTask);
                 TaskCache.saveToFile(AddTaskActivity.this, tasks);

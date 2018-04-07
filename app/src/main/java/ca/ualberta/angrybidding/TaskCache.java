@@ -72,7 +72,10 @@ public class TaskCache {
             ArrayList<ElasticSearchTask> tasks = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String id = jsonObject.getString("id");
+                String id = null;
+                if (jsonObject.has("id")) {
+                    id = jsonObject.getString("id");
+                }
                 ElasticSearchTask task = new Gson().fromJson(jsonObject.toString(), ElasticSearchTask.class);
                 task.setID(id);
                 tasks.add(task);
@@ -106,7 +109,7 @@ public class TaskCache {
         }
 
         for (ElasticSearchTask fileTask : fileTasks) {
-            if (fileTask.getID() == null) {
+            if (fileTask.getID().length() > 30) {
                 mergedTasks.add(fileTask);
             }
         }
@@ -117,6 +120,7 @@ public class TaskCache {
 
         if (index == tasks.size()) {
             listener.onResult(tasks);
+            return;
         }
         ElasticSearchTask.updateTask(context, tasks.get(index), new UpdateResponseListener() {
             @Override
