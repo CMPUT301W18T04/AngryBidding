@@ -5,18 +5,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <Spinner
-            android:id="@+id/taskListStatusSpinner"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </Spinner>
+            android:layout_height="wrap_content"
+            android:background="@color/colorContentBackground"
+            android:layout_marginBottom="10dp">
+            <Spinner
+                android:id="@+id/taskListStatusSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:padding="10dp">
+            </Spinner>
+        </FrameLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/taskListSwipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/taskListRecyclerView"

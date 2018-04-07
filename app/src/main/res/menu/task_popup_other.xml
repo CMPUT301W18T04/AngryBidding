@@ -6,9 +6,4 @@
         android:id="@+id/taskPopupViewDetail"
         android:title="@string/viewDetails" />
 
-    <item
-        android:id="@+id/taskPopupBidTask"
-        android:title="@string/bidTask" />
-
-
 </menu>

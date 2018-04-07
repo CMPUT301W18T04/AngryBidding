@@ -17,7 +17,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
     private Context context;
 
     /**
-     * @param fm FragmentManager
+     * @param fm      FragmentManager
      * @param context Context
      */
     public HistoryPageAdapter(FragmentManager fm, Context context) {
@@ -29,6 +29,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Links position with appropriate fragment
+     *
      * @param position
      * @return Fragment
      */
@@ -46,6 +47,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Links position with appropriate title
+     *
      * @param position
      * @return Page Title
      */
@@ -63,6 +65,7 @@ public class HistoryPageAdapter extends FragmentPagerAdapter {
 
     /**
      * Number of history page fragments
+     *
      * @return
      */
     @Override

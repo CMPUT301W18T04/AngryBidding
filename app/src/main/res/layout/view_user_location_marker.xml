@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/userLocationMarkerImage"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:background="@drawable/ic_user_location_marker">
+</FrameLayout>

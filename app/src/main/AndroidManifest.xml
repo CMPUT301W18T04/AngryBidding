@@ -2,13 +2,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.angrybidding">
 
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
+        android:name=".AngryBiddingApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:authorities="ca.ualberta.angrybidding.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
+
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:label="@string/app_name"
@@ -26,6 +54,12 @@
         <activity android:name=".ui.activity.EditTaskActivity" />
         <activity android:name=".ui.activity.ViewTaskDetailActivity" />
         <activity android:name=".ui.activity.AddBidActivity" />
+        <activity android:name=".ui.activity.EditUserProfileActivity" />
+        <activity android:name=".ui.activity.UserProfileActivity" />
+        <activity android:name=".ui.activity.PickLocationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <service android:name="ca.ualberta.angrybidding.notification.NotificationService"
+            android:process="ca.ualberta.angrybidding.NotificationService"/>
 
     </application>
 

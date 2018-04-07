@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="mapURL" format="string" />
+    <attr name="mapTileSize" format="integer"/>
+    <attr name="mapMaxZ" format="integer"/>
+    <attr name="locationLatitude" format="float"/>
+    <attr name="locationLongitude" format="float"/>
+    <attr name="locationZ" format="integer"/>
+    <attr name="debug" format="boolean"/>
+    <declare-styleable name="MapView" >
+        <attr name="bitmapLoaderName"/>
+        <attr name="mapURL"/>
+        <attr name="mapTileSize"/>
+        <attr name="mapMaxZ"/>
+        <attr name="locationLatitude"/>
+        <attr name="locationLongitude"/>
+        <attr name="locationZ"/>
+        <attr name="debug"/>
+    </declare-styleable>
+</resources>

@@ -1,22 +1,29 @@
 package ca.ualberta.angrybidding.ui.activity.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
+import com.slouple.android.ResultRequest;
 import com.slouple.android.Units;
 
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
+import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
+import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 import ca.ualberta.angrybidding.ui.fragment.TaskListFragment;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
@@ -70,6 +77,55 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup view, Bundle savedInstanceState) {
+        View layout = super.onCreateView(inflater, view, savedInstanceState);
+        getContext().addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(EditTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(ViewTaskDetailActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+        return layout;
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
@@ -97,6 +153,7 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
 
     /**
      * Creates new TaskView with margin
+     *
      * @return TaskView with margin
      */
     @Override

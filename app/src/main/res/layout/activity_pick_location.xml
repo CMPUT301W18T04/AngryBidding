@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pickLocationCoordinatorLayout">
+
+    <ca.ualberta.angrybidding.map.TouchableMapView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pickLocationMapView"
+        app:debug="false"
+        app:minZoom="3"/>
+    <ca.ualberta.angrybidding.map.MapObjectContainer
+        android:id="@+id/pickLocationMapObjectContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapViewID="@id/pickLocationMapView"/>
+
+    <View
+        android:id="@+id/pickLocationSearchCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#44000000"
+        android:visibility="gone"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pickLocationSearchRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/pickLocationActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="13dp"
+        android:gravity="bottom|end"
+        android:src="@drawable/ic_add_white_24dp"
+        android:visibility="gone"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="@color/colorAccentDark"
+        fab:fab_colorRipple="@color/colorAccentLight"
+        fab:fab_label="@string/addTask" />
+
+</android.support.design.widget.CoordinatorLayout>

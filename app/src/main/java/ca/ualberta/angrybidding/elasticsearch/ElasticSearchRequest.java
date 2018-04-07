@@ -21,10 +21,10 @@ public class ElasticSearchRequest extends JsonObjectRequest {
     protected String id;
 
     /**
-     * @param method HTTP Method. Can be POST, GET, PUT, DELETE etc.
-     * @param index Index of which the request will be sent to
-     * @param id ID of the object, can be null
-     * @param body Request body, can be null
+     * @param method   HTTP Method. Can be POST, GET, PUT, DELETE etc.
+     * @param index    Index of which the request will be sent to
+     * @param id       ID of the object, can be null
+     * @param body     Request body, can be null
      * @param listener Response listener
      */
     public ElasticSearchRequest(int method, String index, String id, JSONObject body, ElasticSearchResponseListener listener) {
@@ -32,11 +32,11 @@ public class ElasticSearchRequest extends JsonObjectRequest {
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param method HTTP Method. Can be POST, GET, PUT, DELETE etc.
-     * @param index Index of which the request will be sent to
-     * @param id ID of the object, can be null
-     * @param body Request body, can be null
+     * @param url      ElasticSearch Server URL
+     * @param method   HTTP Method. Can be POST, GET, PUT, DELETE etc.
+     * @param index    Index of which the request will be sent to
+     * @param id       ID of the object, can be null
+     * @param body     Request body, can be null
      * @param listener Response listener
      */
     public ElasticSearchRequest(int method, String url, String index, String id, JSONObject body, ElasticSearchResponseListener listener) {
@@ -70,6 +70,7 @@ public class ElasticSearchRequest extends JsonObjectRequest {
 
     /**
      * Overrides Volley method so it can be updated after request is constructed
+     *
      * @return Full URL of the request
      */
     @Override
@@ -99,6 +100,7 @@ public class ElasticSearchRequest extends JsonObjectRequest {
 
     /**
      * Submit this request using VolleySingleton
+     *
      * @param context Activity or ApplicationContext
      */
     public void submit(Context context) {

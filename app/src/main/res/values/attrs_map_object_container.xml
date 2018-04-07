@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="mapViewID" format="reference" />
+    <declare-styleable name="MapObjectContainer">
+        <attr name="mapViewID"/>
+    </declare-styleable>
+</resources>

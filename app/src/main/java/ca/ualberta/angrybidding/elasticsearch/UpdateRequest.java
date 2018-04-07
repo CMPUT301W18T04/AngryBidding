@@ -8,9 +8,9 @@ import org.json.JSONObject;
 public class UpdateRequest extends ElasticSearchRequest {
 
     /**
-     * @param index ElasticSearch Index
-     * @param id ID of the object to update
-     * @param body Object to add
+     * @param index    ElasticSearch Index
+     * @param id       ID of the object to update
+     * @param body     Object to add
      * @param listener Listener to call on response
      */
     public UpdateRequest(String index, String id, JSONObject body, UpdateResponseListener listener) {
@@ -18,10 +18,10 @@ public class UpdateRequest extends ElasticSearchRequest {
     }
 
     /**
-     * @param url ElasticSearch Server URL
-     * @param index ElasticSearch Index
-     * @param id ID of the object to update
-     * @param body Object to add
+     * @param url      ElasticSearch Server URL
+     * @param index    ElasticSearch Index
+     * @param id       ID of the object to update
+     * @param body     Object to add
      * @param listener Listener to call on response
      */
     public UpdateRequest(String url, String index, String id, JSONObject body, UpdateResponseListener listener) {

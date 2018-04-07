@@ -47,6 +47,7 @@ public class SearchQuery {
 
     /**
      * Set max result size
+     *
      * @param size Maximum result size
      */
     public void setSize(int size) {
@@ -57,20 +58,9 @@ public class SearchQuery {
         }
     }
 
-    public void addSearchSort(SearchSort searchSort){
+    public void addSearchSort(SearchSort searchSort) {
         try {
             root.put("sort", searchSort.getSort());
-        } catch (JSONException e) {
-            Log.e("SearchQuery", e.getMessage(), e);
-        }
-    }
-
-    public void addNestedQuery(String path, SearchQuery searchQuery){
-        try {
-            JSONObject nested = new JSONObject();
-            nested.put("path", path);
-            nested.put("query", searchQuery.getQuery());
-            getQuery().put("nested", nested);
         } catch (JSONException e) {
             Log.e("SearchQuery", e.getMessage(), e);
         }

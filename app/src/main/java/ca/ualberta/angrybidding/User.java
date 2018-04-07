@@ -7,6 +7,7 @@ package ca.ualberta.angrybidding;
 public class User {
     private String username;
     private String emailAddress;
+    private String phoneNumber;
 
     /**
      * @param username Username of the user
@@ -16,7 +17,7 @@ public class User {
     }
 
     /**
-     * @param username Username of the user
+     * @param username     Username of the user
      * @param emailAddress Email address of the user
      */
     public User(String username, String emailAddress) {
@@ -36,6 +37,18 @@ public class User {
      */
     public String getEmailAddress() {
         return this.emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

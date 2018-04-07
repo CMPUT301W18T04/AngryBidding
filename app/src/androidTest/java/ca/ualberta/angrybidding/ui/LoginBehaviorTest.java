@@ -19,16 +19,13 @@ import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.DeleteRequest;
 import ca.ualberta.angrybidding.elasticsearch.DeleteResponseListener;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
-import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -60,7 +57,7 @@ public class LoginBehaviorTest {
     }
 
     @Test
-    public void validLogin(){
+    public void validLogin() {
         onView(withId(R.id.loginUsernameTextView))
                 .perform(typeText(username), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordTextView))
@@ -76,7 +73,7 @@ public class LoginBehaviorTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         final Context context = getInstrumentation().getTargetContext();
         ElasticSearchUser.signUp(context, username, password, emailAddress, new ElasticSearchUser.UserSignUpListener() {
             @Override
@@ -100,7 +97,7 @@ public class LoginBehaviorTest {
 
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         final Context context = activityTestRule.getActivity();
         ElasticSearchUser.removeMainUser(context);
         ElasticSearchUser.getUserByUsername(context, username, new ElasticSearchUser.GetUserListener() {

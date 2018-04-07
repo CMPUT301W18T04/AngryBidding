@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import ca.ualberta.angrybidding.map.LocationPoint;
+
 /**
  * Task model class
  * Contains all information for a task
@@ -17,22 +19,23 @@ public class Task {
     private Bid chosenBid;
     private ArrayList<Bid> bids;
     private Status status;
-    private Date dateTime;
+    private long dateTimeMillis;
+    private ArrayList<String> photos;
 
     /**
-     * @param user User who created the task
+     * @param user  User who created the task
      * @param title Title of the task
      */
     public Task(User user, String title) {
         this.user = user;
         this.title = title;
         this.status = Status.REQUESTED;
-        this.dateTime = new Date(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis());
+        this.dateTimeMillis = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis();
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
+     * @param user        User who created the task
+     * @param title       Title of the task
      * @param description Description of the task
      */
     public Task(User user, String title, String description) {
@@ -41,9 +44,9 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint) {
@@ -52,11 +55,11 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
-     * @param bids List of bid of the task
+     * @param bids          List of bid of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint, ArrayList<Bid> bids) {
         this(user, title, description, locationPoint);
@@ -64,11 +67,11 @@ public class Task {
     }
 
     /**
-     * @param user User who created the task
-     * @param title Title of the task
-     * @param description Description of the task
+     * @param user          User who created the task
+     * @param title         Title of the task
+     * @param description   Description of the task
      * @param locationPoint LocationPoint of the task
-     * @param chosenBid The accepted bid of the task
+     * @param chosenBid     The accepted bid of the task
      */
     public Task(User user, String title, String description, LocationPoint locationPoint, Bid chosenBid) {
         this(user, title, description, locationPoint);
@@ -84,6 +87,7 @@ public class Task {
 
     /**
      * Set title
+     *
      * @param title Title
      */
     public void setTitle(String title) {
@@ -99,6 +103,7 @@ public class Task {
 
     /**
      * Set description of the task
+     *
      * @param description Description of the task
      */
     public void setDescription(String description) {
@@ -114,11 +119,15 @@ public class Task {
 
     /**
      * Set the accepted bid of the task and removes all other bids
+     *
      * @param chosenBid The bid that is accepted
      */
     public void setChosenBid(Bid chosenBid) {
         this.chosenBid = chosenBid;
-        this.getBids().clear();
+        getBids().remove(chosenBid);
+        for (Bid bid : getBids()) {
+            bid.setDeclined(true);
+        }
         updateStatus();
     }
 
@@ -140,7 +149,18 @@ public class Task {
     }
 
     /**
+     * @return ArrayList of strings that represent photos
+     */
+    public ArrayList<String> getPhotos() {
+        if (this.photos == null) {
+            this.photos = new ArrayList<>();
+        }
+        return this.photos;
+    }
+
+    /**
      * Set LocationPoint
+     *
      * @param locationPoint LocationPoint of the Task
      */
     public void setLocationPoint(LocationPoint locationPoint) {
@@ -154,50 +174,59 @@ public class Task {
         return this.locationPoint;
     }
 
-    public void updateStatus(){
-        if(this.status == Status.COMPLETED){
+    public void updateStatus() {
+        if (this.status == Status.COMPLETED) {
             return;
-        }else if(getChosenBid() != null){
+        } else if (getChosenBid() != null) {
             this.status = Status.ASSIGNED;
-        }else if(getBids().size() == 0){
+        } else if (getBids().size() == 0) {
             this.status = Status.REQUESTED;
-        }else{
+        } else {
             this.status = Status.BIDDED;
         }
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         updateStatus();
         return this.status;
     }
 
-    public void setCompleted(){
-        if(getStatus() == Status.ASSIGNED){
-            this.status = Status.COMPLETED;
+    public void setCompleted(boolean completed) {
+        if (getStatus() == Status.ASSIGNED) {
+            if (completed) {
+                this.status = Status.COMPLETED;
+            } else {
+                this.chosenBid = null;
+                updateStatus();
+            }
         }
     }
 
-    public Date getDateTime(){
-        return this.dateTime;
+    public long getDateTimeMillis() {
+        return this.dateTimeMillis;
     }
 
-    public enum Status{
+    public Date getDateTime() {
+        return new Date(dateTimeMillis);
+    }
+
+    public enum Status {
         REQUESTED,
         BIDDED,
         ASSIGNED,
         COMPLETED;
 
-        public static Status getStatus(String statusString){
+        public static Status getStatus(String statusString) {
             statusString = statusString.trim().toLowerCase();
-            if(statusString.equalsIgnoreCase("requested")){
+            if (statusString.equalsIgnoreCase("requested")) {
                 return REQUESTED;
-            }else if(statusString.equalsIgnoreCase("bidded")){
+            } else if (statusString.equalsIgnoreCase("bidded")) {
                 return BIDDED;
-            }else if(statusString.equalsIgnoreCase("assigned")){
+            } else if (statusString.equalsIgnoreCase("assigned")) {
                 return ASSIGNED;
-            }else if(statusString.equalsIgnoreCase("completed")){
+            } else if (statusString.equalsIgnoreCase("completed")) {
                 return COMPLETED;
-            }else{
+            } else {
                 return null;
             }
         }

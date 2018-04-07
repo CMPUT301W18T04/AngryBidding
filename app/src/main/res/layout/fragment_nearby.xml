@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <ca.ualberta.angrybidding.map.TouchableMapView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nearbyMapView"
+        app:debug="false"
+        app:minZoom="3"/>
+    <ca.ualberta.angrybidding.ui.view.TaskMapObjectContainer
+        android:id="@+id/nearbyTaskMapObjectContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapViewID="@id/nearbyMapView"
+        app:maxTaskMapObjectCount="30"/>
+    <ca.ualberta.angrybidding.map.MapObjectContainer
+        android:id="@+id/nearbyMapObjectContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapViewID="@id/nearbyMapView"/>
+
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/nearbyCurrentLocation"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nearby Fragment" />
+        android:layout_gravity="bottom|end"
+        android:gravity="bottom|end"
+        android:layout_margin="10dp"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="@color/colorAccentDark"
+        fab:fab_colorRipple="@color/colorAccentLight"
+        android:src="@drawable/ic_gps_fixed"
+        fab:fab_label="@string/currentLocation"/>
+
 </FrameLayout>
