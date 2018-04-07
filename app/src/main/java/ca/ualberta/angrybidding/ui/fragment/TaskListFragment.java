@@ -16,7 +16,6 @@ import com.slouple.android.widget.adapter.DummyAdapter;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.view.TaskPopupMenuButton;
 import ca.ualberta.angrybidding.ui.view.TaskView;

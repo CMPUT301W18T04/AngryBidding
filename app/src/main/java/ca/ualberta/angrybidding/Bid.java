@@ -40,10 +40,11 @@ public class Bid {
         return this.price;
     }
 
-    public void setDeclined(boolean declined){
+    public void setDeclined(boolean declined) {
         this.declined = declined;
     }
-    public boolean isDeclined(){
+
+    public boolean isDeclined() {
         return this.declined;
     }
 
@@ -56,10 +57,10 @@ public class Bid {
 
     @Override
     public boolean equals(Object other) {
-        if(!(other instanceof Bid)){
+        if (!(other instanceof Bid)) {
             return false;
-        }else{
-            return ((Bid)other).getUser().equals(getUser()) && ((Bid)other).getPrice().equals(getPrice());
+        } else {
+            return ((Bid) other).getUser().equals(getUser()) && ((Bid) other).getPrice().equals(getPrice());
         }
     }
 }

@@ -125,7 +125,7 @@ public class Task {
     public void setChosenBid(Bid chosenBid) {
         this.chosenBid = chosenBid;
         getBids().remove(chosenBid);
-        for(Bid bid: getBids()){
+        for (Bid bid : getBids()) {
             bid.setDeclined(true);
         }
         updateStatus();
@@ -193,9 +193,9 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         if (getStatus() == Status.ASSIGNED) {
-            if(completed) {
+            if (completed) {
                 this.status = Status.COMPLETED;
-            }else{
+            } else {
                 this.chosenBid = null;
                 updateStatus();
             }

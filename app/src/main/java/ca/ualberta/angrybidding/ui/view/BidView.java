@@ -15,7 +15,6 @@ import com.slouple.android.widget.button.PopupMenuButton;
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.UserProfileActivity;
-import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
  * Represents a view of the task object

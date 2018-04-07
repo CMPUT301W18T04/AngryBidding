@@ -37,7 +37,6 @@ public class TaskPopupMenuButton extends PopupMenuButton {
     }
 
     /**
-     *
      * Checks if the user is the owner of the task and displays menu accordingly
      * Evokes different actions for different cases
      *
@@ -102,7 +101,7 @@ public class TaskPopupMenuButton extends PopupMenuButton {
         });
     }
 
-    public void deleteTask(final OnTaskChangeListener listener){
+    public void deleteTask(final OnTaskChangeListener listener) {
         ElasticSearchTask.deleteTask(getContext(), task.getID(), new DeleteResponseListener() {
             @Override
             public void onDeleted(String id) {
@@ -121,7 +120,7 @@ public class TaskPopupMenuButton extends PopupMenuButton {
         });
     }
 
-    public void setTaskCompleted(boolean completed, final OnTaskChangeListener listener){
+    public void setTaskCompleted(boolean completed, final OnTaskChangeListener listener) {
         task.setCompleted(completed);
         ElasticSearchTask.updateTask(getContext(), task.getID(), task, new UpdateResponseListener() {
             @Override
@@ -181,6 +180,7 @@ public class TaskPopupMenuButton extends PopupMenuButton {
      */
     public interface OnTaskChangeListener {
         void onDelete();
+
         void onEdit();
     }
 

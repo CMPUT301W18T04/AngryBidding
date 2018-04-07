@@ -18,7 +18,6 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.ImageHelper;
 import com.slouple.android.ResultRequest;
-import com.slouple.android.widget.button.PopupMenuButton;
 import com.slouple.android.widget.button.SubmitButton;
 import com.slouple.android.widget.button.SubmitButtonListener;
 import com.slouple.android.widget.image.CameraSelectorModule;
@@ -29,7 +28,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -192,11 +190,11 @@ public class AddTaskActivity extends AngryBiddingActivity {
             imageFiles.add(imageFile);
         }
 
-        for (File file: imageFiles) {
+        for (File file : imageFiles) {
             try {
                 FileInputStream stream = new FileInputStream(file);
                 byte[] byteArray = IOUtils.toByteArray(stream);
-                String string = "data:image/jpg;base64,"+Base64.encodeToString(byteArray, Base64.DEFAULT);
+                String string = "data:image/jpg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
                 task.getPhotos().add(string);
             } catch (java.io.IOException e) {
                 e.printStackTrace();

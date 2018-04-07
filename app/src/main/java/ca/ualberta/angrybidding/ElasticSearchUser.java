@@ -43,7 +43,7 @@ public class ElasticSearchUser extends User {
         this.passwordHash = passwordHash;
     }
 
-    public void setID(String id){
+    public void setID(String id) {
         this.id = id;
     }
 
@@ -154,7 +154,7 @@ public class ElasticSearchUser extends User {
         void onError(VolleyError error);
     }
 
-    public static void updateUser(Context context, ElasticSearchUser user, UpdateResponseListener listener){
+    public static void updateUser(Context context, ElasticSearchUser user, UpdateResponseListener listener) {
         try {
             UpdateRequest updateRequest = new UpdateRequest(ELASTIC_SEARCH_INDEX, user.getID(), new JSONObject(new Gson().toJson(user)), listener);
             updateRequest.submit(context);

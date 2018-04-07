@@ -32,11 +32,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
-import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.map.LocationPoint;
-import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
 
 /**
  * EditTask a task passed from intent
@@ -117,12 +115,12 @@ public class EditTaskActivity extends AngryBiddingActivity {
             }
         });
 
-        if(task.getLocationPoint() != null){
+        if (task.getLocationPoint() != null) {
             pickLocationTextView.setText(task.getLocationPoint().getLatitude() + " " + task.getLocationPoint().getLongitude());
         }
 
         ArrayList<String> photos = task.getPhotos();
-        for (String string: photos) {
+        for (String string : photos) {
             imageSelector.addSlide(string);
         }
 
@@ -187,7 +185,7 @@ public class EditTaskActivity extends AngryBiddingActivity {
         });
     }
 
-    public void checkSubmit(){
+    public void checkSubmit() {
         if (canSubmit()) {
             editSaveButton.enable();
         } else {
@@ -219,7 +217,7 @@ public class EditTaskActivity extends AngryBiddingActivity {
         return title.length() >= 1;
     }
 
-    public void enableInputs(boolean enable){
+    public void enableInputs(boolean enable) {
         titleEditText.setEnabled(enable);
         descriptionEditText.setEnabled(enable);
         pickLocationTextView.setEnabled(enable);
@@ -234,7 +232,7 @@ public class EditTaskActivity extends AngryBiddingActivity {
 
         task.setTitle(getEditTitle());
         task.setDescription(getEditDescription());
-        if(locationPoint != null){
+        if (locationPoint != null) {
             task.setLocationPoint(this.locationPoint);
         }
         ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
@@ -260,12 +258,12 @@ public class EditTaskActivity extends AngryBiddingActivity {
             }
         }
 
-        for (File file: imageFiles) {
+        for (File file : imageFiles) {
             if (file != null) {
                 try {
                     FileInputStream stream = new FileInputStream(file);
                     byte[] byteArray = IOUtils.toByteArray(stream);
-                    String string = "data:image/jpg;base64,"+ Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    String string = "data:image/jpg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
                     task.getPhotos().add(string);
                 } catch (java.io.IOException e) {
                     e.printStackTrace();

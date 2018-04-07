@@ -178,7 +178,7 @@ public class TouchableMapView extends ScalableMapView {
         @Override
         public void onHold(Pointer pointer) {
             Log.d("TouchableMapView", "Hold x: " + pointer.getX() + " y: " + pointer.getY());
-            if(onHoldListener != null){
+            if (onHoldListener != null) {
                 onHoldListener.onHold(pointer);
             }
         }

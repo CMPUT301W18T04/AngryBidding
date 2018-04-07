@@ -144,9 +144,9 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden){
+    public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(loadingThread != null) {
+        if (loadingThread != null) {
             loadingThread.paused = hidden;
         }
     }
@@ -179,7 +179,7 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
         if (getUserLocationMarker().hasPermission()) {
             getUserLocationMarker().addLocationListener();
         }
-        if(!isHidden()) {
+        if (!isHidden()) {
             loadingThread.paused = true;
         }
     }
@@ -198,10 +198,11 @@ public class NearbyFragment extends AdvancedFragment implements IMainFragment {
 
     private class NearbyTaskLoadingThread extends Thread {
         private volatile boolean paused = false;
+
         @Override
         public void run() {
             while (!interrupted()) {
-                while(paused){
+                while (paused) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {

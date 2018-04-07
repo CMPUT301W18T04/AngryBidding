@@ -77,7 +77,7 @@ public class AllTaskFragment extends TaskListFragment implements IMainFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup view, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup view, Bundle savedInstanceState) {
         View layout = super.onCreateView(inflater, view, savedInstanceState);
         getContext().addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
             @Override
