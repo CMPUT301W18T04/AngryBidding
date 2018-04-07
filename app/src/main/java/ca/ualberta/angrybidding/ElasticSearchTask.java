@@ -55,7 +55,7 @@ public class ElasticSearchTask extends Task {
      *
      * @param id ElasticSearch object ID
      */
-    private void setID(String id) {
+    public void setID(String id) {
         this.id = id;
     }
 
@@ -65,6 +65,7 @@ public class ElasticSearchTask extends Task {
     public String getID() {
         return this.id;
     }
+
 
     /**
      * Add a task to the ElasticSearch Server

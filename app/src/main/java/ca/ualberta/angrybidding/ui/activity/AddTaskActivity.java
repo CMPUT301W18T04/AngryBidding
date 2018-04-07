@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.Task;
+import ca.ualberta.angrybidding.TaskCache;
 import ca.ualberta.angrybidding.User;
 import ca.ualberta.angrybidding.elasticsearch.AddResponseListener;
 import ca.ualberta.angrybidding.map.LocationPoint;
@@ -174,7 +175,7 @@ public class AddTaskActivity extends AngryBiddingActivity {
         final String description = descriptionEditText.getText().toString();
         final User user = new User(getElasticSearchUser().getUsername());
 
-        Task task = new Task(user, title, description, locationPoint);
+        final Task task = new Task(user, title, description, locationPoint);
         ArrayList<File> cacheFiles = imageSelector.getCacheFiles();
         ArrayList<File> imageFiles = new ArrayList<>();
         File imageFilesDir = new File(getCacheDir(), "AddImage");
@@ -216,9 +217,18 @@ public class AddTaskActivity extends AngryBiddingActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                submitButton.onError(R.string.errorOccurred);
-                enableInputs(true);
                 Log.e("AddTaskActivity", error.getMessage(), error);
+                ArrayList<ElasticSearchTask> tasks = TaskCache.readFromFile(AddTaskActivity.this);
+                ElasticSearchTask newTask = new ElasticSearchTask(null, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
+                newTask.getPhotos().addAll(task.getPhotos());
+                tasks.add(newTask);
+                TaskCache.saveToFile(AddTaskActivity.this, tasks);
+
+                Intent intent = new Intent();
+                intent.putExtra("task", new Gson().toJson(newTask));
+                intent.putExtra("offline", true);
+                AddTaskActivity.this.setResult(RESULT_OK, intent);
+                finish();
             }
         });
 

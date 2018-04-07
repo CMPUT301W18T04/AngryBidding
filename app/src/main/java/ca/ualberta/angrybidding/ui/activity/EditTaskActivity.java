@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.TaskCache;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.map.LocationPoint;
 import ca.ualberta.angrybidding.ui.activity.main.MainActivity;
@@ -287,8 +289,20 @@ public class EditTaskActivity extends AngryBiddingActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                editSaveButton.onError(R.string.errorOccurred);
-                enableInputs(true);
+
+                Log.e("EditTaskActivity", error.getMessage(), error);
+                ArrayList<ElasticSearchTask> tasks = TaskCache.readFromFile(EditTaskActivity.this);
+                ElasticSearchTask newTask = new ElasticSearchTask(currentID, task.getUser(), task.getTitle(), task.getDescription(), task.getLocationPoint(), null);
+                newTask.getPhotos().addAll(task.getPhotos());
+                tasks.add(newTask);
+                TaskCache.saveToFile(EditTaskActivity.this, tasks);
+
+                Intent intent = new Intent();
+                intent.putExtra("offline", true);
+                EditTaskActivity.this.setResult(RESULT_OK, intent);
+                finish();
+
+
             }
         });
 
