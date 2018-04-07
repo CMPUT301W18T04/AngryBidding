@@ -97,6 +97,16 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         ownerTextView.setText(task.getUser().getUsername());
         descriptionTextView.setText(task.getDescription());
 
+        ownerTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewTaskDetailActivity.this, UserProfileActivity.class);
+                intent.putExtra("username", task.getUser().getUsername());
+                startActivity(intent);
+            }
+        });
+
+
         if (task.getPhotos().size() == 0) {
             imageSlider.setVisibility(View.GONE);
             circleIndicator.setVisibility(View.GONE);

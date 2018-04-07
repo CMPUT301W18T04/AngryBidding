@@ -54,6 +54,8 @@
         <activity android:name=".ui.activity.EditTaskActivity" />
         <activity android:name=".ui.activity.ViewTaskDetailActivity" />
         <activity android:name=".ui.activity.AddBidActivity" />
+        <activity android:name=".ui.activity.EditUserProfileActivity" />
+        <activity android:name=".ui.activity.UserProfileActivity" />
         <activity android:name=".ui.activity.PickLocationActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <service android:name="ca.ualberta.angrybidding.notification.NotificationService"

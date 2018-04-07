@@ -41,6 +41,11 @@
     <string name="currentLocation">Current Location</string>
     <string name="removeLocation">Remove Location</string>
     <string name="confirmRemoveLocation">Do you really want to remove location?</string>
+    <string name="setDone">Set Done</string>
+    <string name="setNotDone">Set Not Done</string>
+    <string name="updateProfile">Update Profile</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="userProfile">User Profile</string>
 
     <string-array name="taskStatusArray">
         <item>Requested</item>

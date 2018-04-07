@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.view.TaskPopupMenuButton;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
 /**
@@ -144,9 +145,7 @@ public class TaskListFragment extends AdvancedFragment {
      * @param task     Task to Bind with
      */
     protected void onBindView(TaskView taskView, final ElasticSearchTask task) {
-
-        taskView.setTask(task);
-        taskView.usePopupMenu(ElasticSearchUser.getMainUser(getContext()), new TaskView.OnTaskChangeListener() {
+        taskView.setTask(task, new TaskPopupMenuButton.OnTaskChangeListener() {
 
             @Override
             public void onDelete() {

@@ -1,6 +1,7 @@
 package ca.ualberta.angrybidding.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.slouple.android.widget.button.PopupMenuButton;
 
 import ca.ualberta.angrybidding.Bid;
 import ca.ualberta.angrybidding.R;
+import ca.ualberta.angrybidding.ui.activity.UserProfileActivity;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 /**
  * Represents a view of the task object
@@ -62,11 +65,20 @@ public class BidView extends FrameLayout {
      *
      * @param bid The task object
      */
-    public void setBid(Bid bid) {
+    public void setBid(final Bid bid) {
         this.bid = bid;
         usernameTextView.setText(bid.getUser().getUsername());
         priceTextView.setText(bid.getPriceString());
         popupMenuButton.setVisibility(View.GONE);
+
+        usernameTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                intent.putExtra("username", bid.getUser().getUsername());
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     public FrameLayout getContainer() {

@@ -18,6 +18,8 @@ import ca.ualberta.angrybidding.elasticsearch.SearchRequest;
 import ca.ualberta.angrybidding.elasticsearch.SearchResponseListener;
 import ca.ualberta.angrybidding.elasticsearch.SearchResult;
 import ca.ualberta.angrybidding.elasticsearch.TermCondition;
+import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
+import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
 public class ElasticSearchUser extends User {
     public static final String ELASTIC_SEARCH_INDEX = "user";
@@ -39,6 +41,10 @@ public class ElasticSearchUser extends User {
         super(username, emailAddress);
         this.id = id;
         this.passwordHash = passwordHash;
+    }
+
+    public void setID(String id){
+        this.id = id;
     }
 
     /**
@@ -121,13 +127,9 @@ public class ElasticSearchUser extends User {
                 if (searchResult.getHitCount() > 0) {
                     SearchResult.SearchResultObject resultObject = searchResult.getSearchResultObjects().get(0);
                     JSONObject source = resultObject.getSource();
-                    try {
-                        ElasticSearchUser user = new ElasticSearchUser(resultObject.getId(), source.getString("username"),
-                                source.getString("passwordHash"), source.getString("emailAddress"));
-                        listener.onFound(user);
-                    } catch (JSONException e) {
-                        Log.e("ElasticSearchUser", e.getMessage(), e);
-                    }
+                    ElasticSearchUser user = new Gson().fromJson(source.toString(), ElasticSearchUser.class);
+                    user.setID(resultObject.getId());
+                    listener.onFound(user);
                 } else {
                     listener.onNotFound();
                 }
@@ -150,6 +152,15 @@ public class ElasticSearchUser extends User {
         void onNotFound();
 
         void onError(VolleyError error);
+    }
+
+    public static void updateUser(Context context, ElasticSearchUser user, UpdateResponseListener listener){
+        try {
+            UpdateRequest updateRequest = new UpdateRequest(ELASTIC_SEARCH_INDEX, user.getID(), new JSONObject(new Gson().toJson(user)), listener);
+            updateRequest.submit(context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

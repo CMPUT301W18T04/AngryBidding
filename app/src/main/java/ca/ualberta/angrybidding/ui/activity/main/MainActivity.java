@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
+import ca.ualberta.angrybidding.ui.activity.EditUserProfileActivity;
 import ca.ualberta.angrybidding.ui.activity.LoginActivity;
 
 /**
@@ -78,6 +79,18 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
                 if (getElasticSearchUser() == null) {
                     startActivity(LoginActivity.class);
                 } else {
+                    Intent intent = new Intent(MainActivity.this, EditUserProfileActivity.class);
+                    intent.putExtra("username", getElasticSearchUser().getUsername());
+                    startActivityForResult(intent, EditUserProfileActivity.REQUEST_CODE);
+                }
+            }
+        };
+        View.OnLongClickListener accountLongClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (getElasticSearchUser() == null) {
+                    startActivity(LoginActivity.class);
+                } else {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle(R.string.signOut)
                             .setMessage(R.string.confirmSignOut)
@@ -93,6 +106,7 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
                             .setNegativeButton(R.string.no, null)
                             .show();
                 }
+                return true;
             }
         };
 
@@ -100,8 +114,10 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
         View header = navigationView.getHeaderView(0);
         avatarView = header.findViewById(R.id.userAvatarImageView);
         avatarView.setOnClickListener(accountClickListener);
+        avatarView.setOnLongClickListener(accountLongClickListener);
         displayNameView = header.findViewById(R.id.userDisplayName);
         displayNameView.setOnClickListener(accountClickListener);
+        displayNameView.setOnLongClickListener(accountLongClickListener);
 
 
         //If user is not logged in, open LoginActivity

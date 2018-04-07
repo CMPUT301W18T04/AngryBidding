@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/taskPopupViewDetail"
+        android:title="@string/viewDetails" />
+
+    <item
+        android:id="@+id/taskPopupSetDone"
+        android:title="@string/setDone" />
+
+    <item
+        android:id="@+id/taskPopupSetNotDone"
+        android:title="@string/setNotDone" />
+
+</menu>

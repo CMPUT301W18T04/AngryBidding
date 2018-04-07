@@ -5,6 +5,7 @@
       "properties": {
         "username":    { "type": "keyword"  },
         "emailAddress":     { "type": "keyword"  },
+        "phoneNumber":     { "type": "keyword"  },
         "passwordHash":      { "type": "keyword" }
       }
     }

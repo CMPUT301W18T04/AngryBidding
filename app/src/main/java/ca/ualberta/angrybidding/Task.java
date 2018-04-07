@@ -191,9 +191,14 @@ public class Task {
         return this.status;
     }
 
-    public void setCompleted() {
+    public void setCompleted(boolean completed) {
         if (getStatus() == Status.ASSIGNED) {
-            this.status = Status.COMPLETED;
+            if(completed) {
+                this.status = Status.COMPLETED;
+            }else{
+                this.chosenBid = null;
+                updateStatus();
+            }
         }
     }
 

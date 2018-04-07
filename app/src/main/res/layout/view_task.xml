@@ -7,7 +7,7 @@
     android:background="@color/colorContentBackground"
     android:orientation="vertical">
 
-    <com.slouple.android.widget.button.PopupMenuButton
+    <ca.ualberta.angrybidding.ui.view.TaskPopupMenuButton
         android:id="@+id/taskPopupMenuButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
