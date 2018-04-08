@@ -20,6 +20,8 @@ import javax.net.ssl.X509TrustManager;
 import ca.ualberta.angrybidding.map.MapView;
 
 public class AngryBiddingApplication extends Application {
+    public static boolean isOffline = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
