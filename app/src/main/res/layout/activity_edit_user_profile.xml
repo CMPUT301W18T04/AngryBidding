@@ -41,7 +41,7 @@
                     android:maxLength="100"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     tools:text="Username"/>
 
@@ -61,7 +61,7 @@
                     android:maxLength="254"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
 
                 <EditText
@@ -80,7 +80,7 @@
                     android:maxLength="254"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -98,7 +98,8 @@
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="10dp"
                     slouple:primaryText="@string/updateProfile"
-                    slouple:textSize="25" />
+                    slouple:textSize="25"
+                    slouple:primaryColor="@color/colorPrimary"/>
             </LinearLayout>
 
         </LinearLayout>

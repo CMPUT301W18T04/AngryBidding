@@ -58,7 +58,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#32d1f2"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
 
                 <EditText
@@ -75,7 +75,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -95,7 +95,8 @@
                     slouple:primaryText="@string/login"
                     slouple:textSize="25"
                     tools:background="@color/colorPrimary"
-                    tools:layout_height="50dp" />
+                    tools:layout_height="50dp"
+                    slouple:primaryColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/createAccountTextView"

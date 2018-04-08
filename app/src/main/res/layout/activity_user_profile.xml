@@ -41,7 +41,7 @@
                     android:maxLength="100"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     tools:text="Username"/>
 
@@ -58,7 +58,7 @@
                     android:maxLength="254"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     tools:text="Email Address"/>
 
@@ -75,7 +75,7 @@
                     android:maxLength="254"
                     android:maxLines="1"
                     android:padding="10dp"
-                    android:textColor="#35d2f3"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     tools:text="Phone Number"/>
             </LinearLayout>

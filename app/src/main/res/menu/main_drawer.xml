@@ -4,23 +4,18 @@
         android:id="@+id/main_group_fragment">
         <item
             android:id="@+id/nav_history"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="History" />
         <item
             android:id="@+id/nav_search"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="@string/search" />
         <item
             android:id="@+id/nav_nearby"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="@string/nearby"/>
         <item
             android:id="@+id/nav_all_task"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="All Task"/>
         <item
             android:id="@+id/nav_notification"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="Notification"/>
 
     </group>
@@ -28,7 +23,6 @@
         android:id="@+id/main_group_activity">
         <item
             android:id="@+id/nav_settings"
-            android:icon="@mipmap/ic_launcher_round"
             android:title="@string/settings" />
     </group>
 </menu>
