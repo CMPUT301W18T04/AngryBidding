@@ -37,8 +37,8 @@
     </style>
 
     <style name="AppTheme.NoActionBar.SplashScreen" parent="AppTheme.NoActionBar">
-        <item name="android:windowBackground">@mipmap/ic_launcher_round</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/softBlue</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

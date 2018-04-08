@@ -34,7 +34,7 @@ public class LoginActivity extends AngryBiddingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.login));
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
 
         //Init views
         usernameTextView = findViewById(R.id.loginUsernameTextView);
