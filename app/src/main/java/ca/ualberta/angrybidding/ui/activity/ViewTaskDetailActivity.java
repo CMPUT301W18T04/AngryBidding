@@ -1,10 +1,5 @@
 package ca.ualberta.angrybidding.ui.activity;
 
-/*import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;*/
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,9 +29,8 @@ import ca.ualberta.angrybidding.map.LocationPoint;
 import ca.ualberta.angrybidding.map.MapObjectContainer;
 import ca.ualberta.angrybidding.map.ScalableMapView;
 import ca.ualberta.angrybidding.ui.view.BidView;
+import ca.ualberta.angrybidding.ui.view.TaskPopupMenuButton;
 import me.relex.circleindicator.CircleIndicator;
-
-//noti
 
 public class ViewTaskDetailActivity extends AngryBiddingActivity {
     public static final int REQUEST_CODE = 1006;
@@ -44,6 +38,8 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
     private ElasticSearchTask task;
     private User user;
     private String id;
+
+    private TaskPopupMenuButton popupMenuButton;
 
     private TextView titleTextView;
     private TextView ownerTextView;
@@ -75,7 +71,25 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
         String taskJson = intent.getStringExtra("task");
         id = intent.getStringExtra("id");
         task = new Gson().fromJson(taskJson, ElasticSearchTask.class);
+        task.setID(id);
         user = ElasticSearchUser.getMainUser(this);
+
+        popupMenuButton = findViewById(R.id.taskDetailPopupMenuButton);
+        popupMenuButton.setTask(task, getElasticSearchUser(), new TaskPopupMenuButton.OnTaskChangeListener() {
+            @Override
+            public void onDelete() {
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onEdit() {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+
+        popupMenuButton.getPopupMenu().getMenu().removeItem(R.id.taskPopupViewDetail);
 
         titleTextView = findViewById(R.id.taskDetailTitle);
         ownerTextView = findViewById(R.id.taskDetailOwner);
@@ -135,7 +149,7 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
             bidsLable.setVisibility(View.GONE);
             bidRecyclerView.setVisibility(View.GONE);
         } else {
-            Collections.sort(task.getBids(), new Comparator<Bid>() {
+            Collections.sort(nonDeclinedBids, new Comparator<Bid>() {
                 @Override
                 public int compare(Bid bid1, Bid bid2) {
                     return bid1.getPrice().compareTo(bid2.getPrice());

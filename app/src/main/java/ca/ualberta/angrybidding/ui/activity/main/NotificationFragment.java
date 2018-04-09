@@ -34,6 +34,9 @@ import ca.ualberta.angrybidding.notification.NotificationConnection;
 import ca.ualberta.angrybidding.notification.NotificationFactory;
 import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
+import ca.ualberta.angrybidding.ui.activity.AddBidActivity;
+import ca.ualberta.angrybidding.ui.activity.AddTaskActivity;
+import ca.ualberta.angrybidding.ui.activity.EditTaskActivity;
 import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 import ca.ualberta.angrybidding.ui.view.BidAddedNotificationView;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
@@ -177,6 +180,39 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         refresh();
 
         getContext().addResultRequest(new ResultRequest(ViewTaskDetailActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(AddTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(EditTaskActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
+
+        getContext().addResultRequest(new ResultRequest(AddBidActivity.REQUEST_CODE) {
             @Override
             public void onResult(Intent intent) {
                 refresh();
