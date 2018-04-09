@@ -46,6 +46,9 @@
     <string name="updateProfile">Update Profile</string>
     <string name="editProfile">Edit Profile</string>
     <string name="userProfile">User Profile</string>
+    <string name="credits">Credits</string>
+    <string name="mapDataAndSearch">Map Data &amp; Search</string>
+    <string name="openStreetMapCopyright">© OpenStreetMap contributors</string>
 
     <string-array name="taskStatusArray">
         <item>Requested</item>
