@@ -8,6 +8,9 @@ import com.android.volley.VolleyError;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 
+/**
+ * Displays User Info
+ */
 public class UserProfileActivity extends AngryBiddingActivity {
     private TextView usernameTextView;
     private TextView emailAddressTextView;

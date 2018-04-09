@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Boolean condition for search query with must, must_not and should
+ */
 public class BoolCondition extends Condition {
     private JSONObject bool;
     private JSONArray must;
@@ -26,18 +29,33 @@ public class BoolCondition extends Condition {
         }
     }
 
+    /**
+     * Add a must condition
+     * @param condition Condition to add
+     */
     public void addMust(Condition condition) {
         must.put(condition.getRoot());
     }
 
+    /**
+     * Add a must_not condition
+     * @param condition Condition to add
+     */
     public void addMustNot(Condition condition) {
         mustNot.put(condition.getRoot());
     }
 
+    /**
+     * Add a should condition
+     * @param condition Condition to add
+     */
     public void addShould(Condition condition) {
         should.put(condition.getRoot());
     }
 
+    /**
+     * @return root bool JSONObject
+     */
     public JSONObject getBool() {
         return this.bool;
     }

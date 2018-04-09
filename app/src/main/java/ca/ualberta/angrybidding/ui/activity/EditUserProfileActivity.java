@@ -19,6 +19,10 @@ import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 
+/**
+ * Displays and Updates User Info
+ * Only Email Address and Phone Number can be edited
+ */
 public class EditUserProfileActivity extends AngryBiddingActivity {
     private TextView usernameTextView;
     private EditText emailAddressEditText;

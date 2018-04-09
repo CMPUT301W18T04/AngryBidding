@@ -58,6 +58,9 @@ public class SearchQuery {
         }
     }
 
+    /**
+     * @param searchSort Sort by field desc or asc
+     */
     public void addSearchSort(SearchSort searchSort) {
         try {
             root.put("sort", searchSort.getSort());

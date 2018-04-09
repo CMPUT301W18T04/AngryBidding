@@ -1,6 +1,5 @@
 package ca.ualberta.angrybidding;
 
-
 import android.content.Context;
 import android.util.Log;
 

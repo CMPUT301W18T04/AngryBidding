@@ -12,6 +12,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
+/**
+ * MapTile Object that loads using BitmapLoader
+ * Override onLoad for event handling
+ */
 public class MapTile {
     public enum LoadState {Initialized, Loading, Loaded, Destroyed}
 
@@ -28,6 +32,13 @@ public class MapTile {
 
     private LoadState state;
 
+    /**
+     * @param map Map to load
+     * @param x x
+     * @param y y
+     * @param z z
+     * @param bitmapLoader BitmapLoader to use
+     */
     public MapTile(Map map, int x, int y, int z, final BitmapLoader bitmapLoader) {
         this(map, new MapTileCoordinate(x, y, z), bitmapLoader);
     }
@@ -70,6 +81,9 @@ public class MapTile {
         state = LoadState.Initialized;
     }
 
+    /**
+     * Load bitmap
+     */
     public void load() {
         if (state != LoadState.Initialized) {
             return;
@@ -151,6 +165,9 @@ public class MapTile {
         return bitmap;
     }
 
+    /**
+     * Override onLoad for event handling
+     */
     public void onLoad() {
     }
 

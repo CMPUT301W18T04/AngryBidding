@@ -22,6 +22,9 @@ import ca.ualberta.angrybidding.elasticsearch.UpdateRequest;
 import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 import ca.ualberta.angrybidding.notification.Notification;
 
+/**
+ * ElasticSearch functions relates to Notification
+ */
 public class ElasticSearchNotification extends Notification {
     public static final String ELASTIC_SEARCH_INDEX = "notification";
 

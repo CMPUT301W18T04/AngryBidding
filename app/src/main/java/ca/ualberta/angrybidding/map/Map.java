@@ -3,12 +3,21 @@ package ca.ualberta.angrybidding.map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Map data type
+ */
 public class Map implements Parcelable {
     private String name;
     private String url;
     private int tileSize;
     private int maxZ;
 
+    /**
+     * @param name Name of the map
+     * @param url Url to load tiles from
+     * @param tileSize Tile size
+     * @param maxZ Max Z
+     */
     public Map(String name, String url, int tileSize, int maxZ) {
         this.name = name;
         this.url = url.startsWith("http://") || url.startsWith("https://") ? url : "http://" + url;

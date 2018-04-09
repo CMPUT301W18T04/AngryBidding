@@ -7,6 +7,9 @@ import android.view.View;
 import com.slouple.android.Pointer;
 import com.slouple.android.input.MultiTouchListener;
 
+/**
+ * TouchListener for MapObjects that fixes Android Nested View pass through problem
+ */
 public class MapObjectTouchListener extends MultiTouchListener {
     protected MapObject mapObject;
 

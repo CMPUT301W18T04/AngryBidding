@@ -18,6 +18,9 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * MapView with Scaling
+ */
 public class ScalableMapView extends MapView {
     private double baseScale;
     private double zoom;
@@ -105,6 +108,10 @@ public class ScalableMapView extends MapView {
         return mapTileRect;
     }
 
+    /**
+     * Draw debug info
+     * @param canvas
+     */
     @Override
     protected void drawDebug(Canvas canvas) {
         super.drawDebug(canvas);
@@ -187,6 +194,11 @@ public class ScalableMapView extends MapView {
         }
     }
 
+    /**
+     * Determine whether a tile can be safely removed without leaving empty spots on the map
+     * @param inputTile
+     * @return
+     */
     protected boolean canMapTileBeRemoved(MapTile inputTile) {
         if (!isTileInsideCanvas(inputTile)) {
             return true;
@@ -199,6 +211,10 @@ public class ScalableMapView extends MapView {
         }
     }
 
+    /**
+     * @param inputTile
+     * @return Whether the tile is inside of the canvas
+     */
     protected boolean isTileInsideCanvas(MapTile inputTile) {
         Rect mapTileRect = getTileDrawLocation(inputTile);
         int paddingSize = tilePadding * getMap().getTileSize();
@@ -266,6 +282,9 @@ public class ScalableMapView extends MapView {
         return baseScale;
     }
 
+    /**
+     * @param zoom Decimal of Z
+     */
     public void setZoom(double zoom) {
         zoom = Math.max(minZoom, Math.min(zoom, map.getMaxZ()));
         if (zoom != getZoom()) {

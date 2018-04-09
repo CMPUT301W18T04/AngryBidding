@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * LocationMarker that displays device's current location
+ */
 public class UserLocationMarker extends MapObject {
     private ArrayList<FusedLocationManagerListener> onLocationChangeListeners = new ArrayList<>();
 
@@ -170,6 +173,11 @@ public class UserLocationMarker extends MapObject {
         return fusedLocationManager.getBestGuessLocationPoint();
     }
 
+    /**
+     * Whether UserLocationMarker can be used
+     * @param showAlert Whether to show alert dialogue
+     * @return Whether UserLocationMarker can be used
+     */
     public boolean isAvailable(boolean showAlert) {
         //Permission
         if (!hasPermission()) {

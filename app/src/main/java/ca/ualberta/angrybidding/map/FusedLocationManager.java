@@ -13,6 +13,9 @@ import com.slouple.android.PermissionRequestListener;
 
 import java.util.HashMap;
 
+/**
+ * Location Manager that handles GPS events
+ */
 public class FusedLocationManager {
     private AdvancedActivity activity;
     private LocationManager locationManager;
@@ -25,12 +28,20 @@ public class FusedLocationManager {
     public final static String PERMISSION_STRING = Manifest.permission.ACCESS_FINE_LOCATION;
 
 
+    /**
+     * @param activity Activity
+     * @param eventListener Listener
+     */
     public FusedLocationManager(AdvancedActivity activity, FusedLocationManagerListener eventListener) {
         this.activity = activity;
         this.eventListener = eventListener;
         locationManager = (LocationManager) activity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
     }
 
+    /**
+     * Add all listener
+     * @throws MissingPermissionException
+     */
     public void addListeners() throws MissingPermissionException {
         addGpsListener();
         addNetworkListener();
@@ -90,6 +101,9 @@ public class FusedLocationManager {
 
     }
 
+    /**
+     * GPS Listener
+     */
     public void addGpsListener() {
         try {
             addListener(LocationManager.GPS_PROVIDER);
@@ -98,22 +112,34 @@ public class FusedLocationManager {
         }
     }
 
+    /**
+     * Network Listener
+     */
     public void addNetworkListener() {
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             addListener(LocationManager.NETWORK_PROVIDER);
         }
     }
 
+    /**
+     * Passive Listener
+     */
     public void addPassiveListener() {
         if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
             addListener(LocationManager.PASSIVE_PROVIDER);
         }
     }
 
+    /**
+     * @return Best Guess Location with current available listeners
+     */
     public Location getBestGuessLocation() {
         return bestGuessLocation;
     }
 
+    /**
+     * @return Best Guess LocationPoint with current available listeners
+     */
     public LocationPoint getBestGuessLocationPoint() {
         if (getBestGuessLocation() != null) {
             return new LocationPoint(getBestGuessLocation());
@@ -122,10 +148,16 @@ public class FusedLocationManager {
         }
     }
 
+    /**
+     * @return If app has location permission
+     */
     public boolean hasPermission() {
         return activity.hasPermission(PERMISSION_STRING);
     }
 
+    /**
+     * Clear listeners
+     */
     public void removeListeners() {
         for (LocationPointListener listener : locationListeners.values()) {
             locationManager.removeUpdates(listener);
@@ -152,6 +184,8 @@ public class FusedLocationManager {
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     /**
+     * From: https://developer.android.com/guide/topics/location/strategies.html
+     *
      * Determines whether one Location reading is better than the current Location fix
      *
      * @param location            The new Location that you want to evaluate

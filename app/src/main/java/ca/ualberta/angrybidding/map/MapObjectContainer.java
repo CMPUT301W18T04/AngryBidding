@@ -15,6 +15,9 @@ import com.slouple.android.ViewHelper;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * ViewGroup / Container for MapObjects
+ */
 public class MapObjectContainer extends RelativeLayout {
 
     public double scale = 1;
@@ -117,6 +120,9 @@ public class MapObjectContainer extends RelativeLayout {
         super.onDraw(canvas);
     }
 
+    /**
+     * Notify all MapObjects
+     */
     public void invalidateRecursively() {
         ViewHelper.invalidateRecursively(this);
     }
@@ -135,6 +141,11 @@ public class MapObjectContainer extends RelativeLayout {
         super.invalidate();
     }
 
+    /**
+     * DO NOT USE
+     * MapObjectContainer should only contain MapObjects
+     * @param view
+     */
     @Deprecated
     @Override
     public void addView(View view) {
@@ -143,6 +154,10 @@ public class MapObjectContainer extends RelativeLayout {
         }
     }
 
+    /**
+     * Add a MapObject
+     * @param mapObject MapObject to add
+     */
     public void addView(MapObject mapObject) {
         super.addView(mapObject);
         if (postMapView) {

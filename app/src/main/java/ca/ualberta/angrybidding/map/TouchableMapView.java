@@ -22,6 +22,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * ScalableMapView with touch support
+ */
 public class TouchableMapView extends ScalableMapView {
     private AtomicLong dMapX = new AtomicLong(0);
     private AtomicLong dMapY = new AtomicLong(0);
@@ -119,6 +122,10 @@ public class TouchableMapView extends ScalableMapView {
     }
 
 
+    /**
+     * Draw debug
+     * @param canvas
+     */
     @Override
     protected void drawDebug(Canvas canvas) {
         super.drawDebug(canvas);
@@ -140,6 +147,10 @@ public class TouchableMapView extends ScalableMapView {
         }
     }
 
+    /**
+     * Handles touch movement
+     * @param distance
+     */
     public void updateMovement(Point distance) {
         double dMapX = -distance.x / (getMap().getTileSize() * getTotalScale());
         double dMapY = -distance.y / (getMap().getTileSize() * getTotalScale());

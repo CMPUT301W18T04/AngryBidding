@@ -25,6 +25,10 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * Simple MapView with mercator projection
+ * Requires BitmapLoader to work
+ */
 public class MapView extends View {
     protected Map map;
     protected BitmapLoader bitmapLoader;
@@ -173,6 +177,10 @@ public class MapView extends View {
         super.onLayout(changed, left, top, right, bottom);
     }
 
+    /**
+     * Draw Tiles
+     * @param canvas
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -189,6 +197,11 @@ public class MapView extends View {
         }
     }
 
+    /**
+     * Get Tile Draw Location
+     * @param tile
+     * @return
+     */
     protected Rect getTileDrawLocation(MapTile tile) {
         int left;
         left = (int) (getWidth() / 2 - (location.getX() - tile.getX()) * map.getTileSize());
@@ -202,6 +215,10 @@ public class MapView extends View {
         return mapTileRect;
     }
 
+    /**
+     * Debug draw
+     * @param canvas
+     */
     protected void drawDebug(Canvas canvas) {
         debugPaint.setStyle(Paint.Style.FILL);
         debugPaint.setColor(Color.argb(100, 0, 0, 0));
@@ -230,6 +247,10 @@ public class MapView extends View {
         return location;
     }
 
+    /**
+     * Set location for the MapView
+     * @param location New Location Point
+     */
     public void setLocation(LocationPoint location) {
         if ((int) this.location.getX() != (int) location.getX() || (int) this.location.getY() != (int) location.getY() ||
                 this.location.getZ() != location.getZ()) {
@@ -244,6 +265,10 @@ public class MapView extends View {
         }
     }
 
+    /**
+     * Set how many sets of tiles are loaded outside of the view box
+     * @param tilePadding Number of tile paddings
+     */
     public void setTilePadding(int tilePadding) {
         this.tilePadding = tilePadding;
         updateTileNum();
@@ -271,6 +296,9 @@ public class MapView extends View {
         }
     }
 
+    /**
+     * Performance Optimization so updateTiles wont be called multiple times too fast
+     */
     public void queueUpdateTile() {
         if (updateTileRunnable == null) {
             updateTileRunnable = new Runnable() {
@@ -319,6 +347,10 @@ public class MapView extends View {
         }
     }
 
+    /**
+     * Bounding box of the map
+     * @return
+     */
     public LocationArea getBound() {
         LocationPoint min = new LocationPoint(location.getRelativeX() - tileCount.x / 2, location.getRelativeY() - tileCount.y / 2, location.getZ());
         LocationPoint max = new LocationPoint(location.getRelativeX() + tileCount.x / 2, location.getRelativeY() + tileCount.y / 2, location.getZ());

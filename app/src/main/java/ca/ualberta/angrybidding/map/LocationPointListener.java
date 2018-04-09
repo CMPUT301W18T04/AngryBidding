@@ -6,6 +6,9 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * Location Point Listener used in FusedLocationManager
+ */
 public abstract class LocationPointListener implements LocationListener {
     private boolean providerEnabled = false;
     private String providerName;
