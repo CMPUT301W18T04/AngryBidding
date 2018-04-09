@@ -13,6 +13,9 @@ import com.slouple.android.input.TapDetector;
 
 import ca.ualberta.angrybidding.R;
 
+/**
+ * A simple marker on MapObjectContainer
+ */
 public class LocationMarker extends MapObject {
     private FrameLayout container;
     private ImageView icon;

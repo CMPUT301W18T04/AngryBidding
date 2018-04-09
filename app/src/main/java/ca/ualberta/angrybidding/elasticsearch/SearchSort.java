@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Sorting order for search result
+ */
 public class SearchSort {
     private JSONArray sort;
 
@@ -13,6 +16,10 @@ public class SearchSort {
         sort = new JSONArray();
     }
 
+    /**
+     * @param fieldName Field to sort by
+     * @param order ASC or DESC
+     */
     public void addField(String fieldName, Order order) {
         try {
             JSONObject field = new JSONObject();

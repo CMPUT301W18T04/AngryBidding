@@ -2,6 +2,9 @@ package ca.ualberta.angrybidding.map;
 
 import java.util.Comparator;
 
+/**
+ * Orders MapTiles by Z -> X -> Y
+ */
 public class MapTileZComparator implements Comparator<MapTile> {
     private boolean ascend;
 

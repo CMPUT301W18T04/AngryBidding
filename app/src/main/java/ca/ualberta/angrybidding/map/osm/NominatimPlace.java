@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import ca.ualberta.angrybidding.map.LocationArea;
 import ca.ualberta.angrybidding.map.LocationPoint;
 
+/**
+ * Wrapper and parser for Nominatim search result provided by OSM
+ */
 public class NominatimPlace {
     private long placeID;
     private LocationPoint locationPoint;
@@ -23,6 +26,10 @@ public class NominatimPlace {
     private double importance;
     private LocationArea boundingBox;
 
+    /**
+     * Parse NominatiumPlace Object from JsonObject
+     * @param jsonObject JsonObject to parse
+     */
     public NominatimPlace(JsonObject jsonObject) {
         placeID = jsonObject.get("place_id").getAsLong();
         double lat = jsonObject.get("lat").getAsDouble();
@@ -39,30 +46,55 @@ public class NominatimPlace {
         boundingBox = new LocationArea(new LocationPoint(lat1, lon1), new LocationPoint(lat2, lon2));
     }
 
+    /**
+     * @return Place ID associated with the search
+     */
     public long getPlaceID() {
         return placeID;
     }
 
+    /**
+     * @return The exact location of the result
+     */
     public LocationPoint getLocationPoint() {
         return locationPoint;
     }
 
+    /**
+     * @return Display Name
+     */
     public String getDisplayName() {
         return displayName;
     }
 
+    /**
+     * @return Place Rank
+     */
     public int getPlaceRank() {
         return placeRank;
     }
 
+    /**
+     * @return Importance
+     */
     public double getImportance() {
         return importance;
     }
 
+    /**
+     * @return Area of the location result
+     */
     public LocationArea getBoundingBox() {
         return boundingBox;
     }
 
+    /**
+     * @param w width of the display area
+     * @param h height of the display area
+     * @param minZ min Z
+     * @param maxZ max Z
+     * @return Z value that fits bounding box based on width and height
+     */
     public int getZ(int w, int h, int minZ, int maxZ) {
         LocationPoint minPoint = getBoundingBox().getMin();
         LocationPoint maxPoint = getBoundingBox().getMax();
@@ -80,7 +112,13 @@ public class NominatimPlace {
         search(query, null, context, listener);
     }
 
-
+    /**
+     * Search location using nominatim
+     * @param query Query to search for
+     * @param area If not null then the search result will be restricted within the area
+     * @param context Context
+     * @param listener Listener
+     */
     public static void search(String query, LocationArea area, Context context, final Listener<ArrayList<NominatimPlace>> listener) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");

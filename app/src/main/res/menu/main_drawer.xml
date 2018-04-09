@@ -17,9 +17,6 @@
         <item
             android:id="@+id/nav_notification"
             android:title="Notification"/>
-        <item
-            android:id="@+id/nav_credits"
-            android:title="@string/credits"/>
 
     </group>
     <group android:checkableBehavior="single"
@@ -27,5 +24,8 @@
         <item
             android:id="@+id/nav_settings"
             android:title="@string/settings" />
+        <item
+            android:id="@+id/nav_credits"
+            android:title="@string/credits"/>
     </group>
 </menu>

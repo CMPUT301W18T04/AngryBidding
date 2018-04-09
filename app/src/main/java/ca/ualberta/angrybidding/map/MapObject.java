@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.RelativeLayout;
 
+/**
+ * Base class for MapObjects
+ */
 public class MapObject extends RelativeLayout {
     private LocationPoint location;
     private Point offset;
@@ -53,6 +56,9 @@ public class MapObject extends RelativeLayout {
         super.onLayout(changed, left, top, right, bottom);
     }
 
+    /**
+     * Calculates and redraws on new location
+     */
     public void onMapViewLocationChange() {
         LocationPoint mapViewLocation = getMapView().getLocation();
         location.setZ(mapViewLocation.getZ());
@@ -117,6 +123,10 @@ public class MapObject extends RelativeLayout {
         return getContainer().getMapView();
     }
 
+    /**
+     * Set the offset which the MapObject will be centered on
+     * @param offset
+     */
     public void setOffset(Point offset) {
         this.offset = offset;
     }

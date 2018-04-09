@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Basic ElasticSearch Search Query
+ * Basic ElasticSearch Search Query with Bool
  */
 public class BooleanSearchQuery extends SearchQuery {
     private JSONObject constantScore;
@@ -27,6 +27,9 @@ public class BooleanSearchQuery extends SearchQuery {
         }
     }
 
+    /**
+     * @return Bool Condition enclosed in filter and constant score
+     */
     public BoolCondition getBoolCondition() {
         return this.boolCondition;
     }

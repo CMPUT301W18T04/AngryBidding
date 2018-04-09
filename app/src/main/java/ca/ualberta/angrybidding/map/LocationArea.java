@@ -3,6 +3,9 @@ package ca.ualberta.angrybidding.map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * An Rectangular Area using LocationPoint
+ */
 public class LocationArea implements Parcelable {
     private LocationPoint min;
     private LocationPoint max;

@@ -49,6 +49,7 @@
     <string name="credits">Credits</string>
     <string name="mapDataAndSearch">Map Data &amp; Search</string>
     <string name="openStreetMapCopyright">© OpenStreetMap contributors</string>
+    <string name="acceptedBid">Accepted Bid</string>
 
     <string-array name="taskStatusArray">
         <item>Requested</item>

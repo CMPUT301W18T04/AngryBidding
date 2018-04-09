@@ -1,5 +1,9 @@
 package ca.ualberta.angrybidding.map;
 
+/**
+ * Coordinates for Map Tile
+ * Used for getting parent and child tiles
+ */
 public class MapTileCoordinate {
     private int x, y, z;
 
@@ -47,6 +51,11 @@ public class MapTileCoordinate {
         return parent.equals(getParentCoordinate(parent.getZ()));
     }
 
+    /**
+     * Get all child coordinates
+     * @param childZ
+     * @return All child coordinates
+     */
     public MapTileCoordinate[] getChildCoordinate(int childZ) {
         if (childZ >= this.z) {
             return null;
@@ -63,6 +72,11 @@ public class MapTileCoordinate {
         return childCoords;
     }
 
+    /**
+     * Get parent coordinate
+     * @param parentZ
+     * @return Parent Tile Coordinate
+     */
     public MapTileCoordinate getParentCoordinate(int parentZ) {
         if (parentZ >= this.z) {
             return null;

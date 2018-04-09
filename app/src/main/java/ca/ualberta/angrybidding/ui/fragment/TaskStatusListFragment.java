@@ -19,7 +19,9 @@ import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.view.TaskView;
 
-
+/**
+ * TaskListFragment with Status Spinner
+ */
 public class TaskStatusListFragment extends TaskListFragment {
     protected Spinner spinner;
 
