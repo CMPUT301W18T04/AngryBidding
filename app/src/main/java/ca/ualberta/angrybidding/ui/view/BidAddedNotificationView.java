@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.slouple.android.AdvancedActivity;
 
 import ca.ualberta.angrybidding.ElasticSearchTask;
 import ca.ualberta.angrybidding.notification.BidAddedNotification;
@@ -52,7 +53,7 @@ public class BidAddedNotificationView extends NotificationView {
         Intent detailIntent = new Intent(getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(task));
         detailIntent.putExtra("id", taskId);
-        getContext().startActivity(detailIntent);
+        ((AdvancedActivity) getContext()).startActivityForResult(detailIntent, ViewTaskDetailActivity.REQUEST_CODE); 
     }
 
 }
