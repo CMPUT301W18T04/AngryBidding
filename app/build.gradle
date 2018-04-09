@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        release {
-            keyAlias 'AngryBidding'
-            keyPassword 'qwer1234'
-            storeFile file('E:/Dev/School/University/2018 Winter/CMPUT301/AngryBidding/Keystore.jks')
-            storePassword 'qwer1234'
-        }
-    }
     compileSdkVersion 27
     //Load version properties file
     def versionPropsFile = file('version.properties')
