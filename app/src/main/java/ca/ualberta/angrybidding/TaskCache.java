@@ -29,7 +29,8 @@ public class TaskCache {
     /**
      * @param context             Context
      * @param tasks               List of tasks being saved to file
-     */
+
+    */
 
     public static void saveToFile(Context context, ArrayList<ElasticSearchTask> tasks) {
         try {
