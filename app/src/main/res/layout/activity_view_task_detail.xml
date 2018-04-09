@@ -73,7 +73,9 @@
             <com.slouple.android.widget.image.ImageSlider
                 android:id="@+id/taskDetailImageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"></com.slouple.android.widget.image.ImageSlider>
+                android:layout_height="200dp">
+
+            </com.slouple.android.widget.image.ImageSlider>
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/taskDetailCircleIndicator"
@@ -81,6 +83,49 @@
                 android:layout_height="20dp"
                 app:ci_drawable="@drawable/accent_circle_indicator"
                 app:ci_drawable_unselected="@drawable/accent_circle_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/taskDetailChosenBidContainer">
+                <TextView
+                    android:id="@+id/taskDetailChosenBidLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="@string/acceptedBid"
+                    android:textColor="#ffffff"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/taskDetailChosenBidUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorUsername"
+                    android:textSize="18sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:text="Username" />
+                <TextView
+                    android:id="@+id/taskDetailChosenBidPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="18sp"
+                    tools:text="23.49" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#aaaaaa"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/taskDetailBidsLabel"

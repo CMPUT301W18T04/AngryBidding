@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -51,6 +52,10 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
 
     private ImageSlider imageSlider;
     private CircleIndicator circleIndicator;
+
+    private LinearLayout chosenBidContainer;
+    private TextView chosenBidUsernameTextView;
+    private TextView chosenBidPriceTextView;
 
     private TextView bidsLable;
     private RecyclerView bidRecyclerView;
@@ -119,6 +124,26 @@ public class ViewTaskDetailActivity extends AngryBiddingActivity {
                 startActivity(intent);
             }
         });
+
+
+        chosenBidContainer = findViewById(R.id.taskDetailChosenBidContainer);
+        chosenBidUsernameTextView = findViewById(R.id.taskDetailChosenBidUsername);
+        chosenBidPriceTextView = findViewById(R.id.taskDetailChosenBidPrice);
+
+        if(task.getChosenBid() == null){
+            chosenBidContainer.setVisibility(View.GONE);
+        }else{
+            chosenBidUsernameTextView.setText(task.getChosenBid().getUser().getUsername());
+            chosenBidPriceTextView.setText(task.getChosenBid().getPriceString());
+            chosenBidUsernameTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ViewTaskDetailActivity.this, UserProfileActivity.class);
+                    intent.putExtra("username", task.getUser().getUsername());
+                    startActivity(intent);
+                }
+            });
+        }
 
 
         if (task.getPhotos().size() == 0) {
