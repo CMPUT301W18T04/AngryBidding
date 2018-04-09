@@ -53,7 +53,7 @@ public class BidAddedNotificationView extends NotificationView {
         Intent detailIntent = new Intent(getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(task));
         detailIntent.putExtra("id", taskId);
-        ((AdvancedActivity) getContext()).startActivityForResult(detailIntent, ViewTaskDetailActivity.REQUEST_CODE);
+        ((AdvancedActivity) getContext()).startActivityForResult(detailIntent, ViewTaskDetailActivity.REQUEST_CODE); 
     }
 
 }
