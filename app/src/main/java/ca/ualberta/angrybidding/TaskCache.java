@@ -26,6 +26,11 @@ import ca.ualberta.angrybidding.elasticsearch.UpdateResponseListener;
 public class TaskCache {
     public static final String FILE_NAME = "CacheTask";
 
+    /**
+     * @param context             Context
+     * @param tasks               List of tasks being saved to file
+     */
+
     public static void saveToFile(Context context, ArrayList<ElasticSearchTask> tasks) {
         try {
             File newFile = new File(context.getFilesDir(), FILE_NAME);
@@ -51,6 +56,11 @@ public class TaskCache {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param context            context
+     * @return ArrayList of tasks that are read from the file
+     */
 
     public static ArrayList<ElasticSearchTask> readFromFile(Context context) {
         try {
@@ -90,6 +100,12 @@ public class TaskCache {
         return null;
     }
 
+    /**
+     * @param context           Context
+     * @param remoteTasks       Arraylist that contains the tasks being synchronized
+     * @param listener          Listener of the task
+     */
+
     public static void synchronizeWithElasticSearch(Context context, ArrayList<ElasticSearchTask> remoteTasks, ElasticSearchTask.ListTaskListener listener) {
         ArrayList<ElasticSearchTask> fileTasks = readFromFile(context);
         ArrayList<ElasticSearchTask> mergedTasks = new ArrayList<>();
@@ -114,6 +130,12 @@ public class TaskCache {
         }
         uploadTasks(context, 0, mergedTasks, listener);
     }
+
+    /**
+     * @param context           Context
+     * @param tasks             List of tasks being uploaded to the server
+     * @param listener          Listener to call on response
+     */
 
     private static void uploadTasks(final Context context, final int index, final ArrayList<ElasticSearchTask> tasks, final ElasticSearchTask.ListTaskListener listener) {
 
