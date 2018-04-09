@@ -273,6 +273,9 @@ public class EditTaskActivity extends AngryBiddingActivity {
             }
         }
 
+        /**
+         * updates the task added and removed
+         */
         ElasticSearchTask.updateTask(EditTaskActivity.this, currentID, task, new UpdateResponseListener() {
             @Override
             public void onCreated(String id) {
