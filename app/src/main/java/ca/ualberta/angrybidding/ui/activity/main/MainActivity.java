@@ -1,8 +1,10 @@
 package ca.ualberta.angrybidding.ui.activity.main;
 
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 
+import ca.ualberta.angrybidding.BuildConfig;
 import ca.ualberta.angrybidding.ElasticSearchUser;
 import ca.ualberta.angrybidding.R;
 import ca.ualberta.angrybidding.ui.activity.AngryBiddingActivity;
@@ -130,11 +133,13 @@ public class MainActivity extends AngryBiddingActivity implements NavigationView
             addFragment(R.id.nav_history, new HistoryFragment(), true);
             addFragment(R.id.nav_search, new SearchFragment(), true);
             addFragment(R.id.nav_nearby, new NearbyFragment(), true);
-            addFragment(R.id.nav_all_task, new AllTaskFragment(), true);
             addFragment(R.id.nav_notification, new NotificationFragment(), true);
-
             addFragment(R.id.nav_credits, new CreditsFragment(), true);
             //addFragment(R.id.nav_settings, new SettingsFragment(), true);
+
+            if(BuildConfig.DEBUG) {
+                addFragment(R.id.nav_all_task, new AllTaskFragment(), true);
+            }
 
             setCurrentFragment(R.id.nav_history);
         }
