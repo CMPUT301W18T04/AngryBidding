@@ -68,6 +68,10 @@ public class BidAddedNotification extends NotificationWrapper {
         return task;
     }
 
+    public String getID() {
+        return taskId;
+    }
+
     /**
      * @return Notification Id
      */

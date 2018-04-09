@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.slouple.android.AdvancedFragment;
+import com.slouple.android.ResultRequest;
 import com.slouple.android.widget.adapter.DummyAdapter;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import ca.ualberta.angrybidding.notification.NotificationConnection;
 import ca.ualberta.angrybidding.notification.NotificationFactory;
 import ca.ualberta.angrybidding.notification.NotificationService;
 import ca.ualberta.angrybidding.notification.NotificationWrapper;
+import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 import ca.ualberta.angrybidding.ui.view.BidAddedNotificationView;
 import ca.ualberta.angrybidding.ui.view.NotificationView;
 
@@ -173,6 +175,17 @@ public class NotificationFragment extends AdvancedFragment implements IMainFragm
         });
 
         refresh();
+
+        getContext().addResultRequest(new ResultRequest(ViewTaskDetailActivity.REQUEST_CODE) {
+            @Override
+            public void onResult(Intent intent) {
+                refresh();
+            }
+
+            @Override
+            public void onCancel(Intent intent) {
+            }
+        });
 
         return layout;
     }

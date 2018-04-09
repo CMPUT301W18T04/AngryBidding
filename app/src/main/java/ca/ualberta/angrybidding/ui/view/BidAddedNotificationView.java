@@ -14,6 +14,7 @@ import ca.ualberta.angrybidding.ui.activity.ViewTaskDetailActivity;
 
 public class BidAddedNotificationView extends NotificationView {
     protected ElasticSearchTask task;
+    protected String taskId;
 
     public BidAddedNotificationView(Context context) {
         super(context);
@@ -36,20 +37,21 @@ public class BidAddedNotificationView extends NotificationView {
     public void setNotification(final NotificationWrapper notificationWrapper) {
         super.setNotification(notificationWrapper);
         task = ((BidAddedNotification) notificationWrapper).getTask();
+        taskId = ((BidAddedNotification) notificationWrapper).getID();
         //Notification onclick
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                openViewDetailActivity(task);
+                openViewDetailActivity(task,taskId);
             }
         });
 
     }
 
-    public void openViewDetailActivity(ElasticSearchTask task) {
+    public void openViewDetailActivity(ElasticSearchTask task, String taskId) {
         Intent detailIntent = new Intent(getContext(), ViewTaskDetailActivity.class);
         detailIntent.putExtra("task", new Gson().toJson(task));
-        detailIntent.putExtra("id", task.getID());
+        detailIntent.putExtra("id", taskId);
         getContext().startActivity(detailIntent);
     }
 
